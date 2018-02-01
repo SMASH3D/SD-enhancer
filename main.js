@@ -2,30 +2,16 @@ window.onload = function(){
 
     var pageRef;
     pageRef = getUrlParameter('page');
-
-
     if (pageRef === 'messages') {
-        console.log('onload');
-
         var elt = $('.insideLeftMenu_text > table > tbody > tr > td').first();
         var btn = $('<input type="button" value="Hint" id="raid-hint-btn"/>');
         elt.append(btn);
 
-        /*$('.insideLeftMenu_text > table > tbody > tr > td > a').first().click(function() {
-            console.log('onclicks');
-            raidHint();
-            console.log('raidHint done');
-            alert();
-        });*/
-        elt.on("click", button, function(){
-            console.log('click');
+        elt.on("click", btn, function() {
             raidHint();
         });
-
     }
 };
-
-
 
 var raidHint = function() {
     $('.raid-hint').remove();
@@ -33,7 +19,6 @@ var raidHint = function() {
     var GTcapacity = 35000;
     var CPcapacity = 100000;
     $('tr .messages_body').each(function( k, v ) {
-        console.log('message ' + k);
         var rheniumFlag = false;
         var seleFlag = false;
         var azoteFlag = false;
