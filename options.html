@@ -7,8 +7,9 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/options.css">
 
-    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="options.js"></script>
 </head>
 
@@ -18,14 +19,17 @@
         <h1>Smoothering up Space Destiny's UI</h1>
         <p>Makes the UI smoother by adding some neat data & features.</p>
     </div>
-    <p class="hint">Data needs to be scraped while browsing real match details with the extension enabled.</p>
 
-    <h3>Some title</h3>
-    <p class="note">Some note.</p>
+
+    <h3>Raid logisitician</h3>
+    <p class="note">Minimum amount to plan a raid for.</p>
     <p>
-        <input type="text" id="appUrl" value="">
-        <button class="save-button" id="save">Save</button>
+        <input type="number" id="raid-min-amount" value="">
     </p>
+    <p class="hint">Default value is 1M.</p>
+    <br>
+
+    <button class="save-button" id="save">Save</button>
 </div>
 </body>
 </html>
