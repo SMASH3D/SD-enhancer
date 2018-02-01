@@ -3,12 +3,21 @@ window.onload = function(){
     var pageRef;
     pageRef = getUrlParameter('page');
     if (pageRef === 'messages') {
-        var elt = $('.insideLeftMenu_text > table > tbody > tr > td').first();
-        var btn = $('<input type="button" value="Hint" id="raid-hint-btn"/>');
-        elt.append(btn);
+        var link = $('.insideLeftMenu_text > table > tbody > tr > td').first();
+        var elt = $('.insideLeftMenu_top');
+        var btn = $('<input type="button" value="Raid hints" class="add_button ui-button ui-widget ui-state-default ui-corner-all" id="raid-hint-btn" style="margin-top: 25px;"/>');
+        link.click(function () {
+            elt.append(btn);
+            elt.on("click", btn, function() {
+                raidHint();
+            });
+            link.addClass('spyReport');
+        });
 
-        elt.on("click", btn, function() {
-            raidHint();
+        $('.insideLeftMenu_text > table > tbody > tr > td').click(function () {
+            if (!$( this ).hasClass('spyReport')) {
+                btn.remove();
+            }
         });
     }
 };
