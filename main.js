@@ -53,18 +53,13 @@ window.onload = function(){
 
         var fleetData = {};
         fleetData.cargoCapacity = getCargoCapacity();
-
-
         updateFleetInfo(fleetData);
         $(".fleetInput").on("change cut paste keyup", function() {
-            console.log('fleetinput change');
             fleetData.cargoCapacity = getCargoCapacity();
             updateFleetInfo(fleetData);
         });
         $('form > table > tbody > tr > td:nth-child(4) > a').click(function () {
-            console.log('click max');
             setTimeout(function() {
-                console.log('click max after timeout');
                 fleetData.cargoCapacity = getCargoCapacity();
                 updateFleetInfo(fleetData)
             }, 100);
@@ -72,8 +67,6 @@ window.onload = function(){
         });
 
         $('.cargoCapacity').change(function (e) {
-
-            console.log('change capacity');
             var remainingShipment = e.target.value;
             if (availableCP > 0) {
                 var cpAmount = Math.min(Math.floor(remainingShipment/ships.MercuryBigShipCargo.capacity), availableCP);
@@ -113,30 +106,22 @@ var updateFleetInfo = function(fleetData) {
 
 var getCargoCapacity = function() {
     var cargoCapacity = 0;
-
-    var ptAmount = parseInt($('input[name='+ships.LightCargo.inputName+']').val());
-    var gtAmount = parseInt($('input[name='+ships.LightCargo.inputName+']').val());
-    var cpAmount = parseInt($('input[name='+ships.MercuryBigShipCargo.inputName+']').val());
-
-    if ($('input[name='+ships.LightCargo.inputName+']').length) {
-        cargoCapacity +=  ptAmount * ships.LightCargo.capacity;
-    }
-    if ($('input[name='+ships.HeavyCargo.inputName+']').length) {
-        cargoCapacity += gtAmount * ships.HeavyCargo.capacity;
-    }
-    if ($('input[name='+ships.MercuryBigShipCargo.inputName+']').length) {
-        cargoCapacity += cpAmount * ships.MercuryBigShipCargo.capacity;
-    }
-    if ($('input[name='+ships.Recycler.inputName+']').length) {
-        cargoCapacity += parseInt($('input[name='+ships.Recycler.inputName+']').val()) * ships.Recycler.capacity;
-    }
-    if ($('input[name='+ships.GigaRecycler.inputName+']').length) {
-        cargoCapacity += parseInt($('input[name='+ships.GigaRecycler.inputName+']').val()) * ships.GigaRecycler.capacity;
-    }
-    if ($('input[name=ship210]').length) {
-        cargoCapacity += parseInt($('input[name=ship210]').val()) * 5; //sonde
-    }
+    cargoCapacity +=  getShipAmount("LightCargo") * ships.LightCargo.capacity;
+    cargoCapacity += getShipAmount("HeavyCargo") * ships.HeavyCargo.capacity;
+    cargoCapacity += getShipAmount("MercuryBigShipCargo") * ships.MercuryBigShipCargo.capacity;
+    cargoCapacity += getShipAmount("Recycler") * ships.Recycler.capacity;
+    cargoCapacity += getShipAmount("GigaRecycler") * ships.GigaRecycler.capacity;
     return cargoCapacity;
+}
+
+var getShipAmount = function(shipType) {
+    var amount = 0;
+    if (typeof (ships[shipType]) !== 'undefined') {
+        if ($('input[name='+ships[shipType].inputName+']').length) {
+            amount = parseInt($('input[name='+ships[shipType].inputName+']').val());
+        }
+    }
+    return $.isNumeric(amount) ? amount : 0;
 }
 
 var raidHint = function() {
