@@ -39,8 +39,61 @@ window.onload = function(){
         if (typeof(cp) !== 'undefined') {
             $('input[name=ship229]').val(Math.min(cp, availableCP));
         }
+
+        //FLEET INFORMATION
+
+        var fleetData = {};
+        fleetData.cargoCapacity = getCargoCapacity();
+        updateFleetInfo(fleetData);
+        $(".fleetInput").on("change cut paste keyup", function() {
+            fleetData.cargoCapacity = getCargoCapacity();
+            updateFleetInfo(fleetData);
+        });
+        $('form > table > tbody > tr > td:nth-child(4) > a').click(function () {
+            setTimeout(function() {
+                fleetData.cargoCapacity = getCargoCapacity();
+                updateFleetInfo(fleetData)
+            }, 100);
+
+        });
+
+        $('.cargoCapacity').change(function (e) {
+            $('input[name=ship229]').val(Math.min(Math.floor(e.target.value/100000), availableCP));
+        });
     }
 };
+
+var updateFleetInfo = function(fleetData) {
+    if (!$('#fleet-info').length) {
+        $('form table tr td input').addClass('fleetInput');
+        var fleetInfo = $('<span>', { 'id': 'fleet-info' });
+        var cargoCapacity = $('<p>Cargo Capacity : </p>');
+        cargoCapacity.append($('<input>', {
+            type: 'number',
+            name: 'cargoCapacity',
+            id: 'cargoCapacity',
+            class: 'cargoCapacity',
+            val: fleetData.cargoCapacity
+        }));
+        fleetInfo.append(cargoCapacity);
+        $('input[type="submit"]').closest('td').append(fleetInfo);
+    } else {
+        $('input[name=cargoCapacity]').val(fleetData.cargoCapacity);
+    }
+}
+
+var getCargoCapacity = function() {
+    var cargoCapacity;
+    cargoCapacity =  $('input[name=ship202]').val() * 12000; //pt
+    cargoCapacity += $('input[name=ship203]').val() * 35000; //gt
+    cargoCapacity +=  $('input[name=ship229]').val() * 100000; //cp
+
+    cargoCapacity +=  $('input[name=ship209]').val() * 25000; //recycleur
+    cargoCapacity +=  $('input[name=ship219]').val() * 275000; //recycleur ult
+
+    cargoCapacity +=  $('input[name=ship210]').val() * 5; //sonde
+    return cargoCapacity;
+}
 
 var raidHint = function() {
     //####### CONFIG START ##########
