@@ -76,7 +76,7 @@ var updateFleetInfo = function(fleetData) {
             val: fleetData.cargoCapacity
         }));
         fleetInfo.append(cargoCapacity);
-        $('input[type="submit"]').closest('td').append(fleetInfo);
+        $('form table tr td input[type="submit"]').closest('td').append(fleetInfo);
     } else {
         $('input[name=cargoCapacity]').val(fleetData.cargoCapacity);
     }
