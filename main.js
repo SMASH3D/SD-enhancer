@@ -21,10 +21,12 @@ window.onload = function(){
         });
     }
     if (pageRef === 'fleet') {
+        var useGT = true;
+
         //CARGO FLEET PRESELECTION
-        var pt = getUrlParameter('ship202');
-        var gt = getUrlParameter('ship203');
-        var cp = getUrlParameter('ship229');
+        var pt = getUrlParameter('ship'+ships.LightCargo.id);
+        var gt = getUrlParameter('ship'+ships.HeavyCargo.id);
+        var cp = getUrlParameter('ship'+ships.MercuryBigShipCargo.id);
 
         var availablePT = parseInt($('#ship202_value').text().replace('.', ''));
         var availableGT = parseInt($('#ship203_value').text().replace('.', ''));
@@ -58,7 +60,21 @@ window.onload = function(){
         });
 
         $('.cargoCapacity').change(function (e) {
-            $('input[name=ship229]').val(Math.min(Math.floor(e.target.value/100000), availableCP));
+
+            var remainingShipment = e.target.value;
+            if (availableCP > 0) {
+                var cpAmount = Math.min(Math.floor(remainingShipment/ships.MercuryBigShipCargo.capacity), availableCP);
+                $('input[name=ship'+ships.MercuryBigShipCargo.id+']').val(cpAmount);
+                remainingShipment = remainingShipment - cpAmount*ships.MercuryBigShipCargo.capacity;
+            }
+            if (remainingShipment > 100000 && availablePT > 0) {
+                var ptAmount = Math.min(Math.floor(remainingShipment/ships.LightCargo.capacity), availablePT);
+                $('input[name=ship'+ships.LightCargo.id+']').val(ptAmount);
+            }
+            if (useGT && remainingShipment > 100000 && availableGT > 0) {
+                var gtAmount = Math.min(Math.floor(remainingShipment/ships.HeavyCargo.capacity), availableGT);
+                $('input[name=ship'+ships.HeavyCargo.id+']').val(gtAmount);
+            }
         });
     }
 };
@@ -84,12 +100,12 @@ var updateFleetInfo = function(fleetData) {
 
 var getCargoCapacity = function() {
     var cargoCapacity;
-    cargoCapacity =  $('input[name=ship202]').val() * 12000; //pt
-    cargoCapacity += $('input[name=ship203]').val() * 35000; //gt
-    cargoCapacity +=  $('input[name=ship229]').val() * 100000; //cp
+    cargoCapacity =  $('input[name=ship202]').val() * ships.LightCargo.capacity;
+    cargoCapacity += $('input[name=ship203]').val() * ships.HeavyCargo.capacity;
+    cargoCapacity +=  $('input[name=ship229]').val() * ships.MercuryBigShipCargo.capacity;
 
-    cargoCapacity +=  $('input[name=ship209]').val() * 25000; //recycleur
-    cargoCapacity +=  $('input[name=ship219]').val() * 275000; //recycleur ult
+    cargoCapacity +=  $('input[name=ship209]').val() * ships.Recycler.capacity;
+    cargoCapacity +=  $('input[name=ship219]').val() * ships.GigaRecycler.capacity;
 
     cargoCapacity +=  $('input[name=ship210]').val() * 5; //sonde
     return cargoCapacity;
@@ -153,9 +169,9 @@ var raidHint = function() {
             var factor = Math.pow(2, i);
             var raidAmount = Math.floor(total/factor);
             if (raidAmount > minRaidAmount) {
-                var PTcnt = Math.round(total/(factor*PTcapacity));
-                var GTcnt = Math.round(total/(factor*GTcapacity));
-                var CPcnt = Math.round(total/(factor*CPcapacity));
+                var PTcnt = Math.round(total/(factor*ships.LightCargo.capacity));
+                var GTcnt = Math.round(total/(factor*ships.HeavyCargo.capacity));
+                var CPcnt = Math.round(total/(factor*ships.MercuryBigShipCargo.capacity));
                 var pillage = $('<span>', { 'class': 'raid-hint' });
 
                 pillage.append(
