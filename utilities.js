@@ -23,24 +23,50 @@ var getLanguage = function() {
     return language;
 };
 
-
-var translate = function(string, language) {
-
+var translate = function(stringToTranslate) {
+    var language = getLanguage();
     var dict = {
+        "Raid logistician": {
+            "FR": "Logisiticien de pillages"
+        },
         "Raid hints": {
-            FR: "Pillages"
+            "FR": "Pillages"
         },
         "LC": {
-            FR: "PT"
+            "FR": "PT"
         },
         "HC": {
-            FR: "GT"
+            "FR": "GT"
         },
         "MBSC": {
-            FR: "CP"
+            "FR": "CP"
+        },
+        "Features documentation": {
+            "FR": "Explication des fonctionnalités"
+        },
+        "Injects clickable cargo fleet composition into spy report to help you build your multiple raid waves.": {
+            "FR": "Injecte une suggestion clickable de composition de flotte de transport pour vous aider à composer vos vagues de pillage."
+        },
+        "stands for": {
+            "FR": "signifie"
+        },
+        "Light Cargo": {
+            "FR": "Petit Transporteur"
+        },
+        "Heavy Cargo": {
+            "FR": "Grand Transporteur"
+        },
+        "Mercury Big Ship Cargo": {
+            "FR": "Cargo Planetaire"
+        },
+        "capacity": {
+            "FR": "capacité"
         },
     };
-    
+    if (typeof(dict[stringToTranslate]) !== 'undefined' && typeof(dict[stringToTranslate][language]) !== 'undefined') {
+        return dict[stringToTranslate][language];
+    }
+    return stringToTranslate;
 };
 
 var getUrlParameter = function getUrlParameter(sParam) {
