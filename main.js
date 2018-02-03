@@ -1,3 +1,7 @@
+var ptAmount = false;
+var gtAmount = false;
+var cpAmount = false;
+
 window.onload = function(){
 
     var pageRef;
@@ -24,35 +28,43 @@ window.onload = function(){
         var useGT = true;
 
         //CARGO FLEET PRESELECTION
-        var pt = getUrlParameter('ship'+ships.LightCargo.id);
-        var gt = getUrlParameter('ship'+ships.HeavyCargo.id);
-        var cp = getUrlParameter('ship'+ships.MercuryBigShipCargo.id);
+        var pt = getUrlParameter(ships.LightCargo.inputName);
+        var gt = getUrlParameter(ships.HeavyCargo.inputName);
+        var cp = getUrlParameter(ships.MercuryBigShipCargo.inputName);
 
-        var availablePT = parseInt($('#ship202_value').text().replace('.', ''));
-        var availableGT = parseInt($('#ship203_value').text().replace('.', ''));
-        var availableCP = parseInt($('#ship229_value').text().replace('.', ''));
+        var availablePT = parseInt($('#'+ships.LightCargo.inputName+'_value').text().replace('.', ''));
+        var availableGT = parseInt($('#'+ships.HeavyCargo.inputName+'_value').text().replace('.', ''));
+        var availableCP = parseInt($('#'+ships.MercuryBigShipCargo.inputName+'_value').text().replace('.', ''));
 
         if (typeof(pt) !== 'undefined') {
-            $('input[name=ship202]').val(Math.min(pt, availablePT));
+            ptAmount = Math.min(pt, availablePT);
+            $('input[name='+ships.LightCargo.inputName+']').val(ptAmount);
         }
         if (typeof(gt) !== 'undefined') {
-            $('input[name=ship203]').val(Math.min(gt, availableGT));
+            gtAmount = Math.min(gt, availableGT);
+            $('input[name='+ships.HeavyCargo.inputName+']').val(gtAmount);
         }
         if (typeof(cp) !== 'undefined') {
-            $('input[name=ship229]').val(Math.min(cp, availableCP));
+            cpAmount = Math.min(cp, availableCP);
+            $('input[name='+ships.MercuryBigShipCargo.inputName+']').val(cpAmount);
         }
 
         //FLEET INFORMATION
 
         var fleetData = {};
         fleetData.cargoCapacity = getCargoCapacity();
+
+
         updateFleetInfo(fleetData);
         $(".fleetInput").on("change cut paste keyup", function() {
+            console.log('fleetinput change');
             fleetData.cargoCapacity = getCargoCapacity();
             updateFleetInfo(fleetData);
         });
         $('form > table > tbody > tr > td:nth-child(4) > a').click(function () {
+            console.log('click max');
             setTimeout(function() {
+                console.log('click max after timeout');
                 fleetData.cargoCapacity = getCargoCapacity();
                 updateFleetInfo(fleetData)
             }, 100);
@@ -61,19 +73,20 @@ window.onload = function(){
 
         $('.cargoCapacity').change(function (e) {
 
+            console.log('change capacity');
             var remainingShipment = e.target.value;
             if (availableCP > 0) {
                 var cpAmount = Math.min(Math.floor(remainingShipment/ships.MercuryBigShipCargo.capacity), availableCP);
-                $('input[name=ship'+ships.MercuryBigShipCargo.id+']').val(cpAmount);
+                $('input[name='+ships.MercuryBigShipCargo.inputName+']').val(cpAmount);
                 remainingShipment = remainingShipment - cpAmount*ships.MercuryBigShipCargo.capacity;
             }
             if (remainingShipment > 100000 && availablePT > 0) {
                 var ptAmount = Math.min(Math.floor(remainingShipment/ships.LightCargo.capacity), availablePT);
-                $('input[name=ship'+ships.LightCargo.id+']').val(ptAmount);
+                $('input[name='+ships.LightCargo.inputName+']').val(ptAmount);
             }
             if (useGT && remainingShipment > 100000 && availableGT > 0) {
                 var gtAmount = Math.min(Math.floor(remainingShipment/ships.HeavyCargo.capacity), availableGT);
-                $('input[name=ship'+ships.HeavyCargo.id+']').val(gtAmount);
+                $('input[name='+ships.HeavyCargo.inputName+']').val(gtAmount);
             }
         });
     }
@@ -99,23 +112,35 @@ var updateFleetInfo = function(fleetData) {
 }
 
 var getCargoCapacity = function() {
-    var cargoCapacity;
-    cargoCapacity =  $('input[name=ship202]').val() * ships.LightCargo.capacity;
-    cargoCapacity += $('input[name=ship203]').val() * ships.HeavyCargo.capacity;
-    cargoCapacity +=  $('input[name=ship229]').val() * ships.MercuryBigShipCargo.capacity;
+    var cargoCapacity = 0;
 
-    cargoCapacity +=  $('input[name=ship209]').val() * ships.Recycler.capacity;
-    cargoCapacity +=  $('input[name=ship219]').val() * ships.GigaRecycler.capacity;
+    var ptAmount = parseInt($('input[name='+ships.LightCargo.inputName+']').val());
+    var gtAmount = parseInt($('input[name='+ships.LightCargo.inputName+']').val());
+    var cpAmount = parseInt($('input[name='+ships.MercuryBigShipCargo.inputName+']').val());
 
-    cargoCapacity +=  $('input[name=ship210]').val() * 5; //sonde
+    if ($('input[name='+ships.LightCargo.inputName+']').length) {
+        cargoCapacity +=  ptAmount * ships.LightCargo.capacity;
+    }
+    if ($('input[name='+ships.HeavyCargo.inputName+']').length) {
+        cargoCapacity += gtAmount * ships.HeavyCargo.capacity;
+    }
+    if ($('input[name='+ships.MercuryBigShipCargo.inputName+']').length) {
+        cargoCapacity += cpAmount * ships.MercuryBigShipCargo.capacity;
+    }
+    if ($('input[name='+ships.Recycler.inputName+']').length) {
+        cargoCapacity += parseInt($('input[name='+ships.Recycler.inputName+']').val()) * ships.Recycler.capacity;
+    }
+    if ($('input[name='+ships.GigaRecycler.inputName+']').length) {
+        cargoCapacity += parseInt($('input[name='+ships.GigaRecycler.inputName+']').val()) * ships.GigaRecycler.capacity;
+    }
+    if ($('input[name=ship210]').length) {
+        cargoCapacity += parseInt($('input[name=ship210]').val()) * 5; //sonde
+    }
     return cargoCapacity;
 }
 
 var raidHint = function() {
     //####### CONFIG START ##########
-    var PTcapacity = 12000;
-    var GTcapacity = 35000;
-    var CPcapacity = 100000;
     var minRaidAmount = 10000000;
     var maxRaidCount = 8;
     //####### CONFIG END ##########

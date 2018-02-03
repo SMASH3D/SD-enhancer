@@ -1,6 +1,7 @@
 var ships = {
     LightCargo:{
         id: 202,
+        inputName: 'ship202',
         structure: 4000,
         shield: 10,
         attack: 5,
@@ -18,6 +19,7 @@ var ships = {
     },
     HeavyCargo:{
         id: 203,
+        inputName: 'ship203',
         structure: 12000,
         shield: 30,
         attack: 15,
@@ -35,6 +37,7 @@ var ships = {
     },
     MercuryBigShipCargo:{
         id: 229,
+        inputName: 'ship229',
         structure: 45000,
         shield: 115,
         attack: 40,
@@ -52,6 +55,7 @@ var ships = {
     },
     ColonyShip:{
         id: 208,
+        inputName: 'ship208',
         structure: 30000,
         shield: 100,
         attack: 50,
@@ -69,6 +73,7 @@ var ships = {
     },
     Recycler:{
         id: 209,
+        inputName: 'ship209',
         structure: 16000,
         shield: 45,
         attack: 1,
@@ -86,6 +91,7 @@ var ships = {
     },
     GigaRecycler:{
         id: 219,
+        inputName: 'ship219',
         structure: 160000,
         shield: 475,
         attack: 1,
@@ -103,6 +109,7 @@ var ships = {
     },
     Extractor:{
         id: 225,
+        inputName: 'ship225',
         structure: 100000,
         shield: 325,
         attack: 1,
