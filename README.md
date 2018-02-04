@@ -2,7 +2,9 @@
 
 ## Installation instructions
 
-1. Download the shit of this repo.
-2. Chrome: Plugin "Charger l'extension non empaquetée"
-3. All set! Voila.
+1. git clone this repo / Download the zip & unzip it somewhere
+2. Ensure that Chrome is set to developer mode
+3. Chrome: chrome://extensions > Plugin "Charger l'extension non empaquetée"
+4. Select the folder where you put the sources
+5. All set! Voila.
 
