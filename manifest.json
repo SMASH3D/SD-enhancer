@@ -18,7 +18,9 @@
   "content_scripts": [
     {
       "matches": ["*://www.spacedestiny.com/*/*"],
-      "js": ["jquery-3.3.1.min.js", "SD-library.js", "utilities.js", "main.js"]
+      "js": [
+        "jquery-3.3.1.min.js", "SD-library.js", "utilities.js", "fleetCompanion.js", "messageCompanion.js", "main.js"
+      ]
     }
   ],
   "options_ui": {
