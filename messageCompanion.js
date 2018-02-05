@@ -130,16 +130,20 @@ var raidHint = function() {
             var factor = Math.pow(2, i);
             var raidAmount = Math.floor(total/factor);
             if (raidAmount > minRaidAmount) {
-                var PTcnt = Math.round(total/(factor*ships.LightCargo.capacity));
-                var GTcnt = Math.round(total/(factor*ships.HeavyCargo.capacity));
-                var CPcnt = Math.round(total/(factor*ships.MercuryBigShipCargo.capacity));
+                var hints = [];
+                $.each(cargoShips, function (k, shipName) {
+                    if (typeof(shipMap[shipName]) !== 'undefined') {
+                        var shipID = shipMap[shipName];
+                        var shipCnt = Math.round(total/(factor*ships[shipID].capacity));
+                        hints.push(
+                            translate(ships[shipID].codename) +
+                            " <a href=\""+url+'&'+shipID+'='+shipCnt+"\">"+shipCnt+"</a>"
+                        );
+                    }
+                });
                 var pillage = $('<span>', { 'class': 'raid-hint' });
-
                 pillage.append(
-                    '<p>Pillage ' + i + ' ['+ raidAmount.toLocaleString() +'] : ' + translate('LC') + ' ' +
-                    "<a href=\""+url+'&ship202='+PTcnt+"\">"+PTcnt+"</a> " + ' / ' + translate('HC') + ' ' +
-                    "<a href=\""+url+'&ship203='+GTcnt+"\">"+GTcnt+"</a> " + ' / ' + translate('MBSC') + ' ' +
-                    "<a href=\""+url+'&ship229='+CPcnt+"\">"+CPcnt+"</a> " +'</p>'
+                    '<p>Pillage ' + i + ' ['+ raidAmount.toLocaleString() +'] : ' + hints.join(' / ') +'</p>'
                 );
                 $('div > center', v).append(pillage);
             }

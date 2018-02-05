@@ -1,31 +1,21 @@
 
 var fleetCompanion = function() {
-    var useGT = true;
 
-    //CARGO FLEET PRESELECTION
-    var pt = getUrlParameter(ships.LightCargo.inputName);
-    var gt = getUrlParameter(ships.HeavyCargo.inputName);
-    var cp = getUrlParameter(ships.MercuryBigShipCargo.inputName);
-
-    var availablePT = parseInt($('#'+ships.LightCargo.inputName+'_value').text().replace('.', ''));
-    var availableGT = parseInt($('#'+ships.HeavyCargo.inputName+'_value').text().replace('.', ''));
-    var availableCP = parseInt($('#'+ships.MercuryBigShipCargo.inputName+'_value').text().replace('.', ''));
-
-    if (typeof(pt) !== 'undefined') {
-        ptAmount = Math.min(pt, availablePT);
-        $('input[name='+ships.LightCargo.inputName+']').val(ptAmount);
-    }
-    if (typeof(gt) !== 'undefined') {
-        gtAmount = Math.min(gt, availableGT);
-        $('input[name='+ships.HeavyCargo.inputName+']').val(gtAmount);
-    }
-    if (typeof(cp) !== 'undefined') {
-        cpAmount = Math.min(cp, availableCP);
-        $('input[name='+ships.MercuryBigShipCargo.inputName+']').val(cpAmount);
-    }
-
+    //FLEET PRESELECTION
+    var availableShips  = [];
+    var requestedShips  = [];
+    $.each(ships, function(shipID, ship) {
+        var shipAmount = getUrlParameter(shipID);
+       if (typeof(shipID) !== 'undefined') {
+           requestedShips[shipID] = shipAmount;
+           availableShips[shipID] = parseInt($('#'+shipID+'_value').text().replace('.', ''));
+           var amountToSend = Math.min(requestedShips[shipID], availableShips[shipID]);
+           if (amountToSend > 0) {
+               $('input[name='+shipID+']').val(amountToSend);
+           }
+       }
+    });
     //FLEET INFORMATION
-
     var fleetData = {};
     fleetData.cargoCapacity = getCargoCapacity();
     updateFleetInfo(fleetData);
@@ -38,32 +28,34 @@ var fleetCompanion = function() {
             fleetData.cargoCapacity = getCargoCapacity();
             updateFleetInfo(fleetData)
         }, 100);
-
     });
 
+    //if the user changes the amount of desired cargo, we align the fleet composition with it
     $('.cargoCapacity').change(function (e) {
         var remainingShipment = e.target.value;
-        if (availableCP > 0) {
-            var cpAmount = Math.min(Math.floor(remainingShipment/ships.MercuryBigShipCargo.capacity), availableCP);
-            $('input[name='+ships.MercuryBigShipCargo.inputName+']').val(cpAmount);
-            remainingShipment = remainingShipment - cpAmount*ships.MercuryBigShipCargo.capacity;
-        }
-        if (remainingShipment > 100000 && availablePT > 0) {
-            var ptAmount = Math.min(Math.floor(remainingShipment/ships.LightCargo.capacity), availablePT);
-            $('input[name='+ships.LightCargo.inputName+']').val(ptAmount);
-        }
-        if (useGT && remainingShipment > 100000 && availableGT > 0) {
-            var gtAmount = Math.min(Math.floor(remainingShipment/ships.HeavyCargo.capacity), availableGT);
-            $('input[name='+ships.HeavyCargo.inputName+']').val(gtAmount);
+        $.each(cargoShips, function (k, shipName) {
+            if (typeof(shipMap[shipName]) !== 'undefined') {
+                var shipID = shipMap[shipName];
+                $('input[name='+shipID+']').val(0);
+                if (availableShips[shipID] > 0 && remainingShipment > 10000) {
+                    var amount = Math.min(Math.floor(remainingShipment/ships[shipID].capacity), availableShips[shipID]);
+                    $('input[name='+shipID+']').val(amount);
+                    remainingShipment -= ships[shipID].capacity * amount;
+                }
+            }
+        });
+        if (remainingShipment > 0) {
+            $("#cargo-capacity-hint").append('<span id="lostCargo" style="color: red;">-'+remainingShipment+'</span>');
         }
     });
 }
 
 var updateFleetInfo = function(fleetData) {
+    $('#lostCargo').remove();
     if (!$('#fleet-info').length) {
         $('form table tr td input').addClass('fleetInput');
         var fleetInfo = $('<span>', { 'id': 'fleet-info' });
-        var cargoCapacity = $('<p>Cargo Capacity : </p>');
+        var cargoCapacity = $('<p id="cargo-capacity-hint">Cargo Capacity : </p>');
         cargoCapacity.append($('<input>', {
             type: 'number',
             name: 'cargoCapacity',
@@ -80,19 +72,17 @@ var updateFleetInfo = function(fleetData) {
 
 var getCargoCapacity = function() {
     var cargoCapacity = 0;
-    cargoCapacity +=  getShipAmount("LightCargo") * ships.LightCargo.capacity;
-    cargoCapacity += getShipAmount("HeavyCargo") * ships.HeavyCargo.capacity;
-    cargoCapacity += getShipAmount("MercuryBigShipCargo") * ships.MercuryBigShipCargo.capacity;
-    cargoCapacity += getShipAmount("Recycler") * ships.Recycler.capacity;
-    cargoCapacity += getShipAmount("GigaRecycler") * ships.GigaRecycler.capacity;
+    $.each(ships, function(shipID, ship) {
+        cargoCapacity += getShipAmount(shipID) * ship.capacity;
+    });
     return cargoCapacity;
 }
 
-var getShipAmount = function(shipType) {
+var getShipAmount = function(shipID) {
     var amount = 0;
-    if (typeof (ships[shipType]) !== 'undefined') {
-        if ($('input[name='+ships[shipType].inputName+']').length) {
-            amount = parseInt($('input[name='+ships[shipType].inputName+']').val());
+    if (typeof (ships[shipID]) !== 'undefined') {
+        if ($('input[name='+shipID+']').length) {
+            amount = parseInt($('input[name='+shipID+']').val());
         }
     }
     return $.isNumeric(amount) ? amount : 0;

@@ -1,13 +1,30 @@
+//########################## START OF CONFIG ##########################
+
+//Ordered by descending preference for fleet composition
+var cargoShips = ['MercuryBigShipCargo', 'LightCargo', 'HeavyCargo'];
+var recyclerShips = ['GigaRecycler', 'Recycler'];
+
+
+//########################## END OF CONFIG ##########################
+var shipMap = {
+    LightCargo : 'ship202',
+    HeavyCargo : 'ship203',
+    MercuryBigShipCargo : 'ship229',
+    ColonyShip : 'ship208',
+    Recycler : 'ship209',
+    GigaRecycler : 'ship219',
+    Extractor : 'ship225'
+};
+
 var ships = {
-    LightCargo:{
-        id: 202,
-        inputName: 'ship202',
+    ship202:{
         structure: 4000,
         shield: 10,
         attack: 5,
         rhenium: 2000,
         selenium: 2000,
         nitrogen: 0,
+        codename: 'LC',
         name:{
             EN: 'Light Cargo',
             FR: 'Transporteur Léger',
@@ -17,15 +34,14 @@ var ships = {
         propulsion: "impulsion",
         consumption: 20
     },
-    HeavyCargo:{
-        id: 203,
-        inputName: 'ship203',
+    ship203:{
         structure: 12000,
         shield: 30,
         attack: 15,
         rhenium: 6000,
         selenium: 6000,
         nitrogen: 0,
+        codename: 'HC',
         name:{
             EN: 'Heavy Cargo',
             FR: 'Transporteur Lourd',
@@ -35,15 +51,14 @@ var ships = {
         propulsion: "combustion",
         consumption: 50,
     },
-    MercuryBigShipCargo:{
-        id: 229,
-        inputName: 'ship229',
+    ship229:{
         structure: 45000,
         shield: 115,
         attack: 40,
         rhenium: 25000,
         selenium: 20000,
         nitrogen: 1500,
+        codename: 'MBSC',
         name:{
             EN: 'Mercury Big Ship Cargo',
             FR: 'Cargo Planétaire',
@@ -53,9 +68,7 @@ var ships = {
         propulsion: "impulsion",
         consumption: 125,
     },
-    ColonyShip:{
-        id: 208,
-        inputName: 'ship208',
+    ship208:{
         structure: 30000,
         shield: 100,
         attack: 50,
@@ -71,9 +84,7 @@ var ships = {
         propulsion: "impulsion",
         consumption: 1000,
     },
-    Recycler:{
-        id: 209,
-        inputName: 'ship209',
+    ship209:{
         structure: 16000,
         shield: 45,
         attack: 1,
@@ -89,9 +100,7 @@ var ships = {
         propulsion: "combustion",
         consumption: 150,
     },
-    GigaRecycler:{
-        id: 219,
-        inputName: 'ship219',
+    ship219:{
         structure: 160000,
         shield: 475,
         attack: 1,
@@ -107,9 +116,7 @@ var ships = {
         propulsion: "inertia",
         consumption: 300,
     },
-    Extractor:{
-        id: 225,
-        inputName: 'ship225',
+    ship225:{
         structure: 100000,
         shield: 325,
         attack: 1,
@@ -124,6 +131,6 @@ var ships = {
         baseSpeed: 500,
         propulsion: "impulsion",
         consumption: 150,
-    }
+    },
 };
 
