@@ -7,7 +7,7 @@ var fleetCompanion = function() {
         var requestedShips = getUrlParameter(shipID);
         var shipPos = parseInt(getUrlParameter(shipID+'pos'));
        if (typeof(shipID) !== 'undefined') {
-           var availableShips = parseInt($('#'+shipID+'_value').text().replace('.', ''));
+           var availableShips = parseInt($('#'+shipID+'_value').text().replace(/\./g,' '));
            var amountToSend = Math.min(requestedShips, availableShips);
            if (amountToSend > 0) {
                $('input[name='+shipID+']').val(amountToSend);
