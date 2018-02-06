@@ -10,4 +10,7 @@ window.onload = function(){
     if (pageRef === 'fleet') {
         fleetCompanion();
     }
+    if (pageRef === 'battlesim') {
+        battleSimCompanion();
+    }
 };
