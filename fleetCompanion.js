@@ -2,16 +2,18 @@
 var fleetCompanion = function() {
 
     //FLEET PRESELECTION
-    var availableShips  = [];
-    var requestedShips  = [];
     $.each(ships, function(shipID, ship) {
-        var shipAmount = getUrlParameter(shipID);
+        var numericId = shipID.match('ship([0-9]{3})')[1];
+        var requestedShips = getUrlParameter(shipID);
+        var shipPos = parseInt(getUrlParameter(shipID+'pos'));
        if (typeof(shipID) !== 'undefined') {
-           requestedShips[shipID] = shipAmount;
-           availableShips[shipID] = parseInt($('#'+shipID+'_value').text().replace('.', ''));
-           var amountToSend = Math.min(requestedShips[shipID], availableShips[shipID]);
+           var availableShips = parseInt($('#'+shipID+'_value').text().replace('.', ''));
+           var amountToSend = Math.min(requestedShips, availableShips);
            if (amountToSend > 0) {
                $('input[name='+shipID+']').val(amountToSend);
+           }
+           if (0 < shipPos < 5) {
+               $('#ship_r_' + numericId + '_input').val(shipPos);
            }
        }
     });
