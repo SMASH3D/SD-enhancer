@@ -11,7 +11,7 @@ $(function() {
     });
 
     $("#action-help").on("click", function() {
-        var w = 556;
+        var w = 800;
         var h = 820;
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
