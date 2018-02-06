@@ -72,8 +72,11 @@ var translate = function(stringToTranslate) {
     return stringToTranslate;
 };
 
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+var getUrlParameter = function getUrlParameter(sParam, url) {
+    if (typeof(url) === 'undefined') {
+        url = window.location.search.substring(1);
+    }
+    var sPageURL = decodeURIComponent(url),
         sURLVariables = sPageURL.split('&'),
         sParameterName,
         i;

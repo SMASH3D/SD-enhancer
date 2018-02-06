@@ -6,6 +6,7 @@ var messageCompanion = function() {
     spyReportLink.click(function () {
         messageBox.append(spyHintBtn);
         messageBox.on("click", spyHintBtn, function() {
+            injectCoordinatesToSimulator();
             raidHint();
         });
         spyReportLink.addClass('spyReport SDC');
@@ -20,7 +21,6 @@ var messageCompanion = function() {
         });
         expReportLink.addClass('spyReport SDC');
     });
-
 };
 
 var buildCompanionButton = function(id, SDCclass, label) {
@@ -75,6 +75,18 @@ var getMonthNumber = function(mon) {
     return months[mon.toLowerCase()];
 };
 
+var injectCoordinatesToSimulator = function() {
+    $('a.destroyElement').each(function(k, v) {
+        var galaxy = getUrlParameter('galaxy', $(this)[0].href);
+        var system = getUrlParameter('system', $(this)[0].href);
+        var planet = getUrlParameter('planet', $(this)[0].href);
+        var simulateBtn = $(this).parent().next('td').find('a.linkElement');
+        var _href = simulateBtn.attr("href");
+        var newUrl = _href + '&galaxy=' + galaxy + '&system=' + system + '&planet=' + planet;
+        simulateBtn.attr("href", newUrl);
+    });
+}
+
 var raidHint = function() {
     //####### CONFIG START ##########
     var minRaidAmount = 10000000;
@@ -102,7 +114,7 @@ var raidHint = function() {
             }
             if (v.innerHTML === 'Rhénium' || v.innerHTML === 'Rhenium') {
                 rheniumFlag = true;
-                azoteFlag = false
+                azoteFlag = false;
                 seleFlag = false;
             } else if (v.innerHTML === 'Sélénium' || v.innerHTML === 'Selenium') {
                 seleFlag = true;
