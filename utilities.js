@@ -26,11 +26,14 @@ var getLanguage = function() {
 var translate = function(stringToTranslate) {
     var language = getLanguage();
     var dict = {
+        "SD Companion Help page": {
+            "FR": "Page d'aide du SD Companion"
+        },
         "Raid logistician": {
             "FR": "Logisiticien de pillages"
         },
         "Raid hints": {
-            "FR": "Pillages"
+            "FR": "Logisticien"
         },
         "LC": {
             "FR": "PT"
@@ -42,10 +45,10 @@ var translate = function(stringToTranslate) {
             "FR": "CP"
         },
         "Features documentation": {
-            "FR": "Explication des fonctionnalités"
+            "FR": "Documentation des fonctionnalités"
         },
         "Injects clickable cargo fleet composition into spy report to help you build your multiple raid waves.": {
-            "FR": "Injecte une suggestion clickable de composition de flotte de transport pour vous aider à composer vos vagues de pillage."
+            "FR": "Injecte dans les rapports d'espionnage une suggestion clickable de composition de flotte de transport pour composer vos vagues de pillages."
         },
         "stands for": {
             "FR": "signifie"
@@ -57,7 +60,7 @@ var translate = function(stringToTranslate) {
             "FR": "Grand Transporteur"
         },
         "Mercury Big Ship Cargo": {
-            "FR": "Cargo Planetaire"
+            "FR": "Cargo Planétaire"
         },
         "capacity": {
             "FR": "capacité"
