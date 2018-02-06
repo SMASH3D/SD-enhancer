@@ -29,7 +29,7 @@ var ships = {
             EN: 'Light Cargo',
             FR: 'Transporteur Léger',
         },
-        capacity: 1200,
+        capacity: 12000,
         baseSpeed: 10000,
         propulsion: "impulsion",
         consumption: 20
