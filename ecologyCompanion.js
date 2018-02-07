@@ -1,4 +1,9 @@
 var ecologyCompanion = function() {
-    $('.dedechet').click();
-    $('.deparist').click();
+    $('.dedechet').each(function() {
+        $(this)[0].click();
+    });
+
+    $('.deparist').each(function() {
+        $(this)[0].click();
+    });
 };
