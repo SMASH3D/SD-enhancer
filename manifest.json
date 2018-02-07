@@ -19,7 +19,7 @@
     {
       "matches": ["*://www.spacedestiny.com/*/*"],
       "js": [
-        "jquery-3.3.1.min.js", "SD-library.js", "utilities.js", "fleetCompanion.js", "messageCompanion.js", "battleSimCompanion.js", "main.js"
+        "jquery-3.3.1.min.js", "SD-library.js", "utilities.js", "fleetCompanion.js", "messageCompanion.js", "battleSimCompanion.js", "ecologyCompanion.js", "main.js"
       ]
     }
   ],

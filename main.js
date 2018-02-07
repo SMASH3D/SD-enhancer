@@ -9,4 +9,7 @@ window.onload = function(){
     if (pageRef === 'battlesim') {
         battleSimCompanion();
     }
+    if (pageRef === 'ecolo') {
+        ecologyCompanion();
+    }
 };
