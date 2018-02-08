@@ -12,7 +12,7 @@ var fleetCompanion = function() {
            if (amountToSend > 0) {
                $('input[name='+shipID+']').val(amountToSend);
            }
-           if (0 < shipPos < 5) {
+           if ($.isNumeric(shipPos) && 0 < shipPos < 5) {
                $('#ship_r_' + numericId + '_input').val(shipPos);
            }
        }

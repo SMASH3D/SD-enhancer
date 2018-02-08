@@ -33,6 +33,7 @@ var buildCompanionButton = function(id, SDCclass, label) {
     return spyHintBtn;
 };
 
+var queue = [];
 var expeditionJournal = function () {
     var timeExtractRegex = /([0-9]{2}). ([a-zA-Z]{3}) ([0-9]{4}), ([0-9]{2}):([0-9]{2}):([0-9]{2})/g;
     var resourcesExtractRegex = /Rhénium ([0-9]+)\, Sélénium ([0-9]+)/;
@@ -46,15 +47,17 @@ var expeditionJournal = function () {
                 var rMatch = msgText.match(resourcesExtractRegex);
                 var rhe = rMatch[1];
                 var sele = rMatch[2];
-
-                console.log(expTime.toISOString());
-                console.log(expID);
-                console.log(rhe);
-                console.log(sele);
-                console.log('##############');
+                var extraction = {
+                    id: expID,
+                    t: expTime.toISOString(),
+                    rh: rhe,
+                    sl: sele
+                };
+                queue.push(extraction);
             }
         }
     });
+    updateReports(queue, 'extractions');
 };
 
 var getMonthNumber = function(mon) {
@@ -64,8 +67,8 @@ var getMonthNumber = function(mon) {
         'mar' : '2',
         'avr' : '3',
         'mai' : '4',
-        'juin' : '5',
-        'juil' : '6',
+        'jun' : '5',
+        'jul' : '6',
         'aou' : '7',
         'sep' : '8',
         'oct' : '9',
@@ -146,7 +149,7 @@ var raidHint = function() {
                 $.each(cargoShips, function (k, shipName) {
                     if (typeof(shipMap[shipName]) !== 'undefined') {
                         var shipID = shipMap[shipName];
-                        var shipCnt = Math.round(total/(factor*ships[shipID].capacity));
+                        var shipCnt = Math.round(total/(factor*ships[shipID].capacity) * 1.04);
                         hints.push(
                             translate(ships[shipID].codename) +
                             " <a href=\""+url+'&'+shipID+'='+shipCnt+"\">"+shipCnt+"</a>"

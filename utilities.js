@@ -72,6 +72,24 @@ var translate = function(stringToTranslate) {
     return stringToTranslate;
 };
 
+function updateReports(queue, type) {
+    if (!queue.length) {
+        return;
+    }
+    chrome.storage.local.get(type, function(data) {
+        data[type] = $.extend(data[type], queue);
+        queue = [];
+        chrome.storage.local.set(data);
+        console.log(data);
+    });
+}
+
+function clearReportType(type) {
+    var data = {};
+    data.type = {};
+    chrome.storage.local.set(data);
+}
+
 var getUrlParameter = function getUrlParameter(sParam, url) {
     if (typeof(url) === 'undefined') {
         url = window.location.search.substring(1);
