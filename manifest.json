@@ -8,7 +8,7 @@
     "64" : "images/64.png",
     "128" : "images/128.png"
   },
-  "permissions": ["tabs", "storage", "contextMenus", "*://www.spacedestiny.com/*"],
+  "permissions": ["tabs", "storage", "contextMenus", "cookies", "*://*.spacedestiny.com/*"],
   "browser_action": {
     "default_icon": "images/32.png",
     "default_title": "Space Destiny Companion",
@@ -17,9 +17,9 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://www.spacedestiny.com/*/*"],
+      "matches": ["*://*.spacedestiny.com/*"],
       "js": [
-        "jquery-3.3.1.min.js", "SD-library.js", "utilities.js", "fleetCompanion.js", "messageCompanion.js", "battleSimCompanion.js", "ecologyCompanion.js", "overviewCompanion.js", "main.js"
+        "jquery-3.3.1.min.js", "jquery.countdown.min.js", "SD-library.js", "utilities.js", "fleetCompanion.js", "messageCompanion.js", "battleSimCompanion.js", "ecologyCompanion.js", "overviewCompanion.js", "main.js"
       ]
     }
   ],
