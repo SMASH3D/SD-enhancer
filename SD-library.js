@@ -4,8 +4,17 @@
 var cargoShips = ['MercuryBigShipCargo', 'LightCargo', 'HeavyCargo'];
 var recyclerShips = ['GigaRecycler', 'Recycler'];
 
-
 //########################## END OF CONFIG ##########################
+
+var civilShips = cargoShips.concat(recyclerShips);
+civilShips.push('ColonyShip', 'SpyProbe', 'Phantom');
+
+var tier1MilitaryShips = ['LightFighter', 'HeavyFighter', 'Cruiser'];
+var tier2MilitaryShips = ['Battleship', 'PlanetBomber', 'StarFighter'];
+var tier3MilitaryShips = ['BattleFortress', 'BattleCruiser'];
+var militaryShips = tier1MilitaryShips.concat(tier1MilitaryShips, tier2MilitaryShips, tier3MilitaryShips);
+
+
 var shipMap = {
     LightCargo : 'ship202',
     HeavyCargo : 'ship203',
@@ -13,7 +22,15 @@ var shipMap = {
     ColonyShip : 'ship208',
     Recycler : 'ship209',
     GigaRecycler : 'ship219',
-    Extractor : 'ship225'
+    /*Extractor : 'ship225',
+    HeavyFighter: 'ship205',
+    Cruiser: 'ship206',
+    Battleship: 'ship207',
+    PlanetBomber: 'ship211',
+    StarFighter: 'ship213',
+    BattleFortress: 'ship214',
+    BattleCruiser: 'ship215',
+    Phantom : 'ship226',*/
 };
 
 var ships = {
