@@ -35,9 +35,9 @@ var getDistance = function(sourcePlanet, destinationPlanet) {
     }
 };
 
-var getDuration = function(minspeed, speedPercent, acceleration, distance, gamespeed) {
+var getDuration = function(minspeed, speedPercent, acc, distance, gamespeed) {
     speedPercent = typeof speedPercent !== 'undefined' ? speedPercent : 100;
-    acceleration = typeof acceleration !== 'undefined' ? acceleration : 0;
+    acc = typeof acc !== 'undefined' ? acc : 0;
     gamespeed = typeof gamespeed !== 'undefined' ? gamespeed : 10;
 
 
@@ -45,7 +45,11 @@ var getDuration = function(minspeed, speedPercent, acceleration, distance, games
     var sp = document.getElementsByName("speed")[0].value;
     var acc=parseInt($('#accelerate').val());*/
 
-    return Math.max(Math.round((3500 / (speedPercent * 0.1*(1+acceleration/100)) * Math.pow(distance * 10 / (minspeed), 0.5) + 10) / gamespeed), 5);
+    return Math.max(
+        Math.round(
+            (3500 / (speedPercent * 0.1 * (1 + acc / 100)) * Math.pow(distance * 10 / (minspeed), 0.5) + 10) / gamespeed
+        )
+        , 5);
 }
 
 var translate = function(stringToTranslate) {
