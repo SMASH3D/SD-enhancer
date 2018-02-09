@@ -12,4 +12,7 @@ window.onload = function(){
     if (pageRef === 'ecolo') {
         ecologyCompanion();
     }
+    if (pageRef === 'overview') {
+        overviewCompanion();
+    }
 };
