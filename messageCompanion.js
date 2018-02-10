@@ -84,7 +84,10 @@ var raidHint = function() {
 
     $('.raid-hint').remove();
     $('tr .messages_body').each(function( k, v ) {
-        var targetCoords = $('tr > th > a', v)[0].innerText.match(/\[[0-9]{1}:[0-9]+:[0-9]+\]/);
+        if (!$('table > tbody> tr > th > a', v).length) {
+            return;
+        }
+        var targetCoords = $('table > tbody> tr > th > a', v)[0].innerText.match(/\[[0-9]{1}:[0-9]+:[0-9]+\]/);
         var targetPlanet = buildPlanetObjFromCoords(targetCoords);
         var distance = getDistance(origPlanet, targetPlanet);
         var rheniumFlag = false;
