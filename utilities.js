@@ -23,6 +23,16 @@ var getLanguage = function() {
     return language;
 };
 
+var buildPlanetObjFromCoords = function(coords) {
+    var extractorRegex = /([0-9]{1}):([0-9]+):([0-9]+)/;
+    var matches = extractorRegex.exec(coords);
+    var planet;
+    if (matches[1] && matches[2] && matches[3]) {
+        planet = {galaxy:matches[1],system:matches[2],planet:matches[3]}
+    }
+    return planet;
+}
+
 var getDistance = function(sourcePlanet, destinationPlanet) {
     if (destinationPlanet.galaxy - sourcePlanet.galaxy != 0) {
         return Math.abs(destinationPlanet.galaxy - sourcePlanet.galaxy) * 20000;
@@ -50,6 +60,109 @@ var getDuration = function(minspeed, speedPercent, acc, distance, gamespeed) {
             (3500 / (speedPercent * 0.1 * (1 + acc / 100)) * Math.pow(distance * 10 / (minspeed), 0.5) + 10) / gamespeed
         )
         , 5);
+}
+
+function getShipConsumption(shipID)
+{
+    if (shipID === 'ship202' || shipID === 'ship211' ) {
+        var techs = getTechLevels();
+        if (shipID === 'ship202' && techs.impulse_motor_tech  >= 5 || shipID === 'ship211' && techs.hyperspace_motor_tech  >= 8) {
+            return ships[shipID].consumption2;
+        }
+    }
+    return  ships[shipID].consumption;
+}
+
+function getTechLevels() {
+    chrome.storage.sync.get(['techLevels'], function(techJSON) {
+        if (Object.keys(techJSON).length) {
+            return techJSON;
+        } else {
+            $('#playerName_Box').append('<font color="red">Please visit Tech Lab</font>');
+        }
+    });
+}
+
+var getMonthNumber = function(mon) {
+    var months = {
+        'jan' : '0',
+        'fev' : '1',
+        'mar' : '2',
+        'avr' : '3',
+        'mai' : '4',
+        'jun' : '5',
+        'jul' : '6',
+        'aou' : '7',
+        'sep' : '8',
+        'oct' : '9',
+        'nov' : '10',
+        'dec' : '11'
+    };
+    return months[mon.toLowerCase()];
+};
+function number_format (number, decimals) {
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = '.',
+        dec = ',',
+        s = '',
+        toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');    }
+    return s.join(dec);
+}
+
+function NumberGetHumanReadable(value) {
+    return number_format(removeE(Math.floor(value)), 0);
+}
+
+function shortly_number(number)
+{
+    var count	= number.toString().length;
+    if(count < 4)
+        return number;
+    else if(count < 7)
+        return parseFloat((number/1000).toFixed(1))+' K';
+    else if(count < 13)
+        return parseFloat((number/1000000).toFixed(1))+' M';
+    else if(count < 19)
+        return parseFloat((number/1000000000000).toFixed(1))+' B';
+    else if(count < 25)
+        return NumberGetHumanReadable(number/1000000000000000000)+' T';
+    else if(count < 31)
+        return NumberGetHumanReadable(number/1000000000000000000000000)+' Q';
+    else if(count < 37)
+        return NumberGetHumanReadable(number/1000000000000000000000000000000)+' Q+';
+    else if(count < 43)
+        return NumberGetHumanReadable(number/1000000000000000000000000000000000000)+' S';
+    else if(count < 49)
+        return NumberGetHumanReadable(number/1000000000000000000000000000000000000000000)+' S+';
+    else if(count < 55)
+        return NumberGetHumanReadable(number/1000000000000000000000000000000000000000000000000)+' O';
+    else
+        return NumberGetHumanReadable(number/1000000000000000000000000000000000000000000000000000000)+' N';
+}
+
+function removeE(Number) {
+    Number = String(Number);
+    if (Number.search(/e\+/) == -1)
+        return Number;
+    var e = parseInt(Number.replace(/\S+.?e\+/g, ''));
+    if (isNaN(e) || e == 0)
+        return Number;
+    else if ($.browser.webkit || $.browser.msie)
+        return parseFloat(Number).toPrecision(Math.min(e + 1, 21));
+    else
+        return parseFloat(Number).toPrecision(e + 1);
 }
 
 var translate = function(stringToTranslate) {

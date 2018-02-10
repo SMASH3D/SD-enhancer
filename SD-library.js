@@ -35,6 +35,7 @@ var shipMap = {
 
 var ships = {
     ship202:{
+        id:202,
         structure: 4000,
         shield: 10,
         attack: 5,
@@ -47,11 +48,15 @@ var ships = {
             FR: 'Transporteur Léger',
         },
         capacity: 12000,
-        baseSpeed: 10000,
-        propulsion: "impulsion",
-        consumption: 20
+        baseSpeed: 5000,
+        baseSpeed2: 10000,
+        propulsion: "combustion",
+        propulsion2: "impulsion#5",
+        consumption: 10,
+        consumption2: 20
     },
     ship203:{
+        id:203,
         structure: 12000,
         shield: 30,
         attack: 15,
@@ -69,6 +74,7 @@ var ships = {
         consumption: 50,
     },
     ship229:{
+        id:229,
         structure: 45000,
         shield: 115,
         attack: 40,
@@ -86,6 +92,7 @@ var ships = {
         consumption: 125,
     },
     ship208:{
+        id:208,
         structure: 30000,
         shield: 100,
         attack: 50,
@@ -102,6 +109,7 @@ var ships = {
         consumption: 1000,
     },
     ship209:{
+        id:209,
         structure: 16000,
         shield: 45,
         attack: 1,
@@ -118,6 +126,7 @@ var ships = {
         consumption: 150,
     },
     ship219:{
+        id:219,
         structure: 160000,
         shield: 475,
         attack: 1,
@@ -134,6 +143,7 @@ var ships = {
         consumption: 300,
     },
     ship225:{
+        id:225,
         structure: 100000,
         shield: 325,
         attack: 1,

@@ -60,24 +60,6 @@ var expeditionJournal = function () {
     updateReports(queue, 'extractions');
 };
 
-var getMonthNumber = function(mon) {
-    var months = {
-        'jan' : '0',
-        'fev' : '1',
-        'mar' : '2',
-        'avr' : '3',
-        'mai' : '4',
-        'jun' : '5',
-        'jul' : '6',
-        'aou' : '7',
-        'sep' : '8',
-        'oct' : '9',
-        'nov' : '10',
-        'dec' : '11'
-    };
-    return months[mon.toLowerCase()];
-};
-
 var injectCoordinatesToSimulator = function() {
     $('a.destroyElement').each(function(k, v) {
         var galaxy = getUrlParameter('galaxy', $(this)[0].href);
@@ -96,8 +78,15 @@ var raidHint = function() {
     var maxRaidCount = 8;
     //####### CONFIG END ##########
 
+    var origCoords = $('#planetselector option:selected')[0].innerText.match('\[[0-9]{1}:[0-9]+:[0-9]+\]');
+    var origPlanet = buildPlanetObjFromCoords(origCoords);
+
+
     $('.raid-hint').remove();
     $('tr .messages_body').each(function( k, v ) {
+        var targetCoords = $('tr > th > a', v)[0].innerText.match(/\[[0-9]{1}:[0-9]+:[0-9]+\]/);
+        var targetPlanet = buildPlanetObjFromCoords(targetCoords);
+        var distance = getDistance(origPlanet, targetPlanet);
         var rheniumFlag = false;
         var seleFlag = false;
         var azoteFlag = false;
@@ -152,13 +141,13 @@ var raidHint = function() {
                         var shipCnt = Math.round(total/(factor*ships[shipID].capacity) * 1.04);
                         hints.push(
                             translate(ships[shipID].codename) +
-                            " <a href=\""+url+'&'+shipID+'='+shipCnt+"\">"+shipCnt+"</a>"
+                            " <a href=\""+url+'&'+shipID+'='+shipCnt+"\">"+shortly_number(shipCnt)+"</a>"
                         );
                     }
                 });
                 var pillage = $('<span>', { 'class': 'raid-hint' });
                 pillage.append(
-                    '<p>Pillage ' + i + ' ['+ raidAmount.toLocaleString() +'] : ' + hints.join(' / ') +'</p>'
+                    '<p>Pillage ' + i + ' ['+ shortly_number(raidAmount) +'] : ' + hints.join(' / ') +'</p>'
                 );
                 $('div > center', v).append(pillage);
             }
