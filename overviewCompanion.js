@@ -13,7 +13,7 @@ var getVoteTimer = function() {
                 $('#tabs-links > table > tbody > tr:nth-child(6) > td:nth-child(2) > a').hide();
                 var resetBtn= $('<input type="button" value="reset" class="ui-button ui-state-default ui-corner-all " id="resetTimer"/>');
                 var timerBox = $('<span class="timer"></span>');
-                timerBox.append('<p class="vote-timer">Next votes: '+nextPossibleVoteTime+'</p>');
+                timerBox.append('<p class="vote-timer">Next votes: '+nextPossibleVoteTime.toLocaleTimeString()+'</p>');
                 timerBox.append(resetBtn);
                 $('#tabs-links > table > tbody > tr:nth-child(6) > td:nth-child(2)').append(timerBox);
                 timerBox.on("click", resetBtn, function() {
