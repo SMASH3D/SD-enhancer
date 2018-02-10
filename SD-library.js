@@ -197,7 +197,7 @@ var ships = {
 		name:{
 			EN:	'Light Fighter',
 			FR:	'Chasseur Leger',
-		}
+		},
 		capacity:		50,
 		baseSpeed:		12500,
 		propulsion:		"combustion",
@@ -216,7 +216,7 @@ var ships = {
 		name:{
 			EN:	'Heavy Fighter',
 			FR:	'Chasseur Lourd',
-		}
+		},
 		capacity:		100,
 		baseSpeed:		10000,
 		propulsion:		"impulsion",
@@ -235,7 +235,7 @@ var ships = {
 		name:{
 			EN:	'Ultra Hunter',
 			FR:	'Chasseur Interstellaire',
-		}
+		},
 		capacity:		3000,
 		baseSpeed:		7500,
 		propulsion:		"Hyperspace",
@@ -254,7 +254,7 @@ var ships = {
 		name:{
 			EN:	'Cruiser',
 			FR:	'Intercepteur',
-		}
+		},
 		capacity:		800,
 		baseSpeed:		15000,
 		propulsion:		"impulsion",
@@ -272,7 +272,7 @@ var ships = {
 		name:{
 			EN:	'Battleship',
 			FR:	'Cuirassé',
-		}
+		},
 		capacity:		1500,
 		baseSpeed:		10000,
 		propulsion:		"Hyperspace",
@@ -290,11 +290,11 @@ var ships = {
 		name:{
 			EN:	'Planet Bomber',
 			FR:	'Bombardier',
-		}
+		},
 		capacity:		500,
 		baseSpeed:		4000,
 		propulsion:		"impulsion",
-		propulsion2:	"",
+		propulsion2:	"Hyperspace#8",
 		consumption:	1000,
 	},
 	ship213:{ /* Star Fighter */
@@ -308,7 +308,7 @@ var ships = {
 		name:{
 			EN:	'Star Fighter',
 			FR:	'Vaisseau mère',
-		}
+		},
 		capacity:		2000,
 		baseSpeed:		5000,
 		propulsion:		"Hyperspace",
@@ -326,7 +326,7 @@ var ships = {
 		name:{
 			EN:	'Nemesian Destructor',
 			FR:	'Station Spatiale',
-		}
+		},
 		capacity:		5000,
 		baseSpeed:		4500,
 		propulsion:		"Hyperspace",
@@ -344,7 +344,7 @@ var ships = {
 		name:{
 			EN:	'Battle Fortress',
 			FR:	'Etoile de la mort',
-		}
+		},
 		capacity:		50000,
 		baseSpeed:		200,
 		propulsion:		"Hyperspace",
@@ -363,7 +363,7 @@ var ships = {
 		name:{
 			EN:	'Battle cruiser',
 			FR:	'Exterminateur',
-		}
+		},
 		capacity:		75000,
 		baseSpeed:		1000,
 		propulsion:		"Hyperspace",
@@ -382,7 +382,7 @@ var ships = {
 		name:{
 			EN:	'Phantom',
 			FR:	'Phantom',
-		}
+		},
 		capacity:		4000,
 		baseSpeed:		1,
 		propulsion:		"impulsion",
