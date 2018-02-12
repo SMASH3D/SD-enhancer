@@ -168,6 +168,9 @@ function removeE(Number) {
 var translate = function(stringToTranslate) {
     var language = getLanguage();
     var dict = {
+        "Level": {
+            "FR": "Niveau"
+        },
         "SD Companion Help page": {
             "FR": "Page d'aide du SD Companion"
         },

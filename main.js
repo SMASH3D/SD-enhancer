@@ -15,4 +15,10 @@ window.onload = function(){
     if (pageRef === 'overview') {
         overviewCompanion();
     }
+    if (pageRef === 'buildings') {
+        var mode = getUrlParameter('mode');
+        if (mode === 'research') {
+            researchCompanion();
+        }
+    }
 };
