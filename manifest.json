@@ -35,6 +35,8 @@
         "ecologyCompanion.js",
         "overviewCompanion.js",
         "researchCompanion.js",
+        "imperiumCompanion.js",
+        "jquery.tabletojson.js",
         "main.js"
       ]
     }

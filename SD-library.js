@@ -9,10 +9,145 @@ var recyclerShips = ['GigaRecycler', 'Recycler'];
 var civilShips = cargoShips.concat(recyclerShips);
 civilShips.push('ColonyShip', 'SpyProbe', 'Phantom');
 
-var tier1MilitaryShips = ['LightFighter', 'HeavyFighter', 'Cruiser'];
+var tier1MilitaryShips = ['LightFighter', 'HeavyFighter', 'UltraHunter', 'Cruiser'];
 var tier2MilitaryShips = ['Battleship', 'PlanetBomber', 'StarFighter'];
 var tier3MilitaryShips = ['NemesianDestrutor', 'BattleFortress', 'BattleCruiser'];
 var militaryShips = tier1MilitaryShips.concat(tier1MilitaryShips, tier2MilitaryShips, tier3MilitaryShips);
+
+
+var techMap = [];
+
+techMap['Astrophysique'] = 140;
+techMap['Micro-electronique'] = 141;
+techMap['Cristallographie'] = 142;
+techMap['Macrostructures'] = 143;
+techMap['Energie'] = 113;
+techMap['Base avancee'] = 108;
+techMap['Combustion'] = 115;
+techMap['Impulsion'] = 117;
+techMap['Energie inertielle'] = 118;
+techMap['Production de rhénium'] = 131;
+techMap['Fabrication de sélénium'] = 132;
+techMap['Extraction d\'azote'] = 133;
+
+
+
+var technologies = {
+    140: {
+        img: "./styles/theme/default/gebaeude/140.gif",
+        name:{
+            FR: "Astrophysique",
+        },
+        id: "140"
+    },
+    142: {
+        img: "./styles/theme/default/gebaeude/142.gif",
+        name:{
+            FR: "Cristallographie",
+        },
+        id: "142"
+    },
+    143: {
+        img: "./styles/theme/default/gebaeude/143.gif",
+        name:{
+            FR: "Macrostructures",
+        },
+        id: "143"
+    },
+    113: {
+        img: "./styles/theme/default/gebaeude/113.gif",
+        name:{
+            FR: "Energie",
+        },
+        id: "113"
+    },
+    106: {
+        img: "./styles/theme/default/gebaeude/106.gif",
+        name:{
+            FR: "Espionnage",
+        },
+        id: "106"
+    },
+    109: {
+        img: "./styles/theme/default/gebaeude/109.gif",
+        name:{
+            FR: "Equipement",
+        },
+        id: "109"
+    },
+    110: {
+        img: "./styles/theme/default/gebaeude/110.gif",
+        name:{
+            FR: "Bouclier",
+        },
+        id: "110"
+    },
+    111: {
+        img: "./styles/theme/default/gebaeude/111.gif",
+        name:{
+            FR: "Blindage",
+        },
+        id: "111"
+    },
+    120: {
+        img: "./styles/theme/default/gebaeude/120.gif",
+        name:{
+            FR: "Laser",
+        },
+        id: "120"
+    },
+    121: {
+        img: "./styles/theme/default/gebaeude/121.gif",
+        name:{
+            FR: "Ions",
+        },
+        id: "121"
+    },
+    122: {
+        img: "./styles/theme/default/gebaeude/122.gif",
+        name:{
+            FR: "Plasma",
+        },
+        id: "122"
+    },
+    199: {
+        img: "./styles/theme/default/gebaeude/199.gif",
+        name:{
+            FR: "Graviton",
+        },
+        id: "199"
+    },
+    115: {
+        img: "./styles/theme/default/gebaeude/115.gif",
+        name:{
+            FR: "Combustion",
+        },
+        id: "115"
+    },
+    117: {
+        img: "./styles/theme/default/gebaeude/117.gif",
+        name:{
+            FR: "Impulsion",
+        },
+        id: "117"
+    },
+    134: {
+        img: "./styles/theme/default/gebaeude/134.gif",
+        name:{
+            FR: "Colonisation",
+        },
+        id: "134"
+    },
+    124: {
+        img: "./styles/theme/default/gebaeude/124.gif",
+        name:{
+            FR: "Extraction",
+        },
+        id: "124"
+    }
+};
+
+
 
 
 var shipMap = {
@@ -22,44 +157,44 @@ var shipMap = {
     ColonyShip : 'ship208',
     Recycler : 'ship209',
     GigaRecycler : 'ship219',
-	SpyProbe : 'ship210',
+    SpyProbe : 'ship210',
     Extractor : 'ship225',
-	LightFighter: 'ship204',
-	HeavyFighter: 'ship205',
-	UltraHunter: 'ship227',
+    LightFighter: 'ship204',
+    HeavyFighter: 'ship205',
+    UltraHunter: 'ship227',
     Cruiser: 'ship206',
     Battleship: 'ship207',
     PlanetBomber: 'ship211',
     StarFighter: 'ship213',
-	NemesianDestrutor: 'ship228',
+    NemesianDestrutor: 'ship228',
     BattleFortress: 'ship214',
     BattleCruiser: 'ship215',
     Phantom : 'ship226',
 };
 
 var ships = {
-    ship202:{ /* LightCargo */
-        id:	202,
-        structure: 		4000,
-        shield: 		10,
-        attack: 		5,
-        rhenium: 		2000,
-        selenium: 		2000,
-        nitrogen: 		0,
-        codename: 		'LC',
+    ship202:{
+        id:202,
+        structure: 4000,
+        shield: 10,
+        attack: 5,
+        rhenium: 2000,
+        selenium: 2000,
+        nitrogen: 0,
+        codename: 'LC',
         name:{
-            EN: 		'Light Cargo',
-            FR: 		'Transporteur Léger',
+            EN: 'Light Cargo',
+            FR: 'Transporteur Léger',
         },
-        capacity: 		12000,
-        baseSpeed: 		5000,
-        baseSpeed2: 	10000,
-        propulsion: 	"combustion",
-        propulsion2: 	"impulsion#5",
-        consumption: 	10,
-        consumption2: 	20
+        capacity: 12000,
+        baseSpeed: 5000,
+        baseSpeed2: 10000,
+        propulsion: "combustion",
+        propulsion2: "impulsion#5",
+        consumption: 10,
+        consumption2: 20
     },
-    ship203:{ /* HeavyCargo */
+    ship203:{
         id:203,
         structure: 12000,
         shield: 30,
@@ -77,7 +212,7 @@ var ships = {
         propulsion: "combustion",
         consumption: 50,
     },
-    ship229:{ /* MercuryBigShipCargo */
+    ship229:{
         id:229,
         structure: 45000,
         shield: 115,
@@ -95,7 +230,7 @@ var ships = {
         propulsion: "impulsion",
         consumption: 125,
     },
-    ship208:{ /* ColonyShip */
+    ship208:{
         id:208,
         structure: 30000,
         shield: 100,
@@ -113,7 +248,7 @@ var ships = {
         propulsion: "impulsion",
         consumption: 1000,
     },
-    ship209:{ /* Recycler */
+    ship209:{
         id:209,
         structure: 16000,
         shield: 45,
@@ -131,7 +266,7 @@ var ships = {
         propulsion: "combustion",
         consumption: 150,
     },
-    ship219:{ /* Giga Recycler */
+    ship219:{
         id:219,
         structure: 160000,
         shield: 475,
@@ -149,7 +284,7 @@ var ships = {
         propulsion: "combustion",
         consumption: 300,
     },
-	ship210:{ /* Spy Probe */
+    ship210:{
         id:210,
         structure: 1000,
         shield: 0,
@@ -167,7 +302,7 @@ var ships = {
         propulsion: "combustion",
         consumption: 1,
     },
-	ship225:{ /* Extractor */
+    ship225:{
         id:225,
         structure: 100000,
         shield: 325,
@@ -175,7 +310,7 @@ var ships = {
         rhenium: 50000,
         selenium: 50000,
         nitrogen: 25000,
-		codename: 'EXT',
+        codename: 'EXT',
         name:{
             EN: 'Extractor',
             FR: 'Extracteur',
@@ -185,210 +320,210 @@ var ships = {
         propulsion: "impulsion",
         consumption: 150,
     },
-	ship204:{ /* Light Fighter */
-		id:204,
-		structure:4000,
-		shield:10,
-		attack:50,
-		rhenium:3000,
-		selenium:1000,
-		nitrogen:0,
-		codename: 'LF',
-		name:{
-			EN:	'Light Fighter',
-			FR:	'Chasseur Leger',
-		},
-		capacity:		50,
-		baseSpeed:		12500,
-		propulsion:		"combustion",
-		propulsion2:	"",
-		consumption:	20,
-	},
-	ship205:{ /* Heavy Fighter */
-		id:205,
-		structure:	10000,
-		shield:		25,
-		attack:		125,
-		rhenium:	6000,
-		selenium:	4000,
-		nitrogen:	0,
-		codename: 'HF',
-		name:{
-			EN:	'Heavy Fighter',
-			FR:	'Chasseur Lourd',
-		},
-		capacity:		100,
-		baseSpeed:		10000,
-		propulsion:		"impulsion",
-		propulsion2:	"",
-		consumption:	75,
-	},
-	ship227:{ /* Ultra Hunter */
-		id:227,
-		structure:	22500,
-		shield:		75,
-		attack:		350,
-		rhenium:	15000,
-		selenium:	7500,
-		nitrogen:	0,
-		codename: 	'UH',
-		name:{
-			EN:	'Ultra Hunter',
-			FR:	'Chasseur Interstellaire',
-		},
-		capacity:		3000,
-		baseSpeed:		7500,
-		propulsion:		"Hyperspace",
-		propulsion2:	"",
-		consumption:	150,
-	},
-	ship206:{ /* Cruiser */
-		id:206,
-		structure:	27000,
-		shield:		85,
-		attack:		375,
-		rhenium:	20000,
-		selenium:	7000,
-		nitrogen:	2000,
-		codename: 	'CR',
-		name:{
-			EN:	'Cruiser',
-			FR:	'Intercepteur',
-		},
-		capacity:		800,
-		baseSpeed:		15000,
-		propulsion:		"impulsion",
-		propulsion2:	"",
-		consumption:	300,
-	},
-	ship207:{ /* Battleship */
-		id:207,
-		structure:	60000,
-		shield:		150,
-		attack:		750,
-		rhenium:	45000,
-		selenium:	15000,
-		nitrogen:	0,
-		name:{
-			EN:	'Battleship',
-			FR:	'Cuirassé',
-		},
-		capacity:		1500,
-		baseSpeed:		10000,
-		propulsion:		"Hyperspace",
-		propulsion2:	"",
-		consumption:	250,
-	},
-	ship211:{ /* Planet Bomber */
-		id:			211,
-		structure:	75000,
-		shield:		255,
-		attack:		1125,
-		rhenium:	50000,
-		selenium:	25000,
-		nitrogen:	15000,
-		name:{
-			EN:	'Planet Bomber',
-			FR:	'Bombardier',
-		},
-		capacity:		500,
-		baseSpeed:		4000,
-		propulsion:		"impulsion",
-		propulsion2:	"Hyperspace#8",
-		consumption:	1000,
-	},
-	ship213:{ /* Star Fighter */
-		id:			213,
-		structure:	110000,
-		shield:		350,
-		attack:		1575,
-		rhenium:	60000,
-		selenium:	50000,
-		nitrogen:	15000,
-		name:{
-			EN:	'Star Fighter',
-			FR:	'Vaisseau mère',
-		},
-		capacity:		2000,
-		baseSpeed:		5000,
-		propulsion:		"Hyperspace",
-		propulsion2:	"",
-		consumption:	1000,
-	},
-	ship228:{ /* Nemesian Destructor */
-		id:			228,
-		structure:	175000,
-		shield:		1150,
-		attack:		2250,
-		rhenium:	100000,
-		selenium:	75000,
-		nitrogen:	25000,
-		name:{
-			EN:	'Nemesian Destructor',
-			FR:	'Station Spatiale',
-		},
-		capacity:		5000,
-		baseSpeed:		4500,
-		propulsion:		"Hyperspace",
-		propulsion2:	"",
-		consumption:	800,
-	},
-	ship214:{ /* Battle Fortress */
-		id:			214,
-		structure:	9000000,
-		shield:		55000,
-		attack:		110000,
-		rhenium:	5000000,
-		selenium:	4000000,
-		nitrogen:	1000000,
-		name:{
-			EN:	'Battle Fortress',
-			FR:	'Etoile de la mort',
-		},
-		capacity:		50000,
-		baseSpeed:		200,
-		propulsion:		"Hyperspace",
-		propulsion2:	"",
-		consumption:	1,
-	},
-	ship215:{ /* Battle Cruiser */
-		id:			215,
-		structure:	17000000,
-		shield:		130000,
-		attack:		250000,
-		rhenium:	10000000,
-		selenium:	7000000,
-		nitrogen:	3500000,
-		codename: 	'BC',
-		name:{
-			EN:	'Battle cruiser',
-			FR:	'Exterminateur',
-		},
-		capacity:		75000,
-		baseSpeed:		1000,
-		propulsion:		"Hyperspace",
-		propulsion2:	"",
-		consumption:	250,
-	},
-	ship215:{ /* Phantom */
-		id:			215,
-		structure:	40000,
-		shield:		125,
-		attack:		1,
-		rhenium:	20000,
-		selenium:	20000,
-		nitrogen:	10000,
-		codename: 	'PH',
-		name:{
-			EN:	'Phantom',
-			FR:	'Phantom',
-		},
-		capacity:		4000,
-		baseSpeed:		1,
-		propulsion:		"impulsion",
-		propulsion2:	"",
-		consumption:	200,
-	},
-	
+    ship204:{
+        id:204,
+        structure:4000,
+        shield:10,
+        attack:50,
+        rhenium:3000,
+        selenium:1000,
+        nitrogen:0,
+        codename: 'LF',
+        name:{
+            EN:'Light Fighter',
+            FR:'Chasseur Leger',
+        },
+        capacity:50,
+        baseSpeed:12500,
+        propulsion:"combustion",
+        propulsion2:"",
+        consumption:20,
+    },
+    ship205:{
+        id:205,
+        structure:10000,
+        shield:25,
+        attack:125,
+        rhenium:6000,
+        selenium:4000,
+        nitrogen:0,
+        codename: 'HF',
+        name:{
+            EN:'Heavy Fighter',
+            FR:'Chasseur Lourd',
+        },
+        capacity:100,
+        baseSpeed:10000,
+        propulsion:"impulsion",
+        propulsion2:"",
+        consumption:75,
+    },
+    ship227:{
+        id:227,
+        structure:22500,
+        shield:75,
+        attack:350,
+        rhenium:15000,
+        selenium:7500,
+        nitrogen:0,
+        codename: 'UH',
+        name:{
+            EN:'Ultra Hunter',
+            FR:'Chasseur Interstellaire',
+        },
+        capacity:3000,
+        baseSpeed:7500,
+        propulsion:"Hyperspace",
+        propulsion2:"",
+        consumption:150,
+    },
+    ship206:{
+        id:206,
+        structure:27000,
+        shield:85,
+        attack:375,
+        rhenium:20000,
+        selenium:7000,
+        nitrogen:2000,
+        codename: 'CR',
+        name:{
+            EN:'Cruiser',
+            FR:'Intercepteur',
+        },
+        capacity:800,
+        baseSpeed:15000,
+        propulsion:"impulsion",
+        propulsion2:"",
+        consumption:300,
+    },
+    ship207:{
+        id:207,
+        structure:60000,
+        shield:150,
+        attack:750,
+        rhenium:45000,
+        selenium:15000,
+        nitrogen:0,
+        name:{
+            EN:'Battleship',
+            FR:'Cuirassé',
+        },
+        capacity:1500,
+        baseSpeed:10000,
+        propulsion:"Hyperspace",
+        propulsion2:"",
+        consumption:250,
+    },
+    ship211:{
+        id:211,
+        structure:75000,
+        shield:255,
+        attack:1125,
+        rhenium:50000,
+        selenium:25000,
+        nitrogen:15000,
+        name:{
+            EN:'Planet Bomber',
+            FR:'Bombardier',
+        },
+        capacity:500,
+        baseSpeed:4000,
+        propulsion:"impulsion",
+        propulsion2:"Hyperspace#8",
+        consumption:1000,
+    },
+    ship213:{
+        id:213,
+        structure:110000,
+        shield:350,
+        attack:1575,
+        rhenium:60000,
+        selenium:50000,
+        nitrogen:15000,
+        name:{
+            EN:'Star Fighter',
+            FR:'Vaisseau mère',
+        },
+        capacity:2000,
+        baseSpeed:5000,
+        propulsion:"Hyperspace",
+        propulsion2:"",
+        consumption:1000,
+    },
+    ship228:{
+        id:228,
+        structure:175000,
+        shield:1150,
+        attack:2250,
+        rhenium:100000,
+        selenium:75000,
+        nitrogen:25000,
+        name:{
+            EN:'Nemesian Destructor',
+            FR:'Station Spatiale',
+        },
+        capacity:5000,
+        baseSpeed:4500,
+        propulsion:"Hyperspace",
+        propulsion2:"",
+        consumption:800,
+    },
+    ship214:{
+        id:214,
+        structure:9000000,
+        shield:55000,
+        attack:110000,
+        rhenium:5000000,
+        selenium:4000000,
+        nitrogen:1000000,
+        name:{
+            EN:'Battle Fortress',
+            FR:'Etoile de la mort',
+        },
+        capacity:50000,
+        baseSpeed:200,
+        propulsion:"Hyperspace",
+        propulsion2:"",
+        consumption:1,
+    },
+    ship215:{
+        id:215,
+        structure:17000000,
+        shield:130000,
+        attack:250000,
+        rhenium:10000000,
+        selenium:7000000,
+        nitrogen:3500000,
+        codename: 'BC',
+        name:{
+            EN:'Battle cruiser',
+            FR:'Exterminateur',
+        },
+        capacity:75000,
+        baseSpeed:1000,
+        propulsion:"Hyperspace",
+        propulsion2:"",
+        consumption:250,
+    },
+    ship215:{
+        id:215,
+        structure:40000,
+        shield:125,
+        attack:1,
+        rhenium:20000,
+        selenium:20000,
+        nitrogen:10000,
+        codename: 'PH',
+        name:{
+            EN:'Phantom',
+            FR:'Phantom',
+        },
+        capacity:4000,
+        baseSpeed:1,
+        propulsion:"impulsion",
+        propulsion2:"",
+        consumption:200,
+    },
+
 };
 
