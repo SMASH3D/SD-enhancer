@@ -14,35 +14,27 @@ var tier2MilitaryShips = ['Battleship', 'PlanetBomber', 'StarFighter'];
 var tier3MilitaryShips = ['NemesianDestrutor', 'BattleFortress', 'BattleCruiser'];
 var militaryShips = tier1MilitaryShips.concat(tier1MilitaryShips, tier2MilitaryShips, tier3MilitaryShips);
 
-
-var techMap = [];
-
-techMap['Astrophysique'] = 140;
-techMap['Micro-electronique'] = 141;
-techMap['Cristallographie'] = 142;
-techMap['Macrostructures'] = 143;
-techMap['Energie'] = 113;
-techMap['Base avancee'] = 108;
-techMap['Combustion'] = 115;
-techMap['Impulsion'] = 117;
-techMap['Energie inertielle'] = 118;
-techMap['Production de rhénium'] = 131;
-techMap['Fabrication de sélénium'] = 132;
-techMap['Extraction d\'azote'] = 133;
-
-
-
-var technologies = {
+var techMap = {
     140: {
         img: "./styles/theme/default/gebaeude/140.gif",
         name:{
+            EN: "Astrophysics",
             FR: "Astrophysique",
         },
         id: "140"
     },
+    141: {
+        img: "./styles/theme/default/gebaeude/141.gif",
+        name:{
+            EN: "Microelectronics",
+            FR: "Microelectronique",
+        },
+        id: "141"
+    },
     142: {
         img: "./styles/theme/default/gebaeude/142.gif",
         name:{
+            EN: "Cristallography",
             FR: "Cristallographie",
         },
         id: "142"
@@ -50,6 +42,7 @@ var technologies = {
     143: {
         img: "./styles/theme/default/gebaeude/143.gif",
         name:{
+            EN: "Macrostructures",
             FR: "Macrostructures",
         },
         id: "143"
@@ -57,6 +50,7 @@ var technologies = {
     113: {
         img: "./styles/theme/default/gebaeude/113.gif",
         name:{
+            EN: "Energy Technology",
             FR: "Energie",
         },
         id: "113"
@@ -64,6 +58,7 @@ var technologies = {
     106: {
         img: "./styles/theme/default/gebaeude/106.gif",
         name:{
+            EN: "Spy Technology",
             FR: "Espionnage",
         },
         id: "106"
@@ -71,6 +66,7 @@ var technologies = {
     109: {
         img: "./styles/theme/default/gebaeude/109.gif",
         name:{
+            EN: "Weapons Technology",
             FR: "Equipement",
         },
         id: "109"
@@ -78,6 +74,7 @@ var technologies = {
     110: {
         img: "./styles/theme/default/gebaeude/110.gif",
         name:{
+            EN: "Shield Technology",
             FR: "Bouclier",
         },
         id: "110"
@@ -85,6 +82,7 @@ var technologies = {
     111: {
         img: "./styles/theme/default/gebaeude/111.gif",
         name:{
+            EN: "Armour Technology",
             FR: "Blindage",
         },
         id: "111"
@@ -92,6 +90,7 @@ var technologies = {
     120: {
         img: "./styles/theme/default/gebaeude/120.gif",
         name:{
+            EN: "Laser Technology",
             FR: "Laser",
         },
         id: "120"
@@ -99,6 +98,7 @@ var technologies = {
     121: {
         img: "./styles/theme/default/gebaeude/121.gif",
         name:{
+            EN: "Ion Technology",
             FR: "Ions",
         },
         id: "121"
@@ -106,20 +106,39 @@ var technologies = {
     122: {
         img: "./styles/theme/default/gebaeude/122.gif",
         name:{
+            EN: "Plasma Technology",
             FR: "Plasma",
         },
         id: "122"
     },
+    123: {
+        img: "./styles/theme/default/gebaeude/123.gif",
+        name:{
+            EN: "Intergalactic Research Network",
+            FR: "Centrale de Recherche",
+        },
+        id: "123"
+    },
     199: {
         img: "./styles/theme/default/gebaeude/199.gif",
         name:{
+            EN: "Graviton Research",
             FR: "Graviton",
         },
         id: "199"
     },
+    108: {
+        img: "./styles/theme/default/gebaeude/108.gif",
+        name:{
+            EN: "Computer Technology",
+            FR: "Base Avancée",
+        },
+        id: "108"
+    },
     115: {
         img: "./styles/theme/default/gebaeude/115.gif",
         name:{
+            EN: "Combustion Engine",
             FR: "Combustion",
         },
         id: "115"
@@ -127,13 +146,47 @@ var technologies = {
     117: {
         img: "./styles/theme/default/gebaeude/117.gif",
         name:{
+            EN: "Impulsion Engine",
             FR: "Impulsion",
         },
         id: "117"
     },
+    118: {
+        img: "./styles/theme/default/gebaeude/118.gif",
+        name:{
+            EN: "Hyperspace Engine",
+            FR: "Energie inertielle",
+        },
+        id: "118"
+    },
+    131: {
+        img: "./styles/theme/default/gebaeude/131.gif",
+        name:{
+            EN: "Improved Rhenium Production",
+            FR: "Production de Rhénium",
+        },
+        id: "131"
+    },
+    132: {
+        img: "./styles/theme/default/gebaeude/132.gif",
+        name:{
+            EN: "Improved Selenium Production",
+            FR: "Fabrication de Sélénium",
+        },
+        id: "132"
+    },
+    133: {
+        img: "./styles/theme/default/gebaeude/133.gif",
+        name:{
+            EN: "Improved Nitrogen Production",
+            FR: "Extraction d'Azote",
+        },
+        id: "133"
+    },
     134: {
         img: "./styles/theme/default/gebaeude/134.gif",
         name:{
+            EN: "Colonization",
             FR: "Colonisation",
         },
         id: "134"
@@ -141,9 +194,18 @@ var technologies = {
     124: {
         img: "./styles/theme/default/gebaeude/124.gif",
         name:{
+            EN: "Expedition Research",
             FR: "Extraction",
         },
         id: "124"
+    },
+    114: {
+        img: "./styles/theme/default/gebaeude/114.gif",
+        name:{
+            EN: "Hyperspace Technology",
+            FR: "Antimatière",
+        },
+        id: "114"
     }
 };
 
@@ -189,8 +251,8 @@ var ships = {
         capacity: 12000,
         baseSpeed: 5000,
         baseSpeed2: 10000,
-        propulsion: "combustion",
-        propulsion2: "impulsion#5",
+        propulsion: 115,
+        propulsion2: "117#5",
         consumption: 10,
         consumption2: 20
     },
@@ -209,7 +271,7 @@ var ships = {
         },
         capacity: 35000,
         baseSpeed: 7500,
-        propulsion: "combustion",
+        propulsion: 115,
         consumption: 50,
     },
     ship229:{
@@ -227,7 +289,7 @@ var ships = {
         },
         capacity: 100000,
         baseSpeed: 12500,
-        propulsion: "impulsion",
+        propulsion: 117,
         consumption: 125,
     },
     ship208:{
@@ -245,7 +307,7 @@ var ships = {
         },
         capacity: 7500,
         baseSpeed: 2500,
-        propulsion: "impulsion",
+        propulsion: 117,
         consumption: 1000,
     },
     ship209:{
@@ -263,7 +325,7 @@ var ships = {
         },
         capacity: 25000,
         baseSpeed: 2000,
-        propulsion: "combustion",
+        propulsion: 115,
         consumption: 150,
     },
     ship219:{
@@ -281,7 +343,7 @@ var ships = {
         },
         capacity: 275000,
         baseSpeed: 2500,
-        propulsion: "combustion",
+        propulsion: 115,
         consumption: 300,
     },
     ship210:{
@@ -299,7 +361,7 @@ var ships = {
         },
         capacity: 5,
         baseSpeed: 100000000,
-        propulsion: "combustion",
+        propulsion: 115,
         consumption: 1,
     },
     ship225:{
@@ -317,7 +379,7 @@ var ships = {
         },
         capacity: 10000,
         baseSpeed: 500,
-        propulsion: "impulsion",
+        propulsion: 117,
         consumption: 150,
     },
     ship204:{
@@ -335,7 +397,7 @@ var ships = {
         },
         capacity:50,
         baseSpeed:12500,
-        propulsion:"combustion",
+        propulsion:115,
         propulsion2:"",
         consumption:20,
     },
@@ -354,7 +416,7 @@ var ships = {
         },
         capacity:100,
         baseSpeed:10000,
-        propulsion:"impulsion",
+        propulsion:117,
         propulsion2:"",
         consumption:75,
     },
@@ -373,7 +435,7 @@ var ships = {
         },
         capacity:3000,
         baseSpeed:7500,
-        propulsion:"Hyperspace",
+        propulsion:118,
         propulsion2:"",
         consumption:150,
     },
@@ -392,7 +454,7 @@ var ships = {
         },
         capacity:800,
         baseSpeed:15000,
-        propulsion:"impulsion",
+        propulsion:117,
         propulsion2:"",
         consumption:300,
     },
@@ -410,7 +472,7 @@ var ships = {
         },
         capacity:1500,
         baseSpeed:10000,
-        propulsion:"Hyperspace",
+        propulsion:118,
         propulsion2:"",
         consumption:250,
     },
@@ -428,8 +490,8 @@ var ships = {
         },
         capacity:500,
         baseSpeed:4000,
-        propulsion:"impulsion",
-        propulsion2:"Hyperspace#8",
+        propulsion:117,
+        propulsion2:"118#8",
         consumption:1000,
     },
     ship213:{
@@ -446,7 +508,7 @@ var ships = {
         },
         capacity:2000,
         baseSpeed:5000,
-        propulsion:"Hyperspace",
+        propulsion:118,
         propulsion2:"",
         consumption:1000,
     },
@@ -464,7 +526,7 @@ var ships = {
         },
         capacity:5000,
         baseSpeed:4500,
-        propulsion:"Hyperspace",
+        propulsion:118,
         propulsion2:"",
         consumption:800,
     },
@@ -482,7 +544,7 @@ var ships = {
         },
         capacity:50000,
         baseSpeed:200,
-        propulsion:"Hyperspace",
+        propulsion:118,
         propulsion2:"",
         consumption:1,
     },
@@ -501,7 +563,7 @@ var ships = {
         },
         capacity:75000,
         baseSpeed:1000,
-        propulsion:"Hyperspace",
+        propulsion:118,
         propulsion2:"",
         consumption:250,
     },
@@ -520,7 +582,7 @@ var ships = {
         },
         capacity:4000,
         baseSpeed:1,
-        propulsion:"impulsion",
+        propulsion:117,
         propulsion2:"",
         consumption:200,
     },

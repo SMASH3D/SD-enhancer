@@ -17,7 +17,6 @@ function isEquivalent(a, b) {
     var aProps = Object.getOwnPropertyNames(a);
     var bProps = Object.getOwnPropertyNames(b);
 
-    debugger;
     // If number of properties is different,
     // objects are not equivalent
     if (aProps.length != bProps.length) {
@@ -72,9 +71,17 @@ var getDistance = function(sourcePlanet, destinationPlanet) {
     }
 };
 
-var getShipSpeed = function(shipID) {
+var getShipSpeed = function(shipID, techLevels) {
+    var ship = shipID in ships ? ships[shipID] : false;
+    if (typeof(ship.propulsion2) !== "undefined" && ship.propulsion2 !== "") {
+        var requestedTechExtractor = /([0-9]+)#([0-9]+)/;
+        var matches = requestedTechExtractor.exec(ship.propulsion2);
+        if (matches && matches[1] && matches[2]) {
+            var advancedEngineTechID = matches[1];
+            var requiredLvl = matches[2];
 
-
+        }
+    }
     /*
     private static function GetShipSpeed($Ship, $Player)
     {
@@ -94,11 +101,6 @@ var getShipSpeed = function(shipID) {
     }
     */
 
-    chrome.storage.sync.get(['techLevels'], function(techLevels) {
-        if (techLevels) {
-
-        }
-    });
 }
 
 var getDuration = function(minspeed, speedPercent, acc, distance, gamespeed) {

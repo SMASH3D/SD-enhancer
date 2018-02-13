@@ -71,7 +71,7 @@ var injectCoordinatesToSimulator = function() {
     });
 }
 
-var raidHint = function() {
+var raidHint = function(playerData) {
     //####### CONFIG START ##########
     var minRaidAmount = 10000000;
     var maxRaidCount = 8;
@@ -140,6 +140,7 @@ var raidHint = function() {
                 $.each(cargoShips, function (k, shipName) {
                     if (typeof(shipMap[shipName]) !== 'undefined') {
                         var shipID = shipMap[shipName];
+                        var shipSpeed = getShipSpeed(shipID, playerData.techLevels);
                         var shipCnt = Math.round(total/(factor*ships[shipID].capacity) * 1.04);
                         hints.push(
                             translate(ships[shipID].codename) +
