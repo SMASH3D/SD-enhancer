@@ -1,4 +1,4 @@
-var imperiumCompanion = function() {
+var imperiumCompanion = function(playerData) {
 
 
 
@@ -18,7 +18,11 @@ var imperiumCompanion = function() {
         }
     )*/
 
-    extractTechLevels();
+    var techLevels = extractTechLevels();
+    if (!isEquivalent(techLevels, playerData.techLevels)) {
+        saveTechs(techLevels);
+    }
+
 }
 
 var extractTechLevels = function() {
@@ -43,4 +47,12 @@ var extractTechLevels = function() {
         techLevels[techCols[j]] = parseInt(v.innerText);
     });
     return techLevels;
+}
+
+var saveTechs = function(techLevels) {
+    chrome.storage.sync.set({'techLevels': techLevels}, function() {
+        console.log('Technology Levels saved', techLevels);
+        $('#sd-status-led').prop('title', "Technology Levels saved");
+
+    });
 }

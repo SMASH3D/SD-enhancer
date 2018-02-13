@@ -1,5 +1,4 @@
-var messageCompanion = function() {
-
+var messageCompanion = function(playerData) {
     var messageBox = $('.insideLeftMenu_top');
     var spyReportLink = $('.insideLeftMenu_text > table > tbody > tr > td').first();
     var spyHintBtn = buildCompanionButton('raid-hint-btn', 'spyReport', translate('Raid&nbsp;hints'), spyReportLink);

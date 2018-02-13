@@ -1,4 +1,4 @@
-var overviewCompanion = function() {
+var overviewCompanion = function(playerData) {
     getVoteTimer();
 }
 

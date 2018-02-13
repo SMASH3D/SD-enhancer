@@ -29,16 +29,16 @@
         "jquery.countdown.min.js",
         "SD-library.js",
         "utilities.js",
-        "fleetCompanion.js",
-        "messageCompanion.js",
-        "battleSimCompanion.js",
-        "ecologyCompanion.js",
-        "overviewCompanion.js",
-        "researchCompanion.js",
-        "imperiumCompanion.js",
+        "companions/fleetCompanion.js",
+        "companions/messageCompanion.js",
+        "companions/battleSimCompanion.js",
+        "companions/ecologyCompanion.js",
+        "companions/overviewCompanion.js",
+        "companions/imperiumCompanion.js",
         "jquery.tabletojson.js",
         "main.js"
-      ]
+      ],
+      "css" : ["css/companion.css"]
     }
   ],
   "options_ui": {

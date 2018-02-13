@@ -1,0 +1,45 @@
+.gray-dot {
+    background-image: -webkit-linear-gradient(top, #84827a 0%, #a5a39a 50%, #cbc8bc 100%);
+}
+
+.green-dot {
+    background-image: -webkit-linear-gradient(top, #13fB04 0%, #58e343 50%, #ADED99 100%);
+}
+
+.orange-dot {
+    background-image: -webkit-linear-gradient(top, #f9a004 0%, #e0ac45 50%, #ead698 100%);
+}
+
+
+.red-dot {
+    background-image: -webkit-linear-gradient(top, #fb1304 0%, #e35843 50%, #edad99 100%);
+}
+
+
+.led {
+    position: absolute;;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    left: 136px;
+    zoom: 2;
+    width: 10px;
+    height: 10px;
+    box-shadow: 0px 0px 2px black;
+    margin: 5px;
+}
+
+.led:after {
+    display: block;
+    content: '';
+    margin-left: 1px;
+    margin-right: 1px;
+    width: 8px;
+    height: 6px;
+    -webkit-border-top-right-radius: 4px 3px;
+    -webkit-border-top-left-radius: 4px 3px;
+    -webkit-border-bottom-right-radius: 4px 3px;
+    -webkit-border-bottom-left-radius: 4px 3px;
+    background-image: -webkit-linear-gradient(top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+}
+​

@@ -1,5 +1,5 @@
 
-var fleetCompanion = function() {
+var fleetCompanion = function(playerData) {
 
     //FLEET PRESELECTION
     $.each(ships, function(shipID, ship) {

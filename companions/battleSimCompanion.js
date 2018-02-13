@@ -1,5 +1,5 @@
 
-var battleSimCompanion = function() {
+var battleSimCompanion = function(playerData) {
 
     var galaxy = getUrlParameter('galaxy');
     var system = getUrlParameter('system');
