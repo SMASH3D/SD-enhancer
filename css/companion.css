@@ -36,6 +36,12 @@
     padding: 5px 0;
 }
 
+td form > input[type="submit"] {
+    background-image: -webkit-linear-gradient(top, #60180c 0%, #6b1d11 50%, #852014 100%);
+    color: #fff;
+}
+
+
 input[type="number"], input[type="text"] {
     background-color: #b3c3cb;
     border: 1px solid #668599;
@@ -79,9 +85,10 @@ input[type="submit"].off{
     left: 136px;
     zoom: 2;
     width: 10px;
-    height: 10px;
+    height: 9px;
     box-shadow: 0px 0px 2px black;
     margin: 5px;
+    border: 1px solid black;
 }
 
 .led:after {
