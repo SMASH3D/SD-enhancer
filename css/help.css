@@ -27,6 +27,14 @@ body {
     -webkit-margin-before: 0.15em;
 }
 
+.thanks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:dimgray;
+    font-size: x-small;
+}
+
 #heading {
     background-color: #053548;
     margin: -20px -20px 20px;

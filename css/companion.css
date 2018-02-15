@@ -71,6 +71,8 @@ td > select {
 
 #messagestable input[type="submit"] {
     display: initial;
+    height: 26px;
+    font-size: 11px;
 }
 
 input[type="submit"].fleetInput, tr > td > input[type="submit"] {

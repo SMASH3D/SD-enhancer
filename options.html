@@ -20,16 +20,24 @@
         <p>Makes the UI smoother by adding some neat data & features.</p>
     </div>
 
-
+    <hr>
     <h3>Raid logisitician</h3>
-    <p class="note">Minimum amount to plan a raid for.</p>
+    <p class="note">Minimum amount of resources to plan a raid for.</p>
     <p>
         <input type="number" id="raid-min-amount" value="">
     </p>
     <p class="hint">Default value is 1M.</p>
+    <p class="note">Maximum amount of raid waves to plan.</p>
+    <p>
+        <input type="number" id="max-raid-amount" value="">
+    </p>
+    <p class="hint">Default value is 10.</p>
     <br>
-
-    <button class="save-button" id="save">Save</button>
+    <hr>
+    <div id="buttons-wrapper">
+        <button class="save-button" id="save">Save</button>
+        <button class="reset-button" id="reset">Reset</button>
+    </div>
 </div>
 </body>
 </html>

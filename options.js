@@ -1,24 +1,29 @@
 // Saves options to chrome.storage.sync.
-function save_options() {
-    var appUrl = document.getElementById('appUrl').value;
+function saveOptions() {
+    var options = {};
+    options.minRaidAmount = $('#raid-min-amount').val();
 
-    chrome.storage.sync.set({
-        appUrl: appUrl
-    }, function() {
-        // Update status to let user know options were saved.
-        var status = document.getElementById('status');
-        status.textContent = 'Options saved.';
-        setTimeout(function() {
-            status.textContent = '';
-        }, 750);
+    chrome.storage.sync.set({'options': options}, function() {
+        console.log('Options saved', options);
+        $('#buttons-wrapper').append('<i class="material-icons color--green" >check_circle</i>');
     });
 }
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
-function restore_options() {
-    // Use default value
+function restoreOptions() {
+    chrome.storage.sync.get(['options'], function(obj) {
+        $('#raid-min-amount').val(obj.options.minRaidAmount);
+    });
 }
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
+
+window.onload = function(){
+    restoreOptions();
+    $('#save').on('click', function() {
+        saveOptions();
+    });
+    $('#reset').on('click', function() {
+        restoreOptions();
+    });
+};
+
