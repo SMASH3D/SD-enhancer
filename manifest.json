@@ -21,6 +21,7 @@
     "default_popup": "popup.html",
     "popup": "popup.html"
   },
+  "web_accessible_resources": ["images/32.png"],
   "content_scripts": [
     {
       "matches": ["*://*.spacedestiny.com/*"],

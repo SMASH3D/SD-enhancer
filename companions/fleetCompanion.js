@@ -23,10 +23,12 @@ var fleetCompanion = function(playerData) {
     fleetData.cargoCapacity = getCargoCapacity(fleet);
     fleetData.fleetSpeed = getFleetSpeed(fleet);
     updateFleetInfo(fleetData);
+    updateSubmitButton(fleet);
     $(".fleetInput").on("change cut paste keyup", function() {
         fleet = getFleet(playerData);
         fleetData.cargoCapacity = getCargoCapacity(fleet);
         fleetData.fleetSpeed = getFleetSpeed(fleet);
+        updateSubmitButton(fleet);
         updateFleetInfo(fleetData);
     });
     //click on max btn
@@ -35,7 +37,8 @@ var fleetCompanion = function(playerData) {
             fleet = getFleet(playerData);
             fleetData.cargoCapacity = getCargoCapacity(fleet);
             fleetData.fleetSpeed = getFleetSpeed(fleet);
-            updateFleetInfo(fleetData)
+            updateFleetInfo(fleetData);
+            updateSubmitButton(fleet);
         }, 100);
     });
 
@@ -59,28 +62,41 @@ var fleetCompanion = function(playerData) {
     });
 }
 
+var updateSubmitButton = function(fleet) {
+    if(!$.isEmptyObject(fleet)) {
+        $('input[type="submit"]').addClass('on');
+    } else {
+        $('input[type="submit"]').removeClass('on');
+    }
+}
+
 var updateFleetInfo = function(fleetData) {
     $('#lostCargo').remove();
     if (!$('#fleet-info').length) {
         $('form table tr td input').addClass('fleetInput');
         var fleetInfo = $('<span>', { 'id': 'fleet-info' });
-        var cargoCapacity = $('<p id="cargo-capacity-hint">Cargo Capacity : </p>');
+        fleetInfo.append('<img src="'+chrome.extension.getURL("images/32.png")+'" title="Fleet Info by SD Companion">');
+        var cargoCapacity = $('<p id="cargo-capacity-hint">Cargo Capacity</p>');
         cargoCapacity.append($('<input>', {
-            type: 'number',
+            type: 'text',
+            pattern: "[0-9]*",
+            size:"20",
             name: 'cargoCapacity',
             id: 'cargoCapacity',
             class: 'cargoCapacity',
             val: fleetData.cargoCapacity
         }));
-        var fleetSpeed = $('<p id="fleet-speed-hint">Fleet Speed : </p>');
+        var fleetSpeed = $('<p id="fleet-speed-hint">Fleet Speed</p>');
         fleetSpeed.append($('<input>', {
-            type: 'number',
+            type: 'text',
             name: 'fleetSpeed',
             id: 'fleetSpeed',
+            size:"4",
             class: 'fleetSpeed',
             disabled: true,
             val: fleetData.fleetSpeed
         }));
+        //type="text" pattern="[0-9]*" class="system hideNumbemrSpin" size="3"
         fleetInfo.append(cargoCapacity, fleetSpeed);
         $('form table tr td input[type="submit"]').closest('td').append(fleetInfo);
     } else {
@@ -98,8 +114,9 @@ var getCargoCapacity = function(fleet) {
 }
 
 var getFleetSpeed = function(fleet) {
-    var fleetSpeed = 200000;
+    var fleetSpeed = 'N/A';
     $.each(fleet, function(shipID, ship) {
+        fleetSpeed = 200000;
         fleetSpeed = Math.min(fleetSpeed, ship.speed);
     });
     return fleetSpeed;
