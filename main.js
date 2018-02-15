@@ -12,7 +12,7 @@ var SDCompanion = function() {
 
     var pageRef = getUrlParameter('page');
     $('#top_menu').append('<div title="Warming up companion" id="sd-status-led" class="gray-dot led"></div>');
-    if (pageRef === 'messages' || pageRef === 'fleet') {
+    if (pageRef === 'messages' || pageRef === 'fleet' || pageRef === 'imperium') {
         //Retrieves stored player data and injects a status LED with advices in the UI
         chrome.storage.sync.get(['techLevels'], function(techLevels) {
             $('#sd-status-led').removeClass('gray-dot');
@@ -62,7 +62,7 @@ var runCompanions = function(pageRef, playerData) {
         overviewCompanion();
     }
     if (pageRef === 'imperium') {
-        imperiumCompanion();
+        imperiumCompanion(playerData);
     }
     if (pageRef === 'galaxytext' || pageRef === 'galaxy') {
         galaxyCompanion(pageRef);
