@@ -1,7 +1,6 @@
 
 var fleetCompanion = function(playerData) {
 
- $('input[type="text"]').css('width', '');
     //FLEET PRESELECTION
     $.each(ships, function(shipID, ship) {
         var numericId = shipID.match('ship([0-9]{3})')[1];

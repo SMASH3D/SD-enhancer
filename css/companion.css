@@ -55,9 +55,10 @@ input[type="number"], input[type="text"] {
     padding: 2px 4px;
     -webkit-appearance: textfield;
     -webkit-box-sizing: content-box;
+    max-width: 110px;
 }
 
-input[type="submit"].fleetInput {
+input[type="submit"].fleetInput, tr > td > input[type="submit"] {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     display: block;
     color: #fff;

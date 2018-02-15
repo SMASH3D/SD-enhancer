@@ -31,6 +31,7 @@
         "SD-library.js",
         "utilities.js",
         "companions/fleetCompanion.js",
+        "companions/fleet2Companion.js",
         "companions/messageCompanion.js",
         "companions/battleSimCompanion.js",
         "companions/ecologyCompanion.js",
