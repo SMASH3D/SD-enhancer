@@ -12,6 +12,14 @@ jQuery.expr[':'].regex = function(elem, index, match) {
     return regex.test(jQuery(elem)[attr.method](attr.property));
 };
 
+var okLED = function() {
+    $('#sd-status-led').removeClass('gray-dot');
+    $('#sd-status-led').removeClass('orange-dot');
+    $('#sd-status-led').removeClass('red-dot');
+    $('#sd-status-led').addClass('green-dot');
+    $('#sd-status-led').prop('title', "SD companion ready to rumble !");
+}
+
 function isEquivalent(a, b) {
     // Create arrays of property names
     var aProps = Object.getOwnPropertyNames(a);
@@ -71,36 +79,35 @@ var getDistance = function(sourcePlanet, destinationPlanet) {
     }
 };
 
+function getConsumption(fleet, distance, duration, speed, acc, gamespeed) {
+    var consumption = 0;
+    var basicConsumption = 0;
+    var spd = 0;
+    $.each(fleet, function(shipID, ship){
+        spd = 35000 / (duration * gamespeed - 10) * Math.sqrt(distance * 10 / ship.speed);
+        basicConsumption = ship.consumption * ship.amount;
+        consumption += basicConsumption * distance / 35000 * (spd / 10 + 1) * (spd / 10 + 1);
+    });
+    return Math.round(consumption) + 1;
+}
+
 var getShipSpeed = function(shipID, techLevels) {
-    var ship = shipID in ships ? ships[shipID] : false;
-    if (typeof(ship.propulsion2) !== "undefined" && ship.propulsion2 !== "") {
+    var ship = shipID in ships ? ships[shipID] : false;var baseSpeed = ship.baseSpeed;
+    var propulsionType = ship.propulsion;
+    if (typeof(ship.propulsion2) !== "undefined" && ship.propulsion2 !== undefined && ship.propulsion2 !== "") {
+
         var requestedTechExtractor = /([0-9]+)#([0-9]+)/;
         var matches = requestedTechExtractor.exec(ship.propulsion2);
         if (matches && matches[1] && matches[2]) {
             var advancedEngineTechID = matches[1];
             var requiredLvl = matches[2];
-
+            if (techLevels[advancedEngineTechID] >= requiredLvl) {
+                baseSpeed = ship.baseSpeed2;
+                propulsionType = advancedEngineTechID;
+            }
         }
     }
-    /*
-    private static function GetShipSpeed($Ship, $Player)
-    {
-        global $pricelist;
-        if($pricelist[$Ship]['tech'] == 1) // Combustion
-            return $pricelist[$Ship]['speed'] * (1 + (0.1 * $Player['combustion_tech']));
-        elseif($pricelist[$Ship]['tech'] == 2) // Impulse
-        return $pricelist[$Ship]['speed'] * (1 + (0.2 * $Player['impulse_motor_tech']));
-        elseif($pricelist[$Ship]['tech'] == 3) // Hyperspace
-        return $pricelist[$Ship]['speed'] * (1 + (0.3 * $Player['hyperspace_motor_tech']));
-        elseif($pricelist[$Ship]['tech'] == 4) // Special: Small Transporter
-        return (($Player['impulse_motor_tech'] >= 5) ? $pricelist[$Ship]['speed2'] * (1 + (0.2 * $Player['impulse_motor_tech'])) : $pricelist[$Ship]['speed'] * (1 + (0.1 * $Player['combustion_tech'])));
-        elseif($pricelist[$Ship]['tech'] == 5) // Special: Battleship
-        return (($Player['hyperspace_motor_tech'] >= 8) ? $pricelist[$Ship]['speed2'] * (1 + (0.3 * $Player['hyperspace_motor_tech'])) : $pricelist[$Ship]['speed'] * (1 + (0.2 * $Player['impulse_motor_tech'])));
-    else
-        return 0;
-    }
-    */
-
+    return baseSpeed + baseSpeed * techs[propulsionType].bonusPerLevel * techLevels[propulsionType];
 }
 
 var getDuration = function(minspeed, speedPercent, acc, distance, gamespeed) {
@@ -120,25 +127,22 @@ var getDuration = function(minspeed, speedPercent, acc, distance, gamespeed) {
         , 5);
 }
 
-function getShipConsumption(shipID)
+function getShipConsumption(shipID, techLevels)
 {
-    if (shipID === 'ship202' || shipID === 'ship211' ) {
-        var techs = getTechLevels();
-        if (shipID === 'ship202' && techs.impulse_motor_tech  >= 5 || shipID === 'ship211' && techs.hyperspace_motor_tech  >= 8) {
-            return ships[shipID].consumption2;
+    var ship = shipID in ships ? ships[shipID] : false;
+    var consumption = ship.consumption;
+    if (typeof(ship.propulsion2) !== "undefined" && ship.propulsion2 !== undefined && ship.propulsion2 !== "") {
+        var requestedTechExtractor = /([0-9]+)#([0-9]+)/;
+        var matches = requestedTechExtractor.exec(ship.propulsion2);
+        if (matches && matches[1] && matches[2]) {
+            var advancedEngineTechID = matches[1];
+            var requiredLvl = matches[2];
+            if (techLevels[advancedEngineTechID] >= requiredLvl) {
+                consumption = ship.consumption2;
+            }
         }
     }
-    return  ships[shipID].consumption;
-}
-
-function getTechLevels() {
-    chrome.storage.sync.get(['techLevels'], function(techJSON) {
-        if (Object.keys(techJSON).length) {
-            return techJSON;
-        } else {
-            $('#playerName_Box').append('<font color="red">Please visit Tech Lab</font>');
-        }
-    });
+    return  consumption;
 }
 
 var getMonthNumber = function(mon) {

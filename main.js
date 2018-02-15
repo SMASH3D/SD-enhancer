@@ -7,27 +7,33 @@ window.onload = function(){
  * Retrieves stored player data and injects a status LED with advices in the UI
  */
 var SDCompanion = function() {
-    //Retrieves stored player data and injects a status LED with advices in the UI
+
+    var pageRef = getUrlParameter('page');
     $('#playerName_Box').append('<div title="Warming up companion" id="sd-status-led" class="gray-dot led"></div>');
-    chrome.storage.sync.get(['techLevels'], function(techLevels) {
-        $('#sd-status-led').removeClass('gray-dot');
-        if (!techLevels && Object.keys(techLevels).length) {
-            $('#sd-status-led').addClass('orange-dot');
-            $('#sd-status-led').prop('title', "SD companion not ready, please visit research tab of empire page");
-        } else {
-            $('#sd-status-led').addClass('green-dot');
-            $('#sd-status-led').prop('title', "SD companion ready to rumble !");
-        }
+    if (pageRef === 'messages' || pageRef === 'fleet') {
+        //Retrieves stored player data and injects a status LED with advices in the UI
+        chrome.storage.sync.get(['techLevels'], function(techLevels) {
+            $('#sd-status-led').removeClass('gray-dot');
+            if (!techLevels && Object.keys(techLevels).length) {
+                $('#sd-status-led').addClass('orange-dot');
+                $('#sd-status-led').prop('title', "SD companion not ready, please visit research tab of empire page");
+            } else {
+                okLED();
+            }
 
 
-        var playerData = {};
-        playerData = $.extend(playerData, techLevels);
+            var playerData = {};
+            playerData = $.extend(playerData, techLevels);
 
-        //once playerData is ready, let's run appropriate companion for the current page with playerData
-        var pageRef = getUrlParameter('page');
-        runCompanions(pageRef, playerData);
-    });
+            //once playerData is ready, let's run appropriate companion for the current page with playerData
+            runCompanions(pageRef, playerData);
+        });
+    } else {
+        runCompanions(pageRef);
+        okLED();
+    }
 }
+
 
 /**
  * Runs the appropriate companion for each page
@@ -42,15 +48,15 @@ var runCompanions = function(pageRef, playerData) {
         fleetCompanion(playerData);
     }
     if (pageRef === 'battlesim') {
-        battleSimCompanion(playerData);
+        battleSimCompanion();
     }
     if (pageRef === 'ecolo') {
         ecologyCompanion();
     }
     if (pageRef === 'overview') {
-        overviewCompanion(playerData);
+        overviewCompanion();
     }
     if (pageRef === 'imperium') {
-        imperiumCompanion(playerData);
+        imperiumCompanion();
     }
 }

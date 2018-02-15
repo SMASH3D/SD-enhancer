@@ -14,7 +14,22 @@ var tier2MilitaryShips = ['Battleship', 'PlanetBomber', 'StarFighter'];
 var tier3MilitaryShips = ['NemesianDestrutor', 'BattleFortress', 'BattleCruiser'];
 var militaryShips = tier1MilitaryShips.concat(tier1MilitaryShips, tier2MilitaryShips, tier3MilitaryShips);
 
-var techMap = {
+//percentages to values used in calculations
+var speedsMap = [];
+speedsMap[1] = 1;
+speedsMap[5] = 2;
+speedsMap[10] = 3;
+speedsMap[20] = 4;
+speedsMap[30] = 5;
+speedsMap[40] = 6;
+speedsMap[50] = 7;
+speedsMap[60] = 8;
+speedsMap[70] = 9;
+speedsMap[80] = 10;
+speedsMap[90] = 11;
+speedsMap[100] = 12;
+
+var techs = {
     140: {
         img: "./styles/theme/default/gebaeude/140.gif",
         name:{
@@ -141,6 +156,7 @@ var techMap = {
             EN: "Combustion Engine",
             FR: "Combustion",
         },
+        bonusPerLevel: 0.1,
         id: "115"
     },
     117: {
@@ -149,6 +165,7 @@ var techMap = {
             EN: "Impulsion Engine",
             FR: "Impulsion",
         },
+        bonusPerLevel: 0.2,
         id: "117"
     },
     118: {
@@ -157,6 +174,7 @@ var techMap = {
             EN: "Hyperspace Engine",
             FR: "Energie inertielle",
         },
+        bonusPerLevel: 0.3,
         id: "118"
     },
     131: {

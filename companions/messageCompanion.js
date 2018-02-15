@@ -6,7 +6,7 @@ var messageCompanion = function(playerData) {
         messageBox.append(spyHintBtn);
         messageBox.on("click", spyHintBtn, function() {
             injectCoordinatesToSimulator();
-            raidHint();
+            raidHint(playerData);
         });
         spyReportLink.addClass('spyReport SDC');
     });
@@ -141,7 +141,14 @@ var raidHint = function(playerData) {
                     if (typeof(shipMap[shipName]) !== 'undefined') {
                         var shipID = shipMap[shipName];
                         var shipSpeed = getShipSpeed(shipID, playerData.techLevels);
-                        var shipCnt = Math.round(total/(factor*ships[shipID].capacity) * 1.04);
+                        var shipConsumption = getShipConsumption(shipID, playerData.techLevels);
+                        var shipCnt = Math.round(total/(factor * ships[shipID].capacity));
+                        var fleet = {
+                            shipID: {consumption: shipConsumption, speed: shipSpeed, amount: shipCnt}
+                        };
+                        var duration = getDuration(shipSpeed, speedsMap[100], 0, distance, 5);
+                        var totalConsumption = getConsumption(fleet, distance, duration, speedsMap[100], 0, 5);
+                        shipCnt += Math.round(totalConsumption / ships[shipID].capacity) + 1 ;
                         hints.push(
                             translate(ships[shipID].codename) +
                             " <a href=\""+url+'&'+shipID+'='+shipCnt+"\">"+shortly_number(shipCnt)+"</a>"

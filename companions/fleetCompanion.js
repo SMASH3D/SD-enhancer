@@ -18,16 +18,23 @@ var fleetCompanion = function(playerData) {
        }
     });
     //FLEET INFORMATION
+    var fleet = getFleet(playerData);
     var fleetData = {};
-    fleetData.cargoCapacity = getCargoCapacity();
+    fleetData.cargoCapacity = getCargoCapacity(fleet);
+    fleetData.fleetSpeed = getFleetSpeed(fleet);
     updateFleetInfo(fleetData);
     $(".fleetInput").on("change cut paste keyup", function() {
-        fleetData.cargoCapacity = getCargoCapacity();
+        fleet = getFleet(playerData);
+        fleetData.cargoCapacity = getCargoCapacity(fleet);
+        fleetData.fleetSpeed = getFleetSpeed(fleet);
         updateFleetInfo(fleetData);
     });
+    //click on max btn
     $('form > table > tbody > tr > td:nth-child(4) > a').click(function () {
         setTimeout(function() {
-            fleetData.cargoCapacity = getCargoCapacity();
+            fleet = getFleet(playerData);
+            fleetData.cargoCapacity = getCargoCapacity(fleet);
+            fleetData.fleetSpeed = getFleetSpeed(fleet);
             updateFleetInfo(fleetData)
         }, 100);
     });
@@ -65,19 +72,53 @@ var updateFleetInfo = function(fleetData) {
             class: 'cargoCapacity',
             val: fleetData.cargoCapacity
         }));
-        fleetInfo.append(cargoCapacity);
+        var fleetSpeed = $('<p id="fleet-speed-hint">Fleet Speed : </p>');
+        fleetSpeed.append($('<input>', {
+            type: 'number',
+            name: 'fleetSpeed',
+            id: 'fleetSpeed',
+            class: 'fleetSpeed',
+            disabled: true,
+            val: fleetData.fleetSpeed
+        }));
+        fleetInfo.append(cargoCapacity, fleetSpeed);
         $('form table tr td input[type="submit"]').closest('td').append(fleetInfo);
     } else {
         $('input[name=cargoCapacity]').val(fleetData.cargoCapacity);
+        $('input[name=fleetSpeed]').val(fleetData.fleetSpeed);
     }
 }
 
-var getCargoCapacity = function() {
+var getCargoCapacity = function(fleet) {
     var cargoCapacity = 0;
-    $.each(ships, function(shipID, ship) {
-        cargoCapacity += getShipAmount(shipID) * ship.capacity;
+    $.each(fleet, function(shipID, ship) {
+        cargoCapacity += ship.cargo;
     });
     return cargoCapacity;
+}
+
+var getFleetSpeed = function(fleet) {
+    var fleetSpeed = 200000;
+    $.each(fleet, function(shipID, ship) {
+        fleetSpeed = Math.min(fleetSpeed, ship.speed);
+    });
+    return fleetSpeed;
+}
+
+var getFleet = function(playerData) {
+    var fleet = {};
+    $.each(ships, function(shipID, ship) {
+        var shipAmount = getShipAmount(shipID);
+        if (shipAmount > 0) {
+            fleet[shipID] = {
+                consumption: getShipConsumption(shipID, playerData.techLevels),
+                speed: getShipSpeed(shipID, playerData.techLevels),
+                cargo: shipAmount * ship.capacity,
+                amount: shipAmount
+            };
+        }
+    });
+    return fleet;
 }
 
 var getShipAmount = function(shipID) {
