@@ -1,6 +1,8 @@
 
 window.onload = function(){
     SDCompanion();
+
+    $('#auftr').attr('size', '');
 };
 
 /**
@@ -9,7 +11,7 @@ window.onload = function(){
 var SDCompanion = function() {
 
     var pageRef = getUrlParameter('page');
-    $('#playerName_Box').append('<div title="Warming up companion" id="sd-status-led" class="gray-dot led"></div>');
+    $('#top_menu').append('<div title="Warming up companion" id="sd-status-led" class="gray-dot led"></div>');
     if (pageRef === 'messages' || pageRef === 'fleet') {
         //Retrieves stored player data and injects a status LED with advices in the UI
         chrome.storage.sync.get(['techLevels'], function(techLevels) {
@@ -61,5 +63,8 @@ var runCompanions = function(pageRef, playerData) {
     }
     if (pageRef === 'imperium') {
         imperiumCompanion();
+    }
+    if (pageRef === 'galaxytext' || pageRef === 'galaxy') {
+        galaxyCompanion(pageRef);
     }
 }

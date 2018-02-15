@@ -92,7 +92,8 @@ function getConsumption(fleet, distance, duration, speed, acc, gamespeed) {
 }
 
 var getShipSpeed = function(shipID, techLevels) {
-    var ship = shipID in ships ? ships[shipID] : false;var baseSpeed = ship.baseSpeed;
+    var ship = shipID in ships ? ships[shipID] : false;
+    var baseSpeed = ship.baseSpeed;
     var propulsionType = ship.propulsion;
     if (typeof(ship.propulsion2) !== "undefined" && ship.propulsion2 !== undefined && ship.propulsion2 !== "") {
 
@@ -107,7 +108,10 @@ var getShipSpeed = function(shipID, techLevels) {
             }
         }
     }
-    return baseSpeed + baseSpeed * techs[propulsionType].bonusPerLevel * techLevels[propulsionType];
+    if (typeof(techs) !== 'undefined') {
+        baseSpeed + baseSpeed * techs[propulsionType].bonusPerLevel * techLevels[propulsionType];
+    }
+    return baseSpeed;
 }
 
 var getDuration = function(minspeed, speedPercent, acc, distance, gamespeed) {

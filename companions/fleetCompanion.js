@@ -32,7 +32,11 @@ var fleetCompanion = function(playerData) {
         updateFleetInfo(fleetData);
     });
     //click on max btn
-    $('form > table > tbody > tr > td:nth-child(4) > a').click(function () {
+    $(
+        'form > table > tbody > tr > td:nth-child(4) > a,' +
+        'form > table > tbody > tr:nth-last-child(2) > td > a,' +
+        '#attaqpos'
+    ).click(function () {
         setTimeout(function() {
             fleet = getFleet(playerData);
             fleetData.cargoCapacity = getCargoCapacity(fleet);
@@ -116,7 +120,9 @@ var getCargoCapacity = function(fleet) {
 var getFleetSpeed = function(fleet) {
     var fleetSpeed = 'N/A';
     $.each(fleet, function(shipID, ship) {
-        fleetSpeed = 200000;
+        if (fleetSpeed === 'N/A') {
+            fleetSpeed = 200000;
+        }
         fleetSpeed = Math.min(fleetSpeed, ship.speed);
     });
     return fleetSpeed;

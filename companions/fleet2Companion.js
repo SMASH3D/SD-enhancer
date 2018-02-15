@@ -1,7 +1,6 @@
 
 var fleet2Companion = function() {
 
-
 }
 
 var updateSubmitButton = function(fleet) {
