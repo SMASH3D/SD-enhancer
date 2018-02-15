@@ -109,7 +109,7 @@ var getShipSpeed = function(shipID, techLevels) {
         }
     }
     if (typeof(techs) !== 'undefined') {
-        baseSpeed + baseSpeed * techs[propulsionType].bonusPerLevel * techLevels[propulsionType];
+        baseSpeed += baseSpeed * techs[propulsionType].bonusPerLevel * techLevels[propulsionType];
     }
     return baseSpeed;
 }
@@ -284,15 +284,18 @@ var translate = function(stringToTranslate) {
 };
 
 function updateReports(queue, type) {
-    if (!queue.length) {
+    if (queue.length === 0) {
         return;
     }
+
     chrome.storage.local.get(type, function(data) {
-        data[type] = $.extend(data[type], queue);
-        queue = [];
-        chrome.storage.local.set(data);
-        console.log(data);
+        var newData = $.extend(data[type], queue);
+        debugger;
+        chrome.storage.local.set({type: newData}, function() {
+            console.log(type + ' saved', newData);
+        });
     });
+
 }
 
 function clearReportType(type) {

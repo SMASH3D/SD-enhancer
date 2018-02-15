@@ -25,5 +25,13 @@ window.onload = function(){
     $('#reset').on('click', function() {
         restoreOptions();
     });
+    $('#reset-exp').on('click', function() {
+        chrome.storage.local.remove('extractions', function() {
+            console.log('extractions purged', options);
+            $('#buttons-wrapper').append('<i class="material-icons color--green" >check_circle</i>');
+        });
+    });
+
+
 };
 

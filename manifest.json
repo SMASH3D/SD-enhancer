@@ -11,9 +11,10 @@
   "permissions": [
     "tabs",
     "storage",
+    "unlimitedStorage",
     "contextMenus",
     "cookies",
-    "*://*.spacedestiny.com/*"
+    "http://www.spacedestiny.com/*"
   ],
   "browser_action": {
     "default_icon": "images/32.png",
@@ -31,6 +32,7 @@
         "SD-library.js",
         "utilities.js",
         "companions/battleSimCompanion.js",
+        "companions/combatReportCompanion.js",
         "companions/ecologyCompanion.js",
         "companions/fleetCompanion.js",
         "companions/fleet2Companion.js",

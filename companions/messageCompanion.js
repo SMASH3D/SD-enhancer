@@ -32,8 +32,8 @@ var buildCompanionButton = function(id, SDCclass, label) {
     return spyHintBtn;
 };
 
-var queue = [];
 var expeditionJournal = function () {
+    var expQueue = {};
     var timeExtractRegex = /([0-9]{2}). ([a-zA-Z]{3}) ([0-9]{4}), ([0-9]{2}):([0-9]{2}):([0-9]{2})/g;
     var resourcesExtractRegex = /Rhénium ([0-9]+)\, Sélénium ([0-9]+)/;
     $('.message_head').each(function(k, v) {
@@ -52,11 +52,13 @@ var expeditionJournal = function () {
                     rh: rhe,
                     sl: sele
                 };
-                queue.push(extraction);
+                expQueue[expID] = extraction;
             }
         }
     });
-    updateReports(queue, 'extractions');
+
+    console.log(expQueue); //TODO FIXME
+    //updateReports(expQueue, 'extractions');
 };
 
 var injectCoordinatesToSimulator = function() {

@@ -1,5 +1,11 @@
 
 window.onload = function(){
+
+    var controller = window.location.href.match(/(\w+)\.php/)[1];
+    if (controller === 'CombatReport') {
+        combatReportCompanion();
+    }
+
     SDCompanion();
 
     $('#auftr').attr('size', '');
@@ -22,7 +28,6 @@ var SDCompanion = function() {
             } else {
                 okLED();
             }
-
 
             var playerData = {};
             playerData = $.extend(playerData, techLevels);
