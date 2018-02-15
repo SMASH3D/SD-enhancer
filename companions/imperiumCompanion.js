@@ -19,7 +19,7 @@ var imperiumCompanion = function(playerData) {
     )*/
 
     var techLevels = extractTechLevels();
-    if (!isEquivalent(techLevels, playerData.techLevels)) {
+    if (typeof(playerData) == 'undefined' || typeof(playerData.techLevels) == 'undefined' || !isEquivalent(techLevels, playerData.techLevels)) {
         saveTechs(techLevels);
     }
 
