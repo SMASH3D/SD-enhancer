@@ -3,7 +3,18 @@ var imperiumCompanion = function(playerData) {
 
 
     //buildings
-    /*
+//(?:\<br\ \/\>){2}(.+)\:<br\ \/\>
+
+    $('#tabs-4 > table > tbody > tr').each(function() {
+        $('td', $(this)).each(function(k, v) {
+            if (typeof($(this).attr('name')) !== 'undefined') {
+
+                var entry = removeDiacritics($(this).attr('name').replace(/<br \/>/g, '|'));
+                console.log(entry);
+            }
+        });
+    });
+
     $('#tabs-2 > table').tableToJSON(
         {
             extractor : function(cellIndex, $cell) {
@@ -16,7 +27,7 @@ var imperiumCompanion = function(playerData) {
                 };
             }
         }
-    )*/
+    )
 
     var techLevels = extractTechLevels();
     if (typeof(playerData) == 'undefined' || typeof(playerData.techLevels) == 'undefined' || !isEquivalent(techLevels, playerData.techLevels)) {

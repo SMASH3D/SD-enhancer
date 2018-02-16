@@ -228,6 +228,26 @@ var techs = {
 };
 
 
+var frenchFullShipNames = [];
+frenchFullShipNames['Transporteur leger'] = 'ship202';
+frenchFullShipNames['Transporteur lourd'] = 'ship203';
+frenchFullShipNames['Cargo planetaire'] = 'ship229';
+frenchFullShipNames['Colonisateur'] = 'ship208';
+frenchFullShipNames['Recycleur'] = 'ship209';
+frenchFullShipNames['Recycleur ultime'] = 'ship219';
+frenchFullShipNames['Drone Espion'] = 'ship210';
+frenchFullShipNames['Extracteur'] = 'ship225';
+frenchFullShipNames['Chasseur leger'] = 'ship204';
+frenchFullShipNames['Chasseur lourd'] = 'ship205';
+frenchFullShipNames['Chasseur Interstellaire'] = 'ship227';
+frenchFullShipNames['Intercepteur'] = 'ship206';
+frenchFullShipNames['Cuirasse'] = 'ship207';
+frenchFullShipNames['Bombardier'] = 'ship211';
+frenchFullShipNames['Vaisseau mere'] = 'ship213';
+frenchFullShipNames['Station spatiale'] = 'ship228';
+frenchFullShipNames['Etoile de la mort'] = 'ship214';
+frenchFullShipNames['Exterminateur'] = 'ship215';
+frenchFullShipNames['Phantom'] = 'ship226';
 
 
 var shipMap = {
