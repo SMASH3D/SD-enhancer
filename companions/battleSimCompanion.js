@@ -8,6 +8,9 @@ var battleSimCompanion = function(playerData) {
     if (typeof(galaxy) !== 'undefined' && typeof(system) !== 'undefined' && typeof(planet) !== 'undefined') {
         coordinates = '[' + parseInt(galaxy) + ':' + parseInt(system) + ':' + parseInt(planet) + ']';
     }
+    if (coordinates == null) {
+        warningLED('Destination coords no set, please use raid hints before using simulate button.');
+    }
 
     var attackBtn = $('<tr><td class="left"><input type="button" id="attack-btn" style="width:100%;" value="Attaquer '+coordinates+'"></td></tr>');
     $('#submit').parent().append(attackBtn);

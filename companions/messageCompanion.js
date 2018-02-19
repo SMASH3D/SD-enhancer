@@ -1,4 +1,8 @@
 var messageCompanion = function(playerData) {
+    if (typeof playerData === 'undefined' || typeof playerData.techLevels === 'undefined') {
+        warningLED('Player technology levels unknown, please visit research tab of imperium page.');
+        return true;
+    }
     var messageBox = $('.insideLeftMenu_top');
     var spyReportLink = $('.insideLeftMenu_text > table > tbody > tr > td').first();
     var spyHintBtn = buildCompanionButton('raid-hint-btn', 'spyReport', translate('Raid&nbsp;hints'), spyReportLink);
@@ -6,9 +10,25 @@ var messageCompanion = function(playerData) {
         messageBox.append(spyHintBtn);
         messageBox.on("click", spyHintBtn, function() {
             injectCoordinatesToSimulator();
-            raidHint(playerData);
+            chrome.storage.sync.get(['options'], function(obj) {
+                if (typeof(obj.options) === 'undefined') {
+                    obj.options = {};
+                }
+                raidHint(playerData, obj.options);
+            });
         });
         spyReportLink.addClass('spyReport SDC');
+    });
+
+
+    var combatReportLink = $('.insideLeftMenu_content > div > table > tbody > tr:nth-child(4) > td');
+    var combatJournaltBtn = buildCompanionButton('combat-journal-btn', 'combatReport', translate('Combat&nbsp;journal'), combatReportLink);
+    combatReportLink.click(function () {
+        messageBox.append(combatJournaltBtn);
+        messageBox.on("click", combatJournaltBtn, function() {
+            combatJournal();
+        });
+        combatReportLink.addClass('spyReport SDC');
     });
 
     var expReportLink = $('.insideLeftMenu_content > div > table > tbody > tr:nth-child(7) > td');
@@ -31,6 +51,23 @@ var buildCompanionButton = function(id, SDCclass, label) {
     });
     return spyHintBtn;
 };
+
+var combatJournal = function() {
+    $('a.fancybox').each(function(k, v){
+
+        if ($(this).text() !== "") {
+
+            var combatLocation = extractCoordsFromString($(this).text());
+            var link = $(this).attr('href').replace('&ajax=1', '');
+            link = addCoordsToUrl(link,  combatLocation);
+
+            console.log(link);
+            $(this).attr('href', link);
+            $(this).removeClass('fancybox.iframe');
+            $(this).removeClass('fancybox');
+        }
+    });
+}
 
 var expeditionJournal = function () {
     var expQueue = {};
@@ -58,7 +95,7 @@ var expeditionJournal = function () {
     });
 
     console.log(expQueue); //TODO FIXME
-    //updateReports(expQueue, 'extractions');
+    //(expQueue, 'extractions');
 };
 
 var injectCoordinatesToSimulator = function() {
@@ -73,10 +110,10 @@ var injectCoordinatesToSimulator = function() {
     });
 }
 
-var raidHint = function(playerData) {
+var raidHint = function(playerData, options) {
     //####### CONFIG START ##########
-    var minRaidAmount = 10000000;
-    var maxRaidCount = 8;
+    var minRaidAmount = typeof(options.minRaidAmount) !== 'undefined' ? options.minRaidAmount : 1000000;
+    var maxRaidCount = typeof(options.maxRaidWaves) !== 'undefined' ? options.maxRaidWaves : 10;
     //####### CONFIG END ##########
 
     var origCoords = $('#planetselector option:selected')[0].innerText.match('\[[0-9]{1}:[0-9]+:[0-9]+\]');
@@ -134,7 +171,7 @@ var raidHint = function(playerData) {
             url = link.href;
         }
 
-        for (i = 1; i < maxRaidCount; i++) {
+        for (var i = 1; i <= maxRaidCount; i++) {
             var factor = Math.pow(2, i);
             var raidAmount = Math.floor(total/factor);
             if (raidAmount > minRaidAmount) {

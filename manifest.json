@@ -1,6 +1,6 @@
 {
   "name": "SD Companion",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Makes the Space Destiny UI smoother",
   "icons": {
     "16" : "images/16.png",
@@ -27,8 +27,8 @@
     {
       "matches": ["*://*.spacedestiny.com/*"],
       "js": [
-        "jquery-3.3.1.min.js",
-        "jquery.countdown.min.js",
+        "lib/jquery-3.3.1.min.js",
+        "lib/jquery.countdown.min.js",
         "SD-library.js",
         "utilities.js",
         "companions/battleSimCompanion.js",

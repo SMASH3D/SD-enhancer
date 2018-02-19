@@ -22,7 +22,6 @@ var imperiumCompanion = function(playerData) {
     if (typeof(playerData) == 'undefined' || typeof(playerData.techLevels) == 'undefined' || !isEquivalent(techLevels, playerData.techLevels)) {
         saveTechs(techLevels);
     }
-
 }
 
 var extractTechLevels = function() {
@@ -52,7 +51,6 @@ var extractTechLevels = function() {
 var saveTechs = function(techLevels) {
     chrome.storage.sync.set({'techLevels': techLevels}, function() {
         console.log('Technology Levels saved', techLevels);
-        $('#sd-status-led').prop('title', "Technology Levels saved");
-
+        okLED("Technology Levels saved");
     });
 }

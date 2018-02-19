@@ -70,6 +70,7 @@ var updateSubmitButton = function(fleet) {
     if(!$.isEmptyObject(fleet)) {
         $('td > input[type="submit"]').addClass('on');
     } else {
+        warningLED('Please select some ships to compose your fleet.');
         $('td > input[type="submit"]').removeClass('on');
     }
 }
@@ -100,7 +101,6 @@ var updateFleetInfo = function(fleetData) {
             disabled: true,
             val: fleetData.fleetSpeed
         }));
-        //type="text" pattern="[0-9]*" class="system hideNumbemrSpin" size="3"
         fleetInfo.append(cargoCapacity, fleetSpeed);
         $('form table tr td input[type="submit"]').closest('td').append(fleetInfo);
     } else {
@@ -129,6 +129,10 @@ var getFleetSpeed = function(fleet) {
 }
 
 var getFleet = function(playerData) {
+    if (typeof(playerData) == 'undefined' || typeof(playerData.techLevels) == 'undefined') {
+        warningLED('Player technology levels unknown, please visit research tab of imperium page.');
+        return false;
+    }
     var fleet = {};
     $.each(ships, function(shipID, ship) {
         var shipAmount = getShipAmount(shipID);

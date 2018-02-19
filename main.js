@@ -1,14 +1,22 @@
 
 window.onload = function(){
-
-    var controller = window.location.href.match(/(\w+)\.php/)[1];
-    if (controller === 'CombatReport') {
-        combatReportCompanion();
+    try {
+        var controller = window.location.href.match(/(\w+)\.php/)[1];
+        if (controller === 'CombatReport') {
+            okLED();
+            combatReportCompanion();
+        } else {
+            SDCompanion();
+        }
+        //TODO move that in a shipyard companion
+        $('#auftr').attr('size', '');
+    } catch(error) {
+        var message = translate('Oops SD Companion crashed, check console for details between SDCompanion Exception START & END');
+        console.log('%c SDCompanion Exception START', 'color: red; font-weight: bold;');
+        console.log(error);
+        console.log('%c SDCompanion Exception END', 'color: red; font-weight: bold;');
+        errorLED(message);
     }
-
-    SDCompanion();
-
-    $('#auftr').attr('size', '');
 };
 
 /**
@@ -23,8 +31,7 @@ var SDCompanion = function() {
         chrome.storage.sync.get(['techLevels'], function(techLevels) {
             $('#sd-status-led').removeClass('gray-dot');
             if (!techLevels && Object.keys(techLevels).length) {
-                $('#sd-status-led').addClass('orange-dot');
-                $('#sd-status-led').prop('title', "SD companion not ready, please visit research tab of empire page");
+                warningLED('SD companion not ready, please visit research tab of empire page');
             } else {
                 okLED();
             }
@@ -36,8 +43,8 @@ var SDCompanion = function() {
             runCompanions(pageRef, playerData);
         });
     } else {
-        runCompanions(pageRef);
         okLED();
+        runCompanions(pageRef);
     }
 }
 

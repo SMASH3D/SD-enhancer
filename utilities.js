@@ -12,13 +12,35 @@ jQuery.expr[':'].regex = function(elem, index, match) {
     return regex.test(jQuery(elem)[attr.method](attr.property));
 };
 
-var okLED = function() {
-    $('#sd-status-led').removeClass('gray-dot');
+var okLED = function(message) {
+    var defaultMsg = translate("SD companion ready to rumble !");
+    resetLED();
+    $('#sd-status-led').addClass('green-dot');
+    $('#sd-status-led').prop('title', (typeof(translate(message)) !== 'undefined' )? translate(message) : defaultMsg);
+};
+
+var warningLED = function(message) {
+    var defaultMsg = translate("SD Companion is having issues, please browse imperium pages.");
+    resetLED();
+    $('#sd-status-led').addClass('orange-dot');
+    $('#sd-status-led').prop('title', (typeof(translate(message)) !== 'undefined' )? translate(message) : defaultMsg);
+};
+
+var errorLED = function(message) {
+    var defaultMsg = translate("SD Companion crashed. Please check console and report issue to SMASHED");
+    resetLED();
+    $('#sd-status-led').addClass('red-dot');
+    $('#sd-status-led').prop('title', (typeof(translate(message)) !== 'undefined' )? translate(message) : defaultMsg);
+};
+
+var resetLED = function(message) {
+    var defaultMsg = translate("Warming up SD companion...");
+    $('#sd-status-led').addClass('gray-dot');
     $('#sd-status-led').removeClass('orange-dot');
     $('#sd-status-led').removeClass('red-dot');
-    $('#sd-status-led').addClass('green-dot');
-    $('#sd-status-led').prop('title', "SD companion ready to rumble !");
-}
+    $('#sd-status-led').removeClass('green-dot');
+    $('#sd-status-led').prop('title', (typeof(translate(message)) !== 'undefined' )? translate(message) : defaultMsg);
+};
 
 function isEquivalent(a, b) {
     // Create arrays of property names
@@ -83,7 +105,7 @@ function getConsumption(fleet, distance, duration, speed, acc, gamespeed) {
     var consumption = 0;
     var basicConsumption = 0;
     var spd = 0;
-    $.each(fleet, function(shipID, ship){
+    $.each(fleet, function(shipID, ship) {
         spd = 35000 / (duration * gamespeed - 10) * Math.sqrt(distance * 10 / ship.speed);
         basicConsumption = ship.consumption * ship.amount;
         consumption += basicConsumption * distance / 35000 * (spd / 10 + 1) * (spd / 10 + 1);
@@ -92,6 +114,9 @@ function getConsumption(fleet, distance, duration, speed, acc, gamespeed) {
 }
 
 var getShipSpeed = function(shipID, techLevels) {
+    if (typeof(techLevels) === 'undefined') {
+        warningLED();
+    }
     var ship = shipID in ships ? ships[shipID] : false;
     var baseSpeed = ship.baseSpeed;
     var propulsionType = ship.propulsion;
@@ -276,12 +301,53 @@ var translate = function(stringToTranslate) {
         "capacity": {
             "FR": "capacité"
         },
+        "Please select some ships to compose your fleet.": {
+            "FR": "Merci de selectionner des vaisseaux pour composer votre flotte."
+        },
+        "Player technology levels unknown, please visit research tab of imperium page.": {
+            "FR": "Niveaux de technologies du joueur inconnus. Merci de visiter l'onglet recherche de la page empire."
+        },
+        "SD companion ready to rumble !": {
+            "FR": "SD Companion prêt!"
+        },
+        "Destination coords no set, please use raid hints before using simulate button.": {
+            "FR":  "Coordonnées de destination inconnues, merci d'utiliser le raidHints avant de cliquer sur Simuler"
+        },
+        "Oops SD Companion crashed, check console for details between SDCompanion Exception START & END": {
+            "FR": "Oups le SD Companion s'est loutré, plus de détails dans la console de debug entre les SDCompanion Exception START & END"
+        }
     };
     if (typeof(dict[stringToTranslate]) !== 'undefined' && typeof(dict[stringToTranslate][language]) !== 'undefined') {
         return dict[stringToTranslate][language];
     }
     return stringToTranslate;
 };
+
+function extractCoordsFromString(origString) {
+    return buildPlanetObjFromCoords(origString.match('\[[0-9]{1}:[0-9]+:[0-9]+\]'));
+}
+
+function addCoordsToUrl(uri, coords) {
+    var _url = new URL(uri, window.location.origin+window.location.pathname);
+    _url.searchParams.set('galaxy', coords.galaxy);
+    _url.searchParams.set('system', coords.system);
+    _url.searchParams.set('planet', coords.planet);
+    return _url.toString();
+}
+
+function removeDuplicates(originalArray, prop) {
+    var newArray = [];
+    var lookupObject  = {};
+
+    for(var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+    }
+
+    for(i in lookupObject) {
+        newArray.push(lookupObject[i]);
+    }
+    return newArray;
+}
 
 function updateReports(queue, type) {
     if (queue.length === 0) {
@@ -296,12 +362,6 @@ function updateReports(queue, type) {
         });
     });
 
-}
-
-function clearReportType(type) {
-    var data = {};
-    data.type = {};
-    chrome.storage.local.set(data);
 }
 
 var getUrlParameter = function getUrlParameter(sParam, url) {

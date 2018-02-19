@@ -1,6 +1,6 @@
-var overviewCompanion = function(playerData) {
+var overviewCompanion = function() {
     getVoteTimer();
-}
+};
 
 var getVoteTimer = function() {
     chrome.storage.sync.get(['nextVoteTimer'], function(computedDate) {
@@ -33,7 +33,7 @@ var saveVote = function() {
     var now = new Date();
     var twoHoursLater = now.setHours(now.getHours()+2);
     chrome.storage.sync.set({'nextVoteTimer': twoHoursLater}, function() {
-        console.log('Next possible vote time saved', now.toLocaleTimeString());
+        console.log('%c Next possible vote time saved: ' + now.toLocaleTimeString(), 'color: green; font-weight: bold;');
     });
     return twoHoursLater;
 }
