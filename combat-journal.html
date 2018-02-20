@@ -3,11 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title class="trn">Combat log</title>
-
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/help.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="lib/jquery-3.3.1.min.js"></script>
         <script src="lib/bootstrap.min.js"></script>
@@ -23,7 +21,7 @@
             <div id="buttons-wrapper">
                 <div class="input-wrapper">
                     <label for="current-position">Overall rank.</label>
-                    <input type="number" id="current-position" name="current-position" value=5>
+                    <input type="number" id="current-position" name="current-position" min="1" placeholder="Current rank" value=5>
                 </div>
                 <button class="save-button" id="save">Save</button>
             </div>

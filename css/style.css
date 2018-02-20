@@ -154,3 +154,6 @@ input[type="number"], input[type="text"] {
     -webkit-box-sizing: content-box;
     max-width: 110px;
 }
+.progress-bar-success {
+    animation: progress-bar-stripes 1s linear infinite;
+}

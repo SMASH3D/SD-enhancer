@@ -1,7 +1,12 @@
 
 window.onload = function(){
     try {
-        var controller = window.location.href.match(/(\w+)\.php/)[1];
+        var matches = window.location.href.match(/(\w+)\.php/);
+        if (typeof matches === 'undefined' || matches === null) {
+            //not a page we're interested in
+            return;
+        }
+        var controller = matches[1];
         if (controller === 'CombatReport') {
             $('#top_menu').append('<div title="Warming up companion" id="sd-status-led" class="gray-dot led"></div>');
             combatReportCompanion();

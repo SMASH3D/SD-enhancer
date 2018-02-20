@@ -83,7 +83,6 @@ function updateBars(almostOld, fresh, freshest, dailyTotal, maxPer24hours) {
     $('.progress-bar-warning').css('width', fresh / maxPer24hours * 100 + '%');
     $('.progress-bar-danger').css('width', freshest / maxPer24hours * 100 + '%');
     $('.progress-bar-success').css('width', (maxPer24hours - dailyTotal) / maxPer24hours * 100 + '%');
-    $('.progress-bar-success').addClass('progress-bar-animated');
 }
 
 function getCombatRepartition(battles) {
