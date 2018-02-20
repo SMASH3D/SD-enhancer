@@ -1,6 +1,6 @@
 {
   "name": "SD Companion",
-  "version": "1.1",
+  "version": "1.2.1",
   "description": "Makes the Space Destiny UI smoother",
   "icons": {
     "16" : "images/16.png",
@@ -13,40 +13,39 @@
     "storage",
     "unlimitedStorage",
     "contextMenus",
-    "cookies",
     "http://www.spacedestiny.com/*"
   ],
   "browser_action": {
     "default_icon": "images/32.png",
     "default_title": "Space Destiny Companion",
-    "default_popup": "popup.html",
-    "popup": "popup.html"
+    "default_popup": "views/popup.html",
+    "popup": "views/popup.html"
   },
   "web_accessible_resources": ["images/32.png"],
   "content_scripts": [
     {
       "matches": ["*://*.spacedestiny.com/*"],
       "js": [
-        "lib/jquery-3.3.1.min.js",
-        "lib/jquery.countdown.min.js",
-        "SD-library.js",
-        "utilities.js",
-        "companions/battleSimCompanion.js",
-        "companions/combatReportCompanion.js",
-        "companions/ecologyCompanion.js",
-        "companions/fleetCompanion.js",
-        "companions/fleet2Companion.js",
-        "companions/galaxyCompanion.js",
-        "companions/imperiumCompanion.js",
-        "companions/messageCompanion.js",
-        "companions/overviewCompanion.js",
-        "main.js"
+        "js/lib/jquery-3.3.1.min.js",
+        "js/lib/jquery.countdown.min.js",
+        "js/SD-library.js",
+        "js/utilities.js",
+        "js/companions/battleSimCompanion.js",
+        "js/companions/combatReportCompanion.js",
+        "js/companions/ecologyCompanion.js",
+        "js/companions/fleetCompanion.js",
+        "js/companions/fleet2Companion.js",
+        "js/companions/galaxyCompanion.js",
+        "js/companions/imperiumCompanion.js",
+        "js/companions/messageCompanion.js",
+        "js/companions/overviewCompanion.js",
+        "js/main.js"
       ],
       "css" : ["css/companion.css"]
     }
   ],
   "options_ui": {
-    "page": "options.html",
+    "page": "views/options.html",
     "chrome_style": true
   },
   "manifest_version" : 2

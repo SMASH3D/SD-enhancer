@@ -6,7 +6,7 @@ $(function() {
             chrome.runtime.openOptionsPage();
         } else {
             // Reasonable fallback.
-            window.open(chrome.runtime.getURL('options.html'));
+            window.open(chrome.runtime.getURL('../../views/options.html'));
         }
     });
 
@@ -17,7 +17,7 @@ $(function() {
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
 
-        chrome.windows.create({'url': 'combat-journal.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
+        chrome.windows.create({'url': '../../views/combat-journal.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
         });
     });
 
@@ -27,7 +27,7 @@ $(function() {
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
 
-        chrome.windows.create({'url': 'help.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
+        chrome.windows.create({'url': '../../views/help.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
         });
     });
 
