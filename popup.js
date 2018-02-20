@@ -13,7 +13,7 @@ $(function() {
 
     $("#action-combat-journal").on("click", function() {
         var w = 800;
-        var h = 400;
+        var h = 800;
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
 

@@ -3,7 +3,7 @@ window.onload = function(){
     try {
         var controller = window.location.href.match(/(\w+)\.php/)[1];
         if (controller === 'CombatReport') {
-            okLED();
+            $('#top_menu').append('<div title="Warming up companion" id="sd-status-led" class="gray-dot led"></div>');
             combatReportCompanion();
         } else {
             SDCompanion();

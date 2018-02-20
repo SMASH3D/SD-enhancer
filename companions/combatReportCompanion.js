@@ -26,9 +26,6 @@ var combatReportCompanion = function() {
 
     if (tMatch !== null) {
         var combatTime  = new Date(tMatch[3], getMonthNumber(tMatch[2]), tMatch[1], tMatch[4], tMatch[5], tMatch[6]);
-
-        //var now = new Date();
-        //var oneDayLater = combatTime.setHours(now.getHours()+24);
         chrome.storage.local.get(['combats'], function(obj) {
             var combats = obj.combats;
             if (typeof combats === 'undefined') {
@@ -48,9 +45,8 @@ var combatReportCompanion = function() {
             combats[defender] = uniqueCombats;
             chrome.storage.local.set({'combats': combats}, function() {
                 console.log('combat report saved', combats);
+                okLED('Combat report saved');
             });
         });
     }
 }
-
-//http://www.spacedestiny.com/play/s2/CombatReport.php?raport=48533&fame=1

@@ -1,9 +1,0 @@
-#buttons-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#buttons-wrapper button {
-    margin: 0 auto;
-}

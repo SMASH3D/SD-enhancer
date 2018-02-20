@@ -36,7 +36,7 @@ window.onload = function(){
 
     $('#reset-combats').on('click', function() {
         chrome.storage.local.remove('combats', function() {
-            console.log('combat report saved');
+            console.log('combat report purged');
             $('#buttons-wrapper').append('<i class="material-icons color--green" >check_circle</i>');
         });
     });

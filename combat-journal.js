@@ -1,21 +1,24 @@
 var template = '<div class="container">' +
     '                <div class="slate">' +
-    '                    <h2 class="slate-title">Player {0}</h2>' +
-    '                    <h3 class="part-title">Attacks during the last 24 hours</h3>' +
-    '                    <p class="possible-attack">Next possible attack: {7}</p>' +
+    '                    <h3 class="slate-title">Player: {0}</h3>' +
+    '                    <h4 class="part-title">Attacks during the last 24 hours</h4>' +
+    '                    <p class="possible-attack">Next possible attack: {1}</p>' +
     '                    <div class="progress">' +
-    '                        <div class="progress-bar progress-bar-info progress-bar-striped progress-bar-animated" role="progressbar" style="width:{1}%" title="{4} attacks more than 12 hours ago">' +
-    '                            24h < attack < 12h' +
+    '                        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" title="{2} attacks more than 12 hours ago">' +
+    '                            12h+' +
     '                        </div>' +
-    '                        <div class="progress-bar progress-bar-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width:{2}%" title="{5} attacks between 6 and 12 hours ago">' +
-    '                            12h < attack < 6h' +
+    '                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" title="{3} attacks between 6 and 12 hours ago">' +
+    '                            6h+' +
     '                        </div>' +
-    '                        <div class="progress-bar progress-bar-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width:{3}%" title="{6} attacks less than 6 hours ago">' +
-    '                            6h < attack' +
+    '                        <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" title="{4} attacks less than 6 hours ago">' +
+    '                            -6h' +
+    '                        </div>' +
+    '                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" title="{5} Attacks Remaining">' +
+    '                            Remaining: {5}' +
     '                        </div>' +
     '                    </div>' +
-    '                    <span class="pull-right">{8}</span>' +
-    '                       <h3 class="part-title">All-time attacks on this player:{9}</h3>' +
+    '                    <span class="pull-right">{6}</span>' +
+    '                       <h4 class="part-title">All-time attacks on this player:{7}</h4>' +
     '                </div>' +
     '            </div>';
 
@@ -33,29 +36,55 @@ if (!String.prototype.format) {
 }
 
 $( document ).ready(function() {
-    var maxPer24hours = 12;
+    restoreRank();
+    $('#save').on('click', function() {
+        saveRank();
+    });
+
+    var maxPer24hours = 5;
     chrome.storage.local.get(['combats'], function(obj) {
         var wars = obj.combats;
         $.each(wars, function(key, battles) {
+            if (key === 'PNJ') {
+                maxPer24hours = parseInt($('#current-position').val())+5;
+            }
             var repartition = getCombatRepartition(battles);
             var oldest = new Date(repartition.oldest);
             oldest.setHours(oldest.getHours()+24);
             var dailyTotal  = repartition.almostOld + repartition.fresh + repartition.freshest;
             $('.content').append(template.format(
                 key,
-                repartition.almostOld / maxPer24hours * 100,
-                repartition.fresh / maxPer24hours * 100,
-                repartition.freshest / maxPer24hours * 100,
+                dailyTotal < maxPer24hours ? 'NOW !' : oldest.toLocaleTimeString(),
                 repartition.almostOld,
                 repartition.fresh,
                 repartition.freshest,
-                dailyTotal < maxPer24hours ? 'NOW !' : oldest.toLocaleTimeString(),
+                maxPer24hours - dailyTotal,
                 dailyTotal + '/' + maxPer24hours,
                 repartition.total
             ));
+            updateBars(repartition.almostOld, repartition.fresh, repartition.freshest, dailyTotal, maxPer24hours);
+            if (key === 'PNJ') {
+                $('#current-position').on('change paste keyup', function() {
+                    var newMaxPer24hours = parseInt($(this).val())+5;
+                    updateBars(repartition.almostOld, repartition.fresh, repartition.freshest, dailyTotal, newMaxPer24hours);
+                    $(".pull-right").text(dailyTotal + '/' + newMaxPer24hours);
+                    var newRemaining = newMaxPer24hours - dailyTotal;
+                    $(".progress-bar-success").text('Remaining: ' + newRemaining);
+                });
+            }
         });
     });
+
+
 });
+
+function updateBars(almostOld, fresh, freshest, dailyTotal, maxPer24hours) {
+    $('.progress-bar-info').css('width', almostOld / maxPer24hours * 100 + '%');
+    $('.progress-bar-warning').css('width', fresh / maxPer24hours * 100 + '%');
+    $('.progress-bar-danger').css('width', freshest / maxPer24hours * 100 + '%');
+    $('.progress-bar-success').css('width', (maxPer24hours - dailyTotal) / maxPer24hours * 100 + '%');
+    $('.progress-bar-success').addClass('progress-bar-animated');
+}
 
 function getCombatRepartition(battles) {
     var now = new Date();
@@ -93,4 +122,19 @@ function getCombatRepartition(battles) {
         oldest: oldestCombat,
         total: total
     };
+}
+
+// Saves rank to chrome.storage.sync.
+function saveRank() {
+    var rank = $('#current-position').val();
+    chrome.storage.sync.set({'rank': rank}, function() {
+        console.log('rank saved', rank);
+        $('#buttons-wrapper').append('<i class="material-icons color--green" >check_circle</i>');
+    });
+}
+
+function restoreRank() {
+    chrome.storage.sync.get(['rank'], function(obj) {
+        $('#current-position').val(obj.rank);
+    });
 }
