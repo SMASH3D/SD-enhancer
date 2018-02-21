@@ -53,21 +53,17 @@ var buildCompanionButton = function(id, SDCclass, label) {
 };
 
 var combatJournal = function() {
-    $('a.fancybox').each(function(k, v){
-
+    $('a.fancybox').each(function(){
         if ($(this).text() !== "") {
-
             var combatLocation = extractCoordsFromString($(this).text());
             var link = $(this).attr('href').replace('&ajax=1', '');
             link = addCoordsToUrl(link,  combatLocation);
-
-            console.log(link);
             $(this).attr('href', link);
             $(this).removeClass('fancybox.iframe');
             $(this).removeClass('fancybox');
         }
     });
-}
+};
 
 var expeditionJournal = function () {
     var expQueue = {};
@@ -99,7 +95,7 @@ var expeditionJournal = function () {
 };
 
 var injectCoordinatesToSimulator = function() {
-    $('a.destroyElement').each(function(k, v) {
+    $('a.destroyElement').each(function() {
         var galaxy = getUrlParameter('galaxy', $(this)[0].href);
         var system = getUrlParameter('system', $(this)[0].href);
         var planet = getUrlParameter('planet', $(this)[0].href);
@@ -108,7 +104,7 @@ var injectCoordinatesToSimulator = function() {
         var newUrl = _href + '&galaxy=' + galaxy + '&system=' + system + '&planet=' + planet;
         simulateBtn.attr("href", newUrl);
     });
-}
+};
 
 var raidHint = function(playerData, options) {
     //####### CONFIG START ##########

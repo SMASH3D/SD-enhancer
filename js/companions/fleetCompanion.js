@@ -2,13 +2,14 @@
 var fleetCompanion = function(playerData) {
 
     //FLEET PRESELECTION
+    var availableShips = [];
     $.each(ships, function(shipID, ship) {
         var numericId = shipID.match('ship([0-9]{3})')[1];
         var requestedShips = getUrlParameter(shipID);
         var shipPos = parseInt(getUrlParameter(shipID+'pos'));
        if (typeof(shipID) !== 'undefined') {
-           var availableShips = parseInt($('#'+shipID+'_value').text().replace(/\./g,''));
-           var amountToSend = Math.min(requestedShips, availableShips);
+           availableShips[shipID] = parseInt($('#'+shipID+'_value').text().replace(/\./g,''));
+           var amountToSend = Math.min(requestedShips, availableShips[shipID]);
            if (amountToSend > 0) {
                $('input[name='+shipID+']').val(amountToSend);
            }
@@ -53,15 +54,26 @@ var fleetCompanion = function(playerData) {
             if (typeof(shipMap[shipName]) !== 'undefined') {
                 var shipID = shipMap[shipName];
                 $('input[name='+shipID+']').val(0);
-                if (availableShips[shipID] > 0 && remainingShipment > 10000) {
-                    var amount = Math.min(Math.floor(remainingShipment/ships[shipID].capacity), availableShips[shipID]);
+                if (availableShips[shipID] > 0) {
+                    var amount = Math.min(Math.ceil(remainingShipment/ships[shipID].capacity), availableShips[shipID]);
                     $('input[name='+shipID+']').val(amount);
                     remainingShipment -= ships[shipID].capacity * amount;
+
+                    var fleet = getFleet(playerData);
+                    var fleetData = {};
+                    fleetData.cargoCapacity = getCargoCapacity(fleet);
+                    updateFleetInfo(fleetData);
+                    updateSubmitButton(fleet);
                 }
             }
         });
         if (remainingShipment > 0) {
+            $('#extraCargo').remove();
             $("#cargo-capacity-hint").append('<span id="lostCargo" style="color: red;">-'+remainingShipment+'</span>');
+        }
+        if (remainingShipment < 0) {
+            $('#extraCargo').remove();
+            $("#cargo-capacity-hint").append('<span id="extraCargo" style="color: green;">+'+Math.abs(remainingShipment)+'</span>');
         }
     });
 }
@@ -77,10 +89,12 @@ var updateSubmitButton = function(fleet) {
 
 var updateFleetInfo = function(fleetData) {
     $('#lostCargo').remove();
+    $('#extraCargo').remove();
     if (!$('#fleet-info').length) {
         $('form table tr td input').addClass('fleetInput');
         var fleetInfo = $('<span>', { 'id': 'fleet-info' });
         fleetInfo.append('<img src="'+chrome.extension.getURL("images/32.png")+'" title="Fleet Info by SD Companion">');
+
         var cargoCapacity = $('<p id="cargo-capacity-hint">Cargo Capacity</p>');
         cargoCapacity.append($('<input>', {
             type: 'text',
@@ -89,7 +103,7 @@ var updateFleetInfo = function(fleetData) {
             name: 'cargoCapacity',
             id: 'cargoCapacity',
             class: 'cargoCapacity',
-            val: fleetData.cargoCapacity
+            val: (typeof fleetData.cargoCapacity !== 'undefined') ? fleetData.cargoCapacity : 0
         }));
         var fleetSpeed = $('<p id="fleet-speed-hint">Fleet Speed</p>');
         fleetSpeed.append($('<input>', {
@@ -99,13 +113,17 @@ var updateFleetInfo = function(fleetData) {
             size:"4",
             class: 'fleetSpeed',
             disabled: true,
-            val: fleetData.fleetSpeed
+            val: (typeof fleetData.fleetSpeed !== 'undefined') ? fleetData.fleetSpeed : 0
         }));
         fleetInfo.append(cargoCapacity, fleetSpeed);
         $('form table tr td input[type="submit"]').closest('td').append(fleetInfo);
     } else {
-        $('input[name=cargoCapacity]').val(fleetData.cargoCapacity);
-        $('input[name=fleetSpeed]').val(fleetData.fleetSpeed);
+        if (typeof fleetData.cargoCapacity !== 'undefined') {
+            $('input[name=cargoCapacity]').val(fleetData.cargoCapacity);
+        }
+        if (typeof fleetData.fleetSpeed !== 'undefined') {
+            $('input[name=fleetSpeed]').val(fleetData.fleetSpeed);
+        }
     }
 }
 
