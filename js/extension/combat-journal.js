@@ -73,6 +73,9 @@ $( document ).ready(function() {
                 });
             }
         });
+        /*if (typeof obj.combats === 'undefined') {
+            $('message-box').show();
+        }*/
     });
 
 
