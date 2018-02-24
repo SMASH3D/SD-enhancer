@@ -92,8 +92,8 @@ var updateFleetInfo = function(fleetData) {
     $('#extraCargo').remove();
     if (!$('#fleet-info').length) {
         $('form table tr td input').addClass('fleetInput');
-        var fleetInfo = $('<span>', { 'id': 'fleet-info' });
-        fleetInfo.append('<img src="'+chrome.extension.getURL("images/32.png")+'" title="Fleet Info by SD Companion">');
+        var fleetInfo = $('<span>', { 'id': 'fleet-info', 'class': 'infoPanel' });
+        fleetInfo.append('<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Fleet Info by SD Companion">');
 
         var cargoCapacity = $('<p id="cargo-capacity-hint">Cargo Capacity</p>');
         cargoCapacity.append($('<input>', {

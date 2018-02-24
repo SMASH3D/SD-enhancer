@@ -1,3 +1,8 @@
+var totalLoot;
+var rentability;
+var profitability;
+var lossDamageRatio;
+
 var combatReportCompanion = function() {
     var attacker;
     var defender;
@@ -18,7 +23,13 @@ var combatReportCompanion = function() {
     }
 
     var intro = $('#content > div > div > div:nth-child(1)')[0].innerText;
-    var summary = $('#content > div > div > div:nth-last-child(2)')[0].innerText;
+    var summary = $('#content > div > div > div:nth-last-child(2)')[0].innerText.replace(/\./g, "");
+
+    var loots = extractLoot(summary);
+    var losses = extractLosses(summary);
+
+    injectInfoPanel(loots, losses);
+
 
     var combatID = getUrlParameter('raport');
     var timeExtractRegex = /([0-9]{2}). ([a-zA-Z]{3}) ([0-9]{4}), ([0-9]{2}):([0-9]{2}):([0-9]{2})/g;
@@ -49,4 +60,124 @@ var combatReportCompanion = function() {
             });
         });
     }
+}
+
+var extractLoot = function(summary){
+    var rezExtractor = getLanguage() === 'FR' ? /(\d+)\sRhénium.\D+(\d+)\sSélénium\D+(\d+)\sAzote/gm : /(\d+)\sRhenium.\D+(\d+)\sSelenium\D+(\d+)\sNitrogen/gm;
+    var i = 0;
+    var directLoot = 0;
+    var dfLoot = 0;
+    while ((match = rezExtractor.exec( summary )) != null)
+    {
+        if (i === 0) {
+            directLoot = {rhe: new Number(match[1]), sele: new Number(match[2]), nitro: new Number(match[3])};
+        } else {
+            dfLoot = {rhe: new Number(match[1]), sele: new Number(match[2]), nitro: new Number(match[3])};
+        }
+        i++;
+    }
+    return {directLoot: directLoot, dfLoot: dfLoot};
+}
+
+var extractLosses = function(summary){
+    var unitLossExtractor  = getLanguage() === 'FR' ? /Pertes \D+(\d+)/gm : /losses:\s(\d+)/gm;
+    var i = 0;
+    var attackersLoss = 0;
+    var defendersLoss = 0;
+    while ((match = unitLossExtractor.exec( summary )) != null)
+    {
+        if (i === 0) {
+            attackersLoss = new Number(match[1]);
+        } else {
+            defendersLoss = new Number(match[1]);
+        }
+        i++;
+    }
+    return {attackersLoss: attackersLoss, defendersLoss: defendersLoss};
+}
+
+var updateInfos = function(consumption) {
+    rentability = rentability - consumption;
+    profitability = rentability / Math.max(1, totalLoot) * 100;
+    $('input[name=rentaInfo]').val(NumberGetHumanReadable(rentability));
+    $('input[name=profitInfo]').val(profitability.toFixed(2));
+}
+
+var injectInfoPanel = function(loots, losses){
+    totalLoot = loots.dfLoot.rhe + loots.dfLoot.sele + loots.dfLoot.nitro + loots.directLoot.rhe + loots.directLoot.sele + loots.directLoot.nitro;
+
+    rentability = totalLoot - losses.attackersLoss;
+    profitability = (totalLoot - losses.attackersLoss) / Math.max(1, totalLoot) * 100;
+    lossDamageRatio = losses.defendersLoss / Math.max(1, losses.attackersLoss);
+
+    var consumptionBox = $('<p id="consumption">Fuel consumption</p>');
+    consumptionBox.append($('<input>', {
+        type: 'text',
+        pattern: "[0-9]*",
+        size:"20",
+        name: 'consumption',
+        id: 'fuelConsumption',
+        val: 0
+    }));
+
+    var rentaBox = $('<p>');
+    rentaBox.append(
+        $('<label for="rentaInfo">Rentability</label>'),
+        $('<input>', {
+            type: 'text',
+            name: 'rentaInfo',
+            id: 'rentaInfo',
+            size:"20",
+            class: 'infoBox',
+            disabled: true,
+            val: NumberGetHumanReadable(rentability)
+        })
+    );
+
+    var profitBox = $('<p>');
+    profitBox.append(
+        $('<label for="profitInfo">Rentability (%)</label>'),
+        $('<input>', {
+            type: 'text',
+            name: 'profitInfo',
+            id: 'profitInfo',
+            size:"5",
+            class: 'infoBox',
+            disabled: true,
+            val: profitability.toFixed(1)
+        })
+    );
+
+    var ldrBox = $('<p>');
+    ldrBox.append(
+        $('<label for="ldrInfo">Loss / Damage ratio</label>'),
+        $('<input>', {
+            type: 'text',
+            name: 'ldrInfo',
+            id: 'ldrInfo',
+            size:"10",
+            class: 'infoBox',
+            disabled: true,
+            val: Math.round(lossDamageRatio)
+        })
+    );
+
+    var infoPanel = $('<div>', {
+        id: 'raid-info',
+        class: 'infoPanel',
+    }).append(
+        '<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Raid Info by SD Companion">',
+        consumptionBox,
+        rentaBox,
+        profitBox,
+        ldrBox
+    );
+
+    $('#content').append(infoPanel);
+
+    $('#fuelConsumption').change(function (e) {
+        var fuelConsumption = e.target.value;
+
+        updateInfos(fuelConsumption);
+    });
 }

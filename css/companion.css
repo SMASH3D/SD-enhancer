@@ -15,23 +15,33 @@
     background-image: -webkit-linear-gradient(top, #fb1304 0%, #e35843 50%, #edad99 100%);
 }
 
-#fleet-info {
+.infoPanel {
     display: block;
     background-color: #181f25;
     border-radius: 5px;
     color: #848484;
     font-size: 11px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 2px solid #204d74;
+}
+
+.infoPanel > img {
+    float: right;
+    position: relative;
 }
 
 #fleet-info > img {
-    float: right;
-    position: relative;
     top: 17px;
     left: -30px;
 }
 
-#fleet-info > p {
+#raid-info > img {
+    top: 54px;
+    left: -46px;
+}
+
+.infoPanel > p {
     margin: auto;
     padding: 5px 0;
 }
