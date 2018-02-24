@@ -173,7 +173,7 @@ var injectInfoPanel = function(loots, losses){
         rentaBox,
         profitBox,
         ldrBox,
-        '<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Raid Info by SD Companion" width="32px" height="32px">'
+        '<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Raid Info by SD Companion" width="32px" height="30px">'
     );
 
     $('#content').append(infoPanel);
