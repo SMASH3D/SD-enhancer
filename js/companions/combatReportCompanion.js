@@ -153,7 +153,7 @@ var injectInfoPanel = function(loots, losses){
 
     var ldrBox = $('<p>');
     ldrBox.append(
-        $('<label for="ldrInfo">Loss / Damage ratio</label>'),
+        $('<label for="ldrInfo">Damage / Loss ratio</label>'),
         $('<input>', {
             type: 'text',
             name: 'ldrInfo',
