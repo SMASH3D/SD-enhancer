@@ -97,10 +97,10 @@ var extractLosses = function(summary){
 }
 
 var updateInfos = function(consumption) {
-    rentability = rentability - consumption;
-    profitability = rentability / Math.max(1, totalLoot) * 100;
-    $('input[name=rentaInfo]').val(NumberGetHumanReadable(rentability));
-    $('input[name=profitInfo]').val(profitability.toFixed(2));
+    var updRentability = rentability - consumption;
+    var updprofitability = rentability / Math.max(1, totalLoot) * 100;
+    $('input[name=rentaInfo]').val(NumberGetHumanReadable(updRentability));
+    $('input[name=profitInfo]').val(updprofitability.toFixed(2));
 }
 
 var injectInfoPanel = function(loots, losses){
@@ -110,15 +110,18 @@ var injectInfoPanel = function(loots, losses){
     profitability = (totalLoot - losses.attackersLoss) / Math.max(1, totalLoot) * 100;
     lossDamageRatio = losses.defendersLoss / Math.max(1, losses.attackersLoss);
 
-    var consumptionBox = $('<p id="consumption">Fuel consumption</p>');
-    consumptionBox.append($('<input>', {
-        type: 'text',
-        pattern: "[0-9]*",
-        size:"20",
-        name: 'consumption',
-        id: 'fuelConsumption',
-        val: 0
-    }));
+    var consumptionBox = $('<p>');
+    consumptionBox.append(
+        $('<label for="consumption">Fuel consumption</label>'),
+        $('<input>', {
+            type: 'text',
+            pattern: "[0-9]*",
+            size:"20",
+            name: 'consumption',
+            id: 'fuelConsumption',
+            placeholder: 'N/A'
+        })
+    );
 
     var rentaBox = $('<p>');
     rentaBox.append(
@@ -144,7 +147,7 @@ var injectInfoPanel = function(loots, losses){
             size:"5",
             class: 'infoBox',
             disabled: true,
-            val: profitability.toFixed(1)
+            val: profitability.toFixed(2)
         })
     );
 
@@ -166,11 +169,11 @@ var injectInfoPanel = function(loots, losses){
         id: 'raid-info',
         class: 'infoPanel',
     }).append(
-        '<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Raid Info by SD Companion">',
         consumptionBox,
         rentaBox,
         profitBox,
-        ldrBox
+        ldrBox,
+        '<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Raid Info by SD Companion" width="32px" height="32px">'
     );
 
     $('#content').append(infoPanel);

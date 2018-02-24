@@ -16,29 +16,36 @@
 }
 
 .infoPanel {
-    display: block;
+    display: flex;
     background-color: #181f25;
     border-radius: 5px;
     color: #848484;
     font-size: 11px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-align: center;
     border: 2px solid #204d74;
+    margin: auto;
+    padding: 0 40px;
+}
+
+.infoPanel label {
+    display: block;
+    width: 150px;
+    float: left;
 }
 
 .infoPanel > img {
     float: right;
     position: relative;
+    margin: 5px;
 }
 
 #fleet-info > img {
-    top: 17px;
-    left: -30px;
+    left: 20px;
 }
 
 #raid-info > img {
-    top: 54px;
-    left: -46px;
+    top: 2px;
+    left: -1px;
 }
 
 .infoPanel > p {

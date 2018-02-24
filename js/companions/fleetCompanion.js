@@ -93,7 +93,7 @@ var updateFleetInfo = function(fleetData) {
     if (!$('#fleet-info').length) {
         $('form table tr td input').addClass('fleetInput');
         var fleetInfo = $('<span>', { 'id': 'fleet-info', 'class': 'infoPanel' });
-        fleetInfo.append('<img src="'+chrome.extension.getURL("images/logo/32.png")+'" title="Fleet Info by SD Companion">');
+        fleetInfo.append('<img src="'+chrome.extension.getURL("images/logo/32.png")+'" width="32px" height="32px" title="Fleet Info by SD Companion">');
 
         var cargoCapacity = $('<p id="cargo-capacity-hint">Cargo Capacity</p>');
         cargoCapacity.append($('<input>', {
@@ -113,6 +113,7 @@ var updateFleetInfo = function(fleetData) {
             size:"4",
             class: 'fleetSpeed',
             disabled: true,
+            placeholder: 'N/A',
             val: (typeof fleetData.fleetSpeed !== 'undefined') ? fleetData.fleetSpeed : 0
         }));
         fleetInfo.append(cargoCapacity, fleetSpeed);
