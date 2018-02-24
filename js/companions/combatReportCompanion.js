@@ -98,7 +98,7 @@ var extractLosses = function(summary){
 
 var updateInfos = function(consumption) {
     var updRentability = rentability - consumption;
-    var updprofitability = rentability / Math.max(1, totalLoot) * 100;
+    var updprofitability = updRentability / Math.max(1, totalLoot) * 100;
     $('input[name=rentaInfo]').val(NumberGetHumanReadable(updRentability));
     $('input[name=profitInfo]').val(updprofitability.toFixed(2));
 }
@@ -139,7 +139,7 @@ var injectInfoPanel = function(loots, losses){
 
     var profitBox = $('<p>');
     profitBox.append(
-        $('<label for="profitInfo">Rentability (%)</label>'),
+        $('<label for="profitInfo">Profitability (%)</label>'),
         $('<input>', {
             type: 'text',
             name: 'profitInfo',
