@@ -15,19 +15,7 @@ var imperiumCompanion = function(playerData) {
         });
     });
 
-    $('#tabs-2 > table').tableToJSON(
-        {
-            extractor : function(cellIndex, $cell) {
-                console.log(cellIndex);
-                console.log($cell);
 
-                return {
-                    name: $cell.find('td').text(),
-                    avatar: $cell.find('td').innerHTML
-                };
-            }
-        }
-    )
 
     var techLevels = extractTechLevels();
     if (typeof(playerData) == 'undefined' || typeof(playerData.techLevels) == 'undefined' || !isEquivalent(techLevels, playerData.techLevels)) {

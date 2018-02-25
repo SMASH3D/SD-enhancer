@@ -99,8 +99,23 @@ var extractLosses = function(summary){
 var updateInfos = function(consumption) {
     var updRentability = rentability - consumption;
     var updprofitability = updRentability / Math.max(1, totalLoot) * 100;
-    $('input[name=rentaInfo]').val(NumberGetHumanReadable(updRentability));
-    $('input[name=profitInfo]').val(updprofitability.toFixed(2));
+
+    var rentaInput = $('input[name=rentaInfo]');
+    rentaInput.val(NumberGetHumanReadable(updRentability));
+    updateColorClass(rentaInput, updRentability, 'binary');
+
+    var profitInput = $('input[name=profitInfo]');
+    profitInput.val(updprofitability.toFixed(2));
+    updateColorClass(profitInput, updprofitability.toFixed(2), 'percent');
+}
+
+var updateColorClass = function(el, value, mode) {
+    el.removeClass('mediocre');
+    el.removeClass('poor');
+    el.removeClass('meh');
+    el.removeClass('great');
+    var colorClass = getColorClass(value, mode);
+    el.addClass(colorClass);
 }
 
 var injectInfoPanel = function(loots, losses){
@@ -116,7 +131,7 @@ var injectInfoPanel = function(loots, losses){
         $('<input>', {
             type: 'text',
             pattern: "[0-9]*",
-            size:"20",
+            size:"30",
             name: 'consumption',
             id: 'fuelConsumption',
             placeholder: 'N/A'
@@ -130,8 +145,8 @@ var injectInfoPanel = function(loots, losses){
             type: 'text',
             name: 'rentaInfo',
             id: 'rentaInfo',
-            size:"20",
-            class: 'infoBox',
+            size:"30",
+            class: 'infoBox ' + getColorClass(rentability, 'binary'),
             disabled: true,
             val: NumberGetHumanReadable(rentability)
         })
@@ -144,8 +159,8 @@ var injectInfoPanel = function(loots, losses){
             type: 'text',
             name: 'profitInfo',
             id: 'profitInfo',
-            size:"5",
-            class: 'infoBox',
+            size:"8",
+            class: 'infoBox ' + getColorClass(profitability, 'percent'),
             disabled: true,
             val: profitability.toFixed(2)
         })

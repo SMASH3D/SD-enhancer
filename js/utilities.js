@@ -256,6 +256,31 @@ function removeE(Number) {
         return parseFloat(Number).toPrecision(e + 1);
 }
 
+function getColorClass(number, mode)
+{
+    number = new Number(number);
+    var colorClass;
+    switch (mode) {
+        case 'binary':
+            colorClass = 'great';
+            if (number < 0) {
+                colorClass = 'mediocre';
+            }
+            break;
+        case 'percent':
+            colorClass = 'mediocre';
+            if (25 <= number && number < 50) {
+                colorClass = 'poor';
+            } else if (50 <= number && number < 75) {
+                colorClass = 'meh';
+            } else if (75 <= number && number <= 100) {
+                colorClass = 'great';
+            }
+            break;
+    }
+    return colorClass;
+}
+
 var translate = function(stringToTranslate) {
     var language = getLanguage();
     var dict = {
