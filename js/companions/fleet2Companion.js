@@ -20,6 +20,7 @@ var fleet3Companion = function() {
     if ($('input[type="radio"]').length === 1) {
         $('input[type="radio"]').first().attr('checked', 'checked');
     }
+    $('input[type="text"]').first().focus();
 }
 
 var updateSubmitButtonStep2 = function() {

@@ -38,6 +38,7 @@ var fleetCompanion = function(playerData) {
         'form > table > tbody > tr:nth-last-child(2) > td > a,' +
         '#attaqpos'
     ).click(function () {
+        $(this).parent().parent().find('input').focus();
         setTimeout(function() {
             fleet = getFleet(playerData);
             fleetData.cargoCapacity = getCargoCapacity(fleet);
