@@ -69,6 +69,9 @@ var runCompanions = function(pageRef, playerData) {
     if (pageRef === 'fleet1') {
         fleet2Companion();
     }
+    if (pageRef === 'fleet2') {
+        fleet3Companion();
+    }
     if (pageRef === 'battlesim') {
         battleSimCompanion();
     }

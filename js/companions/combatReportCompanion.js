@@ -4,6 +4,7 @@ var profitability;
 var lossDamageRatio;
 
 var combatReportCompanion = function() {
+    var isRealCombat = true;
     var attacker;
     var defender;
     if ($('#content > div > table').length) {
@@ -25,6 +26,12 @@ var combatReportCompanion = function() {
     var intro = $('#content > div > div > div:nth-child(1)')[0].innerText;
     var summary = $('#content > div > div > div:nth-last-child(2)')[0].innerText.replace(/\./g, "");
 
+    if (summary.indexOf('Le butin de la bataille') !== -1) {
+        //it's a simulation
+        isRealCombat = false;
+        summary = $('#content > div > div > div:nth-last-child(3)')[0].innerText.replace(/\./g, "");
+    }
+
     var loots = extractLoot(summary);
     var losses = extractLosses(summary);
 
@@ -35,7 +42,7 @@ var combatReportCompanion = function() {
     var timeExtractRegex = /([0-9]{2}). ([a-zA-Z]{3}) ([0-9]{4}), ([0-9]{2}):([0-9]{2}):([0-9]{2})/g;
     var tMatch = timeExtractRegex.exec(intro);
 
-    if (tMatch !== null) {
+    if (isRealCombat && tMatch !== null) {
         var combatTime  = new Date(tMatch[3], getMonthNumber(tMatch[2]), tMatch[1], tMatch[4], tMatch[5], tMatch[6]);
         chrome.storage.local.get(['combats'], function(obj) {
             var combats = obj.combats;

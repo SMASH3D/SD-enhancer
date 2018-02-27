@@ -47,6 +47,13 @@ var fleetCompanion = function(playerData) {
         }, 100);
     });
 
+    $('#heros_ship').change(function(){
+        var fleet = getFleet(playerData);
+        var fleetData = {};
+        fleetData.cargoCapacity = getCargoCapacity(fleet);
+        updateFleetInfo(fleetData);
+        updateSubmitButton(fleet);
+    });
     //if the user changes the amount of desired cargo, we align the fleet composition with it
     $('.cargoCapacity').change(function (e) {
         var remainingShipment = e.target.value;
@@ -79,11 +86,18 @@ var fleetCompanion = function(playerData) {
 }
 
 var updateSubmitButton = function(fleet) {
-    if(!$.isEmptyObject(fleet)) {
+    fleet.hasRecycler = getHasRecycler(fleet);
+    if(!$.isEmptyObject(fleet) || $('#heros_ship').find(":selected").text() !== "") {
+        $('td > input[type="submit"]').removeClass('off');
         $('td > input[type="submit"]').addClass('on');
     } else {
         warningLED('Please select some ships to compose your fleet.');
         $('td > input[type="submit"]').removeClass('on');
+        $('td > input[type="submit"]').addClass('off');
+    }
+    if (fleet.hasRecycler === true) {
+        var actionUrl = $('#tabs-1 > form').attr('action');
+        $('#tabs-1 > form').attr('action', actionUrl+'&target_type=2');
     }
 }
 
@@ -134,6 +148,16 @@ var getCargoCapacity = function(fleet) {
         cargoCapacity += ship.cargo;
     });
     return cargoCapacity;
+}
+
+var getHasRecycler = function(fleet) {
+    var hasRecycler = false;
+    $.each(fleet, function(shipID, ship) {
+        if ((shipID === 'ship209' || shipID === 'ship219' && ship.amount > 0)) {
+            hasRecycler = true;
+        }
+    });
+    return hasRecycler;
 }
 
 var getFleetSpeed = function(fleet) {
