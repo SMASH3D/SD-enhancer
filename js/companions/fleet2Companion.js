@@ -14,6 +14,7 @@ var fleet2Companion = function() {
     $('#tabs-2 > table > tbody > tr > td > a').click(function(){
         updateSubmitButtonStep2();
     });
+    $('input[type="number"]')[2].select();
 }
 
 var fleet3Companion = function() {
