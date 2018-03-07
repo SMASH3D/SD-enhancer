@@ -18,6 +18,11 @@ var fleetCompanion = function(playerData) {
            }
        }
     });
+
+    key('e', function(){
+        $('#ship225_input').val(availableShips['ship225']);
+    });
+
     //FLEET INFORMATION
     var fleet = getFleet(playerData);
     var fleetData = {};

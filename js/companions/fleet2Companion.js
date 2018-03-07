@@ -4,15 +4,15 @@ var fleet2Companion = function() {
     if (typeof targetType !== 'undefined') {
         $('select[name="planettype"]  option[value="'+targetType+'"]').prop('selected', true);
     }
-    updateSubmitButtonStep2();
+    updateSubmitButtonStep2(true);
     $('select').change(function(){
-        updateSubmitButtonStep2();
+        updateSubmitButtonStep2(true);
     });
     $('input[type="number"]').change(function(){
-        updateSubmitButtonStep2();
+        updateSubmitButtonStep2(true);
     });
     $('#tabs-2 > table > tbody > tr > td > a').click(function(){
-        updateSubmitButtonStep2();
+        switchBtnOn(false);
     });
     $('input[type="number"]')[2].select();
 }
@@ -24,22 +24,25 @@ var fleet3Companion = function() {
     $('input[type="text"]').first().focus();
 }
 
-var updateSubmitButtonStep2 = function() {
-    var currentPosText = $('#planetselector > select').find(":selected").text();
-    var targetGalaxy = $('input[name="galaxy"]').val();
-    var targetSystem = $('input[name="system"]').val();
-    var targetPlanet = $('input[name="planet"]').val();
-    var targetType = $('select[name="planettype"]').find(":selected").val();
+var updateSubmitButtonStep2 = function(checkpos) {
 
-    if (currentPosText.indexOf("["+targetGalaxy+":"+targetSystem+":"+targetPlanet+"]") !== -1) {
-        if ((currentPosText.indexOf('(Moon)') !== -1 || currentPosText.indexOf('(Lune)') !== -1) && targetType === "3") {
-            switchBtnOff();
-            return;
-        } else if ((currentPosText.indexOf('(Moon)') == -1 && currentPosText.indexOf('(Lune)') == -1) && targetType === "1") {
-            switchBtnOff();
-            return;
-        } else {
-            switchBtnOn();
+    if (checkpos === true) {
+        var currentPosText = $('#planetselector > select').find(":selected").text();
+        var targetGalaxy = $('input[name="galaxy"]').val();
+        var targetSystem = $('input[name="system"]').val();
+        var targetPlanet = $('input[name="planet"]').val();
+        var targetType = $('select[name="planettype"]').find(":selected").val();
+
+        if (currentPosText.indexOf("["+targetGalaxy+":"+targetSystem+":"+targetPlanet+"]") !== -1) {
+            if ((currentPosText.indexOf('(Moon)') !== -1 || currentPosText.indexOf('(Lune)') !== -1) && targetType === "3") {
+                switchBtnOff();
+                return;
+            } else if ((currentPosText.indexOf('(Moon)') == -1 && currentPosText.indexOf('(Lune)') == -1) && targetType === "1") {
+                switchBtnOff();
+                return;
+            } else {
+                switchBtnOn();
+            }
         }
     }
 

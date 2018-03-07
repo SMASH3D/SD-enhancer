@@ -28,6 +28,7 @@
       "js": [
         "js/lib/jquery-3.3.1.min.js",
         "js/lib/jquery.countdown.min.js",
+        "js/lib/keymaster.js",
         "js/SD-library.js",
         "js/utilities.js",
         "js/companions/battleSimCompanion.js",
