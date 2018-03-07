@@ -41,7 +41,6 @@ var fleetCompanion = function(playerData) {
         'form > table > tbody > tr:nth-last-child(2) > td > a,' +
         '#attaqpos'
     ).click(function () {
-        $(this).parent().parent().find('input').focus();
         setTimeout(function() {
             fleet = getFleet(playerData);
             fleetData.cargoCapacity = getCargoCapacity(fleet);
@@ -91,17 +90,40 @@ var fleetCompanion = function(playerData) {
 
 var highlightAndBindshortcuts = function(availableShips) {
 
-    //extractor
-    var newText = $('#ship225_value').parent().find('a.tooltip').text().replace('E', '<span class="shortcut">E</span>');
-    $('#ship225_value').parent().find('a.tooltip').html(newText);
-    key('e', function(){
-        $('#ship225_input').val(availableShips['ship225']);
+    //common shortcuts
+    createShortcutForShip(202, 'l', 'L', availableShips);//Light Cargo
+    createShortcutForShip(225, 'e', 'E', availableShips);//extractor
+    createShortcutForShip(219, 'r', 'R', availableShips);//Giga Recykler
+    createShortcutForShip(209, 'y', 'y', availableShips);//Recykler
+
+    //language specific shortcuts
+    if (getLanguage() === 'FR') {
+        createShortcutForShip(203, 'g', 'G', availableShips);//Grand transporteur
+        createShortcutForShip(229, 'c', 'C', availableShips);//Cargo planétaire
+        createShortcutForShip(215, 'x', 'x', availableShips);//eXterminateur
+    } else {
+        createShortcutForShip(203, 'h', 'H', availableShips);//Heavy Cargo
+        createShortcutForShip(229, 'm', 'M', availableShips);//MercuryBigShipCargo
+        createShortcutForShip(215, 'a', 'a', availableShips);//BattleCruiser
+    }
+
+    key('enter, space, return, right', function() {
+        $('#tabs-1 > form > table > tbody > tr > td > input').click();
     });
-    //exterminator
-    var newText = $('#ship215_value').parent().find('a.tooltip').text().replace('x', '<span class="shortcut">x</span>');
-    $('#ship215_value').parent().find('a.tooltip').html(newText);
-    key('x', function(){
-        $('#ship215_input').val(availableShips['ship215']);
+}
+
+var createShortcutForShip = function(shipID, shortcutLetter, hintLetter, availableShips) {
+    var newText = $('#ship'+shipID+'_value').parent().find('a.tooltip').text().replace(
+        hintLetter, '<span class="shortcut">'+hintLetter+'</span>'
+    );
+    $('#ship'+shipID+'_value').parent().find('a.tooltip').html(newText);
+    key(shortcutLetter, function() {
+        if ($('#ship'+shipID+'_input').val() == 0) {
+            $('#ship'+shipID+'_input').val(availableShips['ship'+shipID]);
+        } else {
+            $('#ship'+shipID+'_input').val(0);
+        }
+
     });
 }
 
