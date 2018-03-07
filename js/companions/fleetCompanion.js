@@ -19,9 +19,7 @@ var fleetCompanion = function(playerData) {
        }
     });
 
-    key('e', function(){
-        $('#ship225_input').val(availableShips['ship225']);
-    });
+    highlightAndBindshortcuts(availableShips);
 
     //FLEET INFORMATION
     var fleet = getFleet(playerData);
@@ -88,6 +86,22 @@ var fleetCompanion = function(playerData) {
             $('#extraCargo').remove();
             $("#cargo-capacity-hint").append('<span id="extraCargo" style="color: green;">+'+Math.abs(remainingShipment)+'</span>');
         }
+    });
+}
+
+var highlightAndBindshortcuts = function(availableShips) {
+
+    //extractor
+    var newText = $('#ship225_value').parent().find('a.tooltip').text().replace('E', '<span class="shortcut">E</span>');
+    $('#ship225_value').parent().find('a.tooltip').html(newText);
+    key('e', function(){
+        $('#ship225_input').val(availableShips['ship225']);
+    });
+    //exterminator
+    var newText = $('#ship215_value').parent().find('a.tooltip').text().replace('x', '<span class="shortcut">x</span>');
+    $('#ship215_value').parent().find('a.tooltip').html(newText);
+    key('x', function(){
+        $('#ship215_input').val(availableShips['ship215']);
     });
 }
 
