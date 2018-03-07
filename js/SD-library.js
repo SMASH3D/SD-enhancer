@@ -605,8 +605,8 @@ var ships = {
         propulsion2:"",
         consumption:250,
     },
-    ship215:{
-        id:215,
+    ship226:{
+        id:226,
         structure:40000,
         shield:125,
         attack:1,

@@ -91,20 +91,40 @@ var fleetCompanion = function(playerData) {
 var highlightAndBindshortcuts = function(availableShips) {
 
     //common shortcuts
-    createShortcutForShip(202, 'l', 'L', availableShips);//Light Cargo
-    createShortcutForShip(225, 'e', 'E', availableShips);//extractor
-    createShortcutForShip(219, 'r', 'R', availableShips);//Giga Recykler
-    createShortcutForShip(209, 'y', 'y', availableShips);//Recykler
+    createShortcutForShip(226, 'P', availableShips);//Phantom
+    createShortcutForShip(202, 'L', availableShips);//Light Cargo
+    createShortcutForShip(225, 'E', availableShips);//extractor
+    createShortcutForShip(219, 'R', availableShips);//Giga Recykler
+    createShortcutForShip(209, 'y', availableShips);//Recykler
+    createShortcutForShip(211, 'B', availableShips);//PlanetBomber
+    createShortcutForShip(214, 'o', availableShips);//BattleFortress
 
     //language specific shortcuts
     if (getLanguage() === 'FR') {
-        createShortcutForShip(203, 'g', 'G', availableShips);//Grand transporteur
-        createShortcutForShip(229, 'c', 'C', availableShips);//Cargo planétaire
-        createShortcutForShip(215, 'x', 'x', availableShips);//eXterminateur
+        createShortcutForShip(206, 'I', availableShips);//Intercepteur
+        createShortcutForShip(203, 'G', availableShips);//Grand transporteur
+        createShortcutForShip(229, 'C', availableShips);//Cargo planétaire
+        createShortcutForShip(215, 'x', availableShips);//eXterminateur
+        createShortcutForShip(213, 'V', availableShips);//Vaisseau mere
+        createShortcutForShip(207, 'u', availableShips);//cUirasse
+        createShortcutForShip(204, 'g', availableShips);//chasseur leGer
+        createShortcutForShip(205, 'a', availableShips);//chAsseur lourd
+        createShortcutForShip(227, 'h', availableShips);//cHasseur Interstellaire
+        createShortcutForShip(210, 'D', availableShips);//Drone Espion
+        createShortcutForShip(208, 't', availableShips);//colonisaTeur
+        createShortcutForShip(228, 'S', availableShips);//Station spatiale
     } else {
-        createShortcutForShip(203, 'h', 'H', availableShips);//Heavy Cargo
-        createShortcutForShip(229, 'm', 'M', availableShips);//MercuryBigShipCargo
-        createShortcutForShip(215, 'a', 'a', availableShips);//BattleCruiser
+        createShortcutForShip(206, 'i', availableShips);//Cruiser
+        createShortcutForShip(203, 'H', availableShips);//Heavy Cargo
+        createShortcutForShip(229, 'M', availableShips);//MercuryBigShipCargo
+        createShortcutForShip(215, 'a', availableShips);//BattleCruiser
+        createShortcutForShip(228, 'N', availableShips);//NemesianDestrutor
+        createShortcutForShip(207, 't', availableShips);//BaTtleship
+        createShortcutForShip(204, 'F', availableShips);//LightFighter
+        createShortcutForShip(208, 'C', availableShips);//ColonyShip
+        createShortcutForShip(205, 'v', availableShips);//heaVyFighter
+        createShortcutForShip(227, 'u', availableShips);//UltraHunter
+        createShortcutForShip(213, 'S', availableShips);//StarFighter
     }
 
     key('enter, space, return, right', function() {
@@ -112,18 +132,17 @@ var highlightAndBindshortcuts = function(availableShips) {
     });
 }
 
-var createShortcutForShip = function(shipID, shortcutLetter, hintLetter, availableShips) {
+var createShortcutForShip = function(shipID, hintLetter, availableShips) {
     var newText = $('#ship'+shipID+'_value').parent().find('a.tooltip').text().replace(
         hintLetter, '<span class="shortcut">'+hintLetter+'</span>'
     );
     $('#ship'+shipID+'_value').parent().find('a.tooltip').html(newText);
-    key(shortcutLetter, function() {
+    key(hintLetter.toLowerCase(), function() {
         if ($('#ship'+shipID+'_input').val() == 0) {
             $('#ship'+shipID+'_input').val(availableShips['ship'+shipID]);
         } else {
             $('#ship'+shipID+'_input').val(0);
         }
-
     });
 }
 
