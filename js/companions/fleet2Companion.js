@@ -18,10 +18,35 @@ var fleet2Companion = function() {
 }
 
 var fleet3Companion = function() {
+    var consumptionEl = $('#tabs-3 > table > tbody > tr.left.top > td.top > table > tbody > tr > td').last();
+    var refreshContinueBtn = function() {
+        var consumption = parseInt(/(\d+)/.exec(consumptionEl.text())[1]);
+        var availableFuel = parseInt($('#ress_count_deuterium').text().replace(/\./g, ""));
+        if (consumption < availableFuel) {
+            consumptionEl.css('color', 'lime');
+        } else {
+            consumptionEl.css('color', 'red');
+        }
+        if ($('#remainingresources > font').attr('color') === 'lime' && consumption < availableFuel) {
+            switchBtnOn();
+        } else {
+            switchBtnOff();
+        }
+    }
     if ($('input[type="radio"]').length === 1) {
         $('input[type="radio"]').first().attr('checked', 'checked');
     }
     $('input[type="text"]').first().focus();
+    refreshContinueBtn();
+    $('input[name="metal"]').on('change paste keyup', function(){
+        refreshContinueBtn();
+    });
+    $('input[name="crystal"]').on('change paste keyup', function(){
+        refreshContinueBtn();
+    });
+    $('input[name="deuterium"]').on('change paste keyup', function(){
+        refreshContinueBtn();
+    });
 }
 
 var updateSubmitButtonStep2 = function(checkpos) {
