@@ -127,7 +127,7 @@ var highlightAndBindshortcuts = function(availableShips) {
         createShortcutForShip(213, 'S', availableShips);//StarFighter
     }
 
-    key('enter, space, return, right', function() {
+    key('enter, space, return', function() {
         $('#tabs-1 > form > table > tbody > tr > td > input').click();
     });
 }

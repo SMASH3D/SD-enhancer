@@ -15,6 +15,10 @@ var fleet2Companion = function() {
         switchBtnOn(false);
     });
     $('input[type="number"]')[2].select();
+
+    key('enter, space, return', function() {
+        $('#tabs-2 > table > tbody > tr > td > input').click();
+    });
 }
 
 var fleet3Companion = function() {
@@ -46,6 +50,9 @@ var fleet3Companion = function() {
     });
     $('input[name="deuterium"]').on('change paste keyup', function(){
         refreshContinueBtn();
+    });
+    key('enter, space, return', function() {
+        $('#tabs-2 > table > tbody > tr > td > input').click();
     });
 }
 
