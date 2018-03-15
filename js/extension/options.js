@@ -6,7 +6,8 @@ function saveOptions() {
 
     chrome.storage.sync.set({'options': options}, function() {
         console.log('Options saved', options);
-        $('#buttons-wrapper').append('<i class="material-icons color--green" >check_circle</i>');
+        $('.check-mark').remove();
+        $('#buttons-wrapper').append('<i class="material-icons check-mark color--green" >check_circle</i>');
     });
 }
 

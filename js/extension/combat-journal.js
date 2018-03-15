@@ -41,7 +41,7 @@ $( document ).ready(function() {
         saveRank();
     });
 
-    var maxPer24hours = 5;
+    var maxPer24hours = 10;
     chrome.storage.local.get(['combats'], function(obj) {
         var wars = obj.combats;
         $.each(wars, function(key, battles) {
