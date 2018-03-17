@@ -3,6 +3,7 @@ function saveOptions() {
     var options = {};
     options.minRaidAmount = $('#raid-min-amount').val();
     options.maxRaidWaves = $('#max-raid-amount').val();
+    options.minShipAmount = $('#min-ship-amount').val();
 
     chrome.storage.sync.set({'options': options}, function() {
         console.log('Options saved', options);
@@ -17,6 +18,7 @@ function restoreOptions() {
     chrome.storage.sync.get(['options'], function(obj) {
         $('#raid-min-amount').val(obj.options.minRaidAmount);
         $('#max-raid-amount').val(obj.options.maxRaidWaves);
+        $('#min-ship-amount').val(obj.options.minShipAmount);
     });
 }
 

@@ -431,7 +431,7 @@ var ships = {
         codename: 'LF',
         name:{
             EN:'Light Fighter',
-            FR:'Chasseur Leger',
+            FR:'Chasseur Léger',
         },
         capacity:50,
         baseSpeed:12500,

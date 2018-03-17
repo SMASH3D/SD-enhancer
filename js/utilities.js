@@ -287,6 +287,9 @@ var translate = function(stringToTranslate) {
         "Level": {
             "FR": "Niveau"
         },
+        "Loot": {
+            "FR": "Butin"
+        },
         "SD Companion Help page": {
             "FR": "Page d'aide du SD Companion"
         },
@@ -340,7 +343,17 @@ var translate = function(stringToTranslate) {
         },
         "Oops SD Companion crashed, check console for details between SDCompanion Exception START & END": {
             "FR": "Oups le SD Companion s'est loutré, plus de détails dans la console de debug entre les SDCompanion Exception START & END"
-        }
+        },
+        "rhenium": {
+            "FR": "rhénium"
+        },
+        "selenium": {
+            "FR": "sélénium"
+        },
+        "nitrogen": {
+            "FR": "azote"
+        },
+
     };
     if (typeof(dict[stringToTranslate]) !== 'undefined' && typeof(dict[stringToTranslate][language]) !== 'undefined') {
         return dict[stringToTranslate][language];
@@ -381,7 +394,6 @@ function updateReports(queue, type) {
 
     chrome.storage.local.get(type, function(data) {
         var newData = $.extend(data[type], queue);
-        debugger;
         chrome.storage.local.set({type: newData}, function() {
             console.log(type + ' saved', newData);
         });

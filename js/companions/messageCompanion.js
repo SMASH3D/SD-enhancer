@@ -6,8 +6,10 @@ var messageCompanion = function(playerData) {
     var messageBox = $('.insideLeftMenu_top');
     var spyReportLink = $('.insideLeftMenu_text > table > tbody > tr > td').first();
     var spyHintBtn = buildCompanionButton('raid-hint-btn', 'spyReport', translate('Raid&nbsp;hints'), spyReportLink);
+    var spyReportAnalyserBtn = buildCompanionButton('spy-analyser-btn', 'spyAnalyser', translate('Analyzer'), spyReportLink);
     spyReportLink.click(function () {
         messageBox.append(spyHintBtn);
+        messageBox.append(spyReportAnalyserBtn);
         messageBox.on("click", spyHintBtn, function() {
             injectCoordinatesToSimulator();
             chrome.storage.sync.get(['options'], function(obj) {
@@ -17,9 +19,16 @@ var messageCompanion = function(playerData) {
                 raidHint(playerData, obj.options);
             });
         });
+        messageBox.on("click", spyReportAnalyserBtn, function() {
+            chrome.storage.sync.get(['options'], function(obj) {
+                if (typeof(obj.options) === 'undefined') {
+                    obj.options = {};
+                }
+                spyReportAnalyzer(playerData, obj.options);
+            });
+        });
         spyReportLink.addClass('spyReport SDC');
     });
-
 
     var combatReportLink = $('.insideLeftMenu_content > div > table > tbody > tr:nth-child(4) > td');
     var combatJournaltBtn = buildCompanionButton('combat-journal-btn', 'combatReport', translate('Combat&nbsp;journal'), combatReportLink);
@@ -106,6 +115,75 @@ var injectCoordinatesToSimulator = function() {
     });
 };
 
+var spyReportAnalyzer = function(playerData, options) {
+
+    //####### CONFIG START ##########
+    var minRaidAmount = typeof(options.minRaidAmount) !== 'undefined' ? options.minRaidAmount : 1000000;
+    var minShipAmount = typeof(options.minShipAmount) !== 'undefined' ? options.minShipAmount : 1000;
+    //####### CONFIG END ##########
+    var toDelete = 0;
+    $('tr .messages_body').each(function( k, v ) {
+        if (!$('table > tbody> tr > th > a', v).length) {
+            return;
+        }
+        var details = getSpyReportDetails(v);
+        if (details.loot.total < minRaidAmount && details.ships.total < minShipAmount) {
+            toDelete++;
+            $(v).prev('.message_head').find('.checkboxMessages').prop('checked', true);
+        }
+    });
+    if (toDelete > 0) {
+        $('#messagestable > tbody > tr > td > input[type="submit"]').click();
+    }
+}
+
+var getSpyReportDetails = function(messageBody) {
+    var lang = getLanguage();
+    var loot = {};
+    loot.rhe = 0;
+    loot.sele = 0;
+    loot.nitro = 0;
+    loot.total = 0;
+    var seenShips = {};
+    seenShips.total = 0;
+    $('tr > td.transparent', messageBody).each(function(k, tdEl) {
+
+        var currentRes = tdEl.innerHTML.toLowerCase();
+
+        //Looking for resources
+        if (currentRes === translate('rhenium')) {
+            loot.rhe = parseInt($(this).next('td.transparent').text().replace(/\./g, ''));
+        }
+        if (currentRes === translate('selenium')) {
+            loot.sele = parseInt($(this).next('td.transparent').text().replace(/\./g, ''));
+        }
+        if (currentRes === translate('nitrogen')) {
+            loot.nitro = parseInt($(this).next('td.transparent').text().replace(/\./g, ''));
+        }
+        //Looking for ships
+        var shipID = getShipIdByLabel(currentRes, lang);
+        if (shipID !== 0) {
+            //it's a ship, let's find out how many
+            var shipAmount = parseInt($(this).next('td.transparent').text().replace(/\./g, ''));
+            seenShips[shipID] = shipAmount;
+            seenShips.total += shipAmount;
+        }
+    });
+    loot.total = loot.rhe + loot.sele + loot.nitro;
+    return {loot: loot, ships: seenShips};
+}
+
+var getShipIdByLabel = function(label, lang) {
+    var id = 0;
+    $.each(ships, function(shipID, ship) {
+        if (label.toLowerCase().indexOf(ship.name[lang].toLowerCase()) !== -1) {
+            id = shipID;
+            return false;
+        }
+    });
+    return id;
+}
+
 var raidHint = function(playerData, options) {
     //####### CONFIG START ##########
     var minRaidAmount = typeof(options.minRaidAmount) !== 'undefined' ? options.minRaidAmount : 1000000;
@@ -124,42 +202,9 @@ var raidHint = function(playerData, options) {
         var targetCoords = $('table > tbody> tr > th > a', v)[0].innerText.match(/\[[0-9]{1}:[0-9]+:[0-9]+\]/);
         var targetPlanet = buildPlanetObjFromCoords(targetCoords);
         var distance = getDistance(origPlanet, targetPlanet);
-        var rheniumFlag = false;
-        var seleFlag = false;
-        var azoteFlag = false;
-        var rhe = 0;
-        var sele = 0;
-        var azote = 0;
 
-        $('tr > td', v).each(function( k, v ) {
-            if (rheniumFlag === true) {
-                rhe = parseInt(v.innerHTML.replace(/\./g, ''));
-            }
-            if (azoteFlag === true) {
-                azote = parseInt(v.innerHTML.replace(/\./g, ''));
-            }
-            if (seleFlag  === true) {
-                sele = parseInt(v.innerHTML.replace(/\./g, ''));
-            }
-            if (v.innerHTML === 'Rhénium' || v.innerHTML === 'Rhenium') {
-                rheniumFlag = true;
-                azoteFlag = false;
-                seleFlag = false;
-            } else if (v.innerHTML === 'Sélénium' || v.innerHTML === 'Selenium') {
-                seleFlag = true;
-                rheniumFlag = false;
-                azoteFlag = false;
-            } else if (v.innerHTML === 'Azote' || v.innerHTML === 'Nitrogen') {
-                azoteFlag = true;
-                rheniumFlag = false;
-                seleFlag = false;
-            } else {
-                azoteFlag = false;
-                rheniumFlag = false;
-                seleFlag = false;
-            }
-        });
-        var total = (rhe + sele + azote);
+        var details = getSpyReportDetails(v);
+        var total = details.loot.total;
 
         var link = $('td > a.destroyElement', v)[0];
         var url  = '';
@@ -170,6 +215,9 @@ var raidHint = function(playerData, options) {
         for (var i = 1; i <= maxRaidCount; i++) {
             var factor = Math.pow(2, i);
             var raidAmount = Math.floor(total/factor);
+            var raidMetalAmount = Math.floor(details.loot.rhe/factor);
+            var raidCrystalAmount = Math.floor(details.loot.sele/factor);
+            var raidNitrogenAmount = Math.floor(details.loot.nitro/factor);
             if (raidAmount > minRaidAmount) {
                 var hints = [];
                 $.each(cargoShips, function (k, shipName) {
@@ -186,13 +234,18 @@ var raidHint = function(playerData, options) {
                         shipCnt += Math.round(totalConsumption / ships[shipID].capacity) + 1 ;
                         hints.push(
                             translate(ships[shipID].codename) +
-                            " <a href=\""+url+'&'+shipID+'='+shipCnt+"\">"+shortly_number(shipCnt)+"</a>"
+                            " <a href="+url+'&'+shipID+'='+shipCnt+" title='"+translate(ships[shipID].name.EN)+"'>"+shortly_number(shipCnt)+"</a>"
                         );
                     }
                 });
                 var pillage = $('<span>', { 'class': 'raid-hint' });
                 pillage.append(
-                    '<p>Pillage ' + i + ' ['+ shortly_number(raidAmount) +'] : ' + hints.join(' / ') +'</p>'
+                    '<p class="hint">Pillage ' + i + ' ['+ shortly_number(raidAmount) +'] : ' + hints.join(' / ') +'</p>' +
+                    '<div class="hint-detail">' + translate('Loot') + ': ' +
+                        '<span class="metal" title='+translate("rhenium")+'>'+shortly_number(raidMetalAmount)+'</span> - ' +
+                        '<span class="crystal" title='+translate("selenium")+'>'+shortly_number(raidCrystalAmount)+'</span> - ' +
+                        '<span class="nitrogen" title='+translate("nitrogen")+'>'+shortly_number(raidNitrogenAmount)+'</span>' +
+                    '</div>'
                 );
                 $('div > center', v).append(pillage);
             }

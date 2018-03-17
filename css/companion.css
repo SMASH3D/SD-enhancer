@@ -19,6 +19,20 @@
     color: orange;
 }
 
+.hint {
+    margin-bottom: 0;
+}
+
+.metal {
+    color: gray;
+}
+.crystal {
+    color: deepskyblue;
+}
+.nitrogen {
+    color: lawngreen;
+}
+
 .infoPanel {
     display: flex;
     background-color: #031f2a;
