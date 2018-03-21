@@ -38,6 +38,7 @@ var battleSimCompanion = function(playerData) {
         });
         if (coordinates !== null) {
             fleetUrl += '&galaxy=' + galaxy + '&system=' + system + '&planet=' + planet;
+            fleetUrl += '&mission=1';
         }
         window.open(fleetUrl, '_blank');
     });

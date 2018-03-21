@@ -54,6 +54,10 @@ var fleet3Companion = function() {
     key('enter, space, return', function() {
         $('#tabs-2 > table > tbody > tr > td > input').click();
     });
+    var mission = parseInt(getUrlParameter('mission'));
+    if (mission > 0) {
+        $("#radio_" + mission).attr('checked', 'checked');
+    }
 }
 
 var updateSubmitButtonStep2 = function(checkpos) {
@@ -90,6 +94,12 @@ var updateSubmitButtonStep2 = function(checkpos) {
     } else {
         switchBtnOff();
         return;
+    }
+
+    var actionUrl = $('#form').attr('action');
+    var mission = parseInt(getUrlParameter('mission'));
+    if (mission > 0) {
+        $('#form').attr('action', actionUrl+'&mission='+mission);
     }
 }
 

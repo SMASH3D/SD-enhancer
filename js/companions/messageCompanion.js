@@ -6,7 +6,6 @@ var messageCompanion = function(playerData) {
     var messageBox = $('.insideLeftMenu_top');
     var spyReportLink = $('.insideLeftMenu_text > table > tbody > tr > td').first();
     var spyHintBtn = buildCompanionButton('raid-hint-btn', 'spyReport', translate('Raid&nbsp;hints'), spyReportLink);
-    var spyReportAnalyserBtn = buildCompanionButton('spy-analyser-btn', 'spyAnalyser', translate('Analyzer'), spyReportLink);
     spyReportLink.click(function () {
         messageBox.append(spyHintBtn);
         messageBox.append(spyReportAnalyserBtn);
@@ -17,17 +16,9 @@ var messageCompanion = function(playerData) {
                     obj.options = {};
                 }
                 raidHint(playerData, obj.options);
-            });
-        });
-        messageBox.on("click", spyReportAnalyserBtn, function() {
-            chrome.storage.sync.get(['options'], function(obj) {
-                if (typeof(obj.options) === 'undefined') {
-                    obj.options = {};
-                }
                 spyReportAnalyzer(playerData, obj.options);
             });
         });
-        spyReportLink.addClass('spyReport SDC');
     });
 
     var combatReportLink = $('.insideLeftMenu_content > div > table > tbody > tr:nth-child(4) > td');

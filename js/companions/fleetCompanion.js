@@ -92,7 +92,6 @@ var highlightAndBindshortcuts = function(availableShips) {
 
     //common shortcuts
     createShortcutForShip(226, 'P', availableShips);//Phantom
-    createShortcutForShip(202, 'L', availableShips);//Light Cargo
     createShortcutForShip(225, 'E', availableShips);//extractor
     createShortcutForShip(219, 'R', availableShips);//Giga Recykler
     createShortcutForShip(209, 'y', availableShips);//Recykler
@@ -101,6 +100,7 @@ var highlightAndBindshortcuts = function(availableShips) {
 
     //language specific shortcuts
     if (getLanguage() === 'FR') {
+        createShortcutForShip(202, 'l', availableShips);//Transporteur léger
         createShortcutForShip(206, 'I', availableShips);//Intercepteur
         createShortcutForShip(203, 'G', availableShips);//Grand transporteur
         createShortcutForShip(229, 'C', availableShips);//Cargo planétaire
@@ -114,6 +114,7 @@ var highlightAndBindshortcuts = function(availableShips) {
         createShortcutForShip(208, 't', availableShips);//colonisaTeur
         createShortcutForShip(228, 'S', availableShips);//Station spatiale
     } else {
+        createShortcutForShip(202, 'L', availableShips);//Light Cargo
         createShortcutForShip(206, 'i', availableShips);//Cruiser
         createShortcutForShip(203, 'H', availableShips);//Heavy Cargo
         createShortcutForShip(229, 'M', availableShips);//MercuryBigShipCargo
@@ -156,9 +157,14 @@ var updateSubmitButton = function(fleet) {
         $('td > input[type="submit"]').removeClass('on');
         $('td > input[type="submit"]').addClass('off');
     }
+
+    var actionUrl = $('#tabs-1 > form').attr('action');
     if (fleet.hasRecycler === true) {
-        var actionUrl = $('#tabs-1 > form').attr('action');
         $('#tabs-1 > form').attr('action', actionUrl+'&target_type=2');
+    }
+    var mission = parseInt(getUrlParameter('mission'));
+    if (mission > 0) {
+        $('#tabs-1 > form').attr('action', actionUrl+'&mission='+mission);
     }
 }
 
