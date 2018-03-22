@@ -8,7 +8,6 @@ var messageCompanion = function(playerData) {
     var spyHintBtn = buildCompanionButton('raid-hint-btn', 'spyReport', translate('Raid&nbsp;hints'), spyReportLink);
     spyReportLink.click(function () {
         messageBox.append(spyHintBtn);
-        messageBox.append(spyReportAnalyserBtn);
         messageBox.on("click", spyHintBtn, function() {
             injectCoordinatesToSimulator();
             chrome.storage.sync.get(['options'], function(obj) {
