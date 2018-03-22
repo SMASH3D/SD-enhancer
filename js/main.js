@@ -84,6 +84,9 @@ var runCompanions = function(pageRef, playerData) {
     if (pageRef === 'imperium') {
         imperiumCompanion(playerData);
     }
+    if (pageRef === 'buildings') {
+        shipyardCompanion();
+    }
     if (pageRef === 'galaxytext' || pageRef === 'galaxy') {
         galaxyCompanion(pageRef);
     }

@@ -1,6 +1,6 @@
 {
   "name": "SD Companion",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Makes the Space Destiny UI smoother",
   "icons": {
     "16" : "images/logo/16.png",
@@ -39,6 +39,7 @@
         "js/companions/galaxyCompanion.js",
         "js/companions/imperiumCompanion.js",
         "js/companions/messageCompanion.js",
+        "js/companions/shipyardCompanion.js",
         "js/companions/overviewCompanion.js",
         "js/main.js"
       ],

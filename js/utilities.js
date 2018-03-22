@@ -42,6 +42,38 @@ var resetLED = function(message) {
     $('#sd-status-led').prop('title', (typeof(translate(message)) !== 'undefined' )? translate(message) : defaultMsg);
 };
 
+var build = function(shipID, amount) {
+    amount = typeof amount !== 'undefined' ? Math.min(amount, 10000000) : 10000000;
+    if ($('#auftr').length === 0 || ($('#auftr').length > 0 && $('#auftr option').size() < 5)) {
+        $('#input_'+shipID).val(amount);
+        $('#ship_build > input[type="submit"]').click();
+    }
+};
+
+function getQueryParameters() {
+    var queryString = location.search.slice(1),
+        params = {};
+
+    queryString.replace(/([^=]*)=([^&]*)&*/g, function (_, key, value) {
+        params[key] = value;
+    });
+
+    return params;
+}
+
+function setQueryParameters(params) {
+    var query = [],
+        key, value;
+
+    for(key in params) {
+        if(!params.hasOwnProperty(key)) continue;
+        value = params[key];
+        query.push(key + "=" + value);
+    }
+
+    return query.join("&");
+}
+
 function isEquivalent(a, b) {
     // Create arrays of property names
     var aProps = Object.getOwnPropertyNames(a);
